@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
+from utils.constants import THUMB_SIZE
+import os
 
 
 class Categories(CustomModel):
@@ -15,12 +17,11 @@ class Artworks(CustomModel):
     uploader = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=False, null=False)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='artworks/original_image', null=False)
-    thumbnail = models.ImageField(upload_to='artworks/thumbnails', default='artworks/thumbnails/default_thumb.jpg')
+    image = models.ImageField(upload_to='artworks/original_images', null=False)
+    thumbnail = models.ImageField(upload_to='artworks/thumbnails', default='default_thumb.jpg')
     category = models.ManyToManyField(Categories, through='ArtCategories', related_name="artworks", blank=False)
     likes = models.ManyToManyField(User, through='ArtLikes', related_name='artworks_liked')
     favourites = models.ManyToManyField(User, through='ArtFavourites', related_name='favourite_artworks')
-    # galleries = models.ManyToManyField(Galleries, through='GalleryArtworks')
 
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():
@@ -30,8 +31,8 @@ class Artworks(CustomModel):
 
 
     def make_thumbnail(self):
-        image = Image.open(self.image)
-        image.thumbnail(THUMB_SIZE, Image.ANTIALIAS)
+        img = Image.open(self.image)
+        img.thumbnail(THUMB_SIZE, Image.ANTIALIAS)
 
         thumb_name, thumb_extension = os.path.splitext(self.image.name)
         thumb_extension = thumb_extension.lower()
@@ -47,7 +48,7 @@ class Artworks(CustomModel):
 
         # Save thumbnail to in-memory file as StringIO
         temp_thumb = BytesIO()
-        image.save(temp_thumb, FTYPE)
+        img.save(temp_thumb, FTYPE)
         temp_thumb.seek(0)
 
         # Add the thumbnail to the thumbnail column
@@ -55,6 +56,20 @@ class Artworks(CustomModel):
         temp_thumb.close()
 
         return True
+
+
+    def delete(self, *args, **kwargs):
+        self.image.storage.delete(self.image.name)
+        self.thumbnail.storage.delete(self.thumbnail.name)
+        super().delete(*args, **kwargs)
+
+
+    def __str__(self):
+        return self.title
+
+    
+    def __repr__(self):
+        return self.__str__()
 
 
 class ArtCategories(CustomModel):
