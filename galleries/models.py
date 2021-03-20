@@ -1,29 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import User
-from art_web_app.models import CustomModel
+from art_web_app.models import CustomModel, AuthUserModel
 from utils.constants import PUBLIC_MODE, PRIVATE_MODE
-from artworks.models import Artworks
-# Create your models here.
+from artworks.models import Artwork
 
 
-class Galleries(CustomModel):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_galleries')
-    name = models.CharField(max_length=255, blank=False, null=False)
+class Gallery(CustomModel):
+    creator = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name='galleries')
+    name = models.CharField(max_length=255)
 
     class Types(models.IntegerChoices):
         PUBLIC = PUBLIC_MODE
         PRIVATE = PRIVATE_MODE
 
-    status = models.SmallIntegerField(choices=Types.choices, null=False, default=PUBLIC_MODE)
-    artworks = models.ManyToManyField(Artworks, through='GalleryArtworks', related_name='in_galleries')
-    users = models.ManyToManyField(User, through='UserSavedGalleries', related_name='galleries')
+    status = models.SmallIntegerField(choices=Types.choices, default=PUBLIC_MODE)
+    artworks = models.ManyToManyField(Artwork, through='GalleryArtwork', related_name='galleries')
+    users = models.ManyToManyField(AuthUserModel, through='UserSavedGallery', related_name='favourite_galleries')
 
 
-class GalleryArtworks(CustomModel):
-    art_id = models.ForeignKey(Artworks, on_delete=models.CASCADE)
-    gallery_id = models.ForeignKey(Galleries, on_delete=models.CASCADE)
+class GalleryArtwork(CustomModel):
+    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    position = models.IntegerField(unique=True)
 
 
-class UserSavedGalleries(CustomModel):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_galleries')
-    gallery_id = models.ForeignKey(Galleries, on_delete=models.CASCADE, related_name='saved_by')
+class UserSavedGallery(CustomModel):
+    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name='saved_galleries')
+    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name='saved_by')
+    position = models.IntegerField(unique=True)
+    

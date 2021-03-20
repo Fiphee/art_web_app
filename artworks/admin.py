@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Artworks, Categories, ArtCategories, ArtFavourites, ArtLikes
-# Register your models here.
+from .models import Artwork, Category, ArtCategory, ArtFavourite, ArtLike
 
-
-admin.site.register(Artworks)
-admin.site.register(Categories)
-admin.site.register(ArtCategories)
-admin.site.register(ArtLikes)
-admin.site.register(ArtFavourites)
+admin.site.register(Artwork)
+admin.site.register(Category)
+admin.site.register(ArtCategory)
+admin.site.register(ArtLike)
+admin.site.register(ArtFavourite)
 

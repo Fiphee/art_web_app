@@ -1,7 +1,5 @@
 from django.db import models
-from art_web_app.models import CustomModel
-# Create your models here.
-from django.contrib.auth.models import User
+from art_web_app.models import CustomModel, AuthUserModel
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
@@ -9,19 +7,28 @@ from utils.constants import THUMB_SIZE
 import os
 
 
-class Categories(CustomModel):
-    category = models.CharField(max_length=50, null=False)
+class Category(CustomModel):
+    name = models.CharField(max_length=50, null=False)
 
 
-class Artworks(CustomModel):
-    uploader = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class Artwork(CustomModel):
+    uploader = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, blank=False, null=False)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artworks/original_images', null=False)
     thumbnail = models.ImageField(upload_to='artworks/thumbnails', default='default_thumb.jpg')
-    category = models.ManyToManyField(Categories, through='ArtCategories', related_name="artworks", blank=False)
-    likes = models.ManyToManyField(User, through='ArtLikes', related_name='artworks_liked')
-    favourites = models.ManyToManyField(User, through='ArtFavourites', related_name='favourite_artworks')
+    category = models.ManyToManyField(Category, through='ArtCategory', related_name="artworks", blank=False)
+    likes = models.ManyToManyField(AuthUserModel, through='ArtLike', related_name='artworks_liked')
+    favourites = models.ManyToManyField(AuthUserModel, through='ArtFavourite', related_name='favourite_artworks')
+
 
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():
@@ -72,16 +79,16 @@ class Artworks(CustomModel):
         return self.__str__()
 
 
-class ArtCategories(CustomModel):
-    art_id = models.ForeignKey(Artworks, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Categories, on_delete=models.CASCADE)
+class ArtCategory(CustomModel):
+    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
-class ArtLikes(CustomModel):
-    art_id = models.ForeignKey(Artworks, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+class ArtLike(CustomModel):
+    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
 
 
-class ArtFavourites(CustomModel):
-    art_id = models.ForeignKey(Artworks, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+class ArtFavourite(CustomModel):
+    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
