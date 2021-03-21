@@ -2,13 +2,15 @@ from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
 from galleries.models import Gallery
 from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Profile(CustomModel):
     user_id = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
     quote = models.CharField(max_length=100, blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', default='media/avatars/default.png')
+    avatar = models.ImageField(upload_to='users/avatars/', default='media/users/avatars/default.png')
 
     class Types(models.IntegerChoices):
         SWIPE = SWIPE_HOMEPAGE
@@ -17,6 +19,21 @@ class Profile(CustomModel):
         POPULARS = POPULARS_HOMEPAGE  
 
     homepage_type = models.SmallIntegerField(choices=Types.choices, default=SWIPE_HOMEPAGE)
+
+
+    def __str__(self):
+        return self.user_id.username
+
+
+    def __repr__(self):
+        return __str__()
+
+
+@receiver(post_save, sender=AuthUserModel)
+def update_profile_signal(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user_id=instance)
+    instance.profile.save()
 
 
 class UserFollowing(CustomModel):
