@@ -5,6 +5,6 @@ from .models import Profile
 
 
 @receiver(post_save, sender=AuthUserModel)
-def update_profile_signal(instance, created, **kwargs):
+def create_profile_signal(instance, created, **kwargs):
     if created:
-        instance.profile.save()
+        Profile(user_id=instance).save()

@@ -14,7 +14,7 @@ def register_view(request):
         if form.is_valid():
             with transaction.atomic():
                 user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user)
             return redirect('/')
     else:
         form = RegisterForm()
