@@ -16,9 +16,13 @@ def upload_view(request):
                 form_save.uploader = request.user
                 form_save.save()
                 for tag in tags:
-                    category = Category.objects.create(name=tag)
-                    category.save()
-                    form_save.category.add(category)
+                    category = Category.objects.filter(name=tag)
+                    if category.exists():
+                        form_save.category.add(category[0])
+                    else:
+                        category = Category.objects.create(name=tag)
+                        category.save()
+                        form_save.category.add(category)
             return redirect('/')
     else:
         form = ArtForm()
@@ -35,7 +39,7 @@ def like_view(request, art_id):
             artwork.likes.remove(request.user)
         else:
             artwork.likes.add(request.user)
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect(reverse('artworks:art_view', args=[art_id]))
     return redirect('/login')
 
 
@@ -49,10 +53,12 @@ def swipe_like_view(request, art_id):
 def art_view(request, art_id):
     artwork = Artwork.objects.get(pk=art_id)
     liked = artwork.likes.filter(id=request.user.id).exists()
+    categories = artwork.category.all()
     context = {
         "artwork":artwork,
         "artist": artwork.uploader,
         "liked":liked,
+        "categories":categories,
     }
     return render(request, 'artworks/art_view.html', context)
 

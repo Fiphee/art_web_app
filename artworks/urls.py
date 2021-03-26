@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import upload_view, like_view, art_view, swipe_like_view
 
+
 app_name = 'artworks'
 
 urlpatterns = [

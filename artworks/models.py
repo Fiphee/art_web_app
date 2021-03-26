@@ -22,7 +22,7 @@ class Category(CustomModel):
 class Artwork(CustomModel):
     uploader = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="artworks")
     title = models.CharField(max_length=100, blank=False, null=False)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True, default='No description')
     image = models.ImageField(upload_to='artworks/original_images', null=False)
     thumbnail = models.ImageField(upload_to='artworks/thumbnails', default='default_thumb.jpg')
     category = models.ManyToManyField(Category, through='ArtCategory', related_name="artworks", blank=False)

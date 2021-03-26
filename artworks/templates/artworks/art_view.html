@@ -18,13 +18,22 @@
             <p class='color-text'>{{ artist.followers.count }}</p>
         </div>
         <div class='likes'>
-            <a class='btn-like' href="">Like</a>
-            <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
-            {% if artwork.likes__user %}
-            <p class='white-text'>{{ liked }}</p>
+            {% if not liked %}
+                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Like</a>
             {% else %}
-            <p class='white-text'>Nope</p>
+                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Unlike</a>
             {% endif %}
+            <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
+        </div>
+        <div class='extra'>
+            <p class='white-text'>Description</p>
+            <p class='description'>{{ artwork.description }}</p>
+            <p class='white-text'>Categories</p>
+            <div class='category-list'>
+                {% for category in categories %}
+                    <p>{{ category }}</p>
+                {% endfor %}
+            </div>
         </div>
         <div class='comments'>
             {% for x in 012345|make_list %}

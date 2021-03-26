@@ -275,10 +275,27 @@ body {
 }
 
 
-
 .art-view .info .comments .comment {
     background-color: rgb(32, 32, 32);
     padding: 15px;
     margin: 15px;
     border-radius: 10px;
+}
+
+
+.art-view .info .description {
+    color:#53d358;
+    border-top: 1px solid #53d358;
+    border-bottom: 1px solid #53d358;
+    margin: 15px;
+    padding: 15px;
+}
+
+
+.art-view .info .category-list p {
+    display: inline;
+    color: #53d358;
+    background-color: rgb(32, 32, 32);
+    margin: 5px;
+    padding: 5px;
 }
