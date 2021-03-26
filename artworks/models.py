@@ -20,7 +20,7 @@ class Category(CustomModel):
 
 
 class Artwork(CustomModel):
-    uploader = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
+    uploader = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="artworks")
     title = models.CharField(max_length=100, blank=False, null=False)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='artworks/original_images', null=False)
@@ -34,7 +34,7 @@ class Artwork(CustomModel):
         if not self.make_thumbnail():
             raise Exception('Could not create thumbnail - is the file type valid?')
 
-        super(Artworks, self).save(*args, **kwargs)
+        super(Artwork, self).save(*args, **kwargs)
 
 
     def make_thumbnail(self):

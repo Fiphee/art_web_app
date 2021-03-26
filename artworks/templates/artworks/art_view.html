@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='art-view'>
+    <div class='img-box'>
+        <img class='img' src="/media/{{ artwork.image }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
+    </div>
+    <div class='info'>
+        <div class='art'>
+            <h1 class='color-text'>{{ artwork }}</h1>
+            <p class='white-text'>by</p>
+
+        </div>
+        <div class='artist'>
+            <img class='small-thumbnail' src="/{{ artist.profile.avatar }}" alt="{{ artist }}'s avatar"/>
+            <h2>{{ artist }}</h2>
+            <p class='white-text'>Followers</p>
+            <p class='color-text'>{{ artist.followers.count }}</p>
+        </div>
+        <div class='likes'>
+            <a class='btn-like' href="">Like</a>
+            <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
+            {% if artwork.likes__user %}
+            <p class='white-text'>{{ liked }}</p>
+            {% else %}
+            <p class='white-text'>Nope</p>
+            {% endif %}
+        </div>
+        <div class='comments'>
+            {% for x in 012345|make_list %}
+            <div class='comment'>
+                <p class='white-text'>User</p>
+                <p>Comment</p>
+            </div>
+            {% endfor %}
+            <p class='white-text'>Some random info copyright maybe</p>
+            <div class='comment'>
+            </div>
+            <div class='comment'>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

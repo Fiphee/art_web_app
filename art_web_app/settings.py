@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,11 +83,11 @@ WSGI_APPLICATION = 'art_web_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'art_app',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': config('DB_NAME', 'art_app'),
+        'USER': config('DB_USER', 'root'),
+        'PASSWORD': config('DB_PASS'),
+        'HOST':config('DB_HOST', 'localhost'),
+        'PORT':config('DB_PORT', '3306'),
     }
 }
 
