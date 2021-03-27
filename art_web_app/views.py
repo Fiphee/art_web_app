@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from artworks.models import Artwork, ArtCategory, Category
-from utils.get_utils import get_random_index
 from django.core.exceptions import ObjectDoesNotExist
+import random
+
 
 def home_view(request):
     invalid_ids = set()
@@ -12,7 +13,7 @@ def home_view(request):
         art = None
 
     while True:
-        art_query_index = get_random_index(nr_of_artworks)
+        art_query_index = random.randint(1, nr_of_artworks)
         try:
             if art_query_index in invalid_ids:
                 continue

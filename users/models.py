@@ -2,8 +2,6 @@ from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
 from galleries.models import Gallery
 from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 class Profile(CustomModel):
@@ -27,13 +25,6 @@ class Profile(CustomModel):
 
     def __repr__(self):
         return __str__()
-
-
-@receiver(post_save, sender=AuthUserModel)
-def update_profile_signal(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user_id=instance)
-    instance.profile.save()
 
 
 class UserFollowing(CustomModel):
