@@ -1,0 +1,190 @@
+body {
+    margin-top: 60px;
+    padding: 25px;
+    padding-top: 5px;
+}
+
+.navbar {
+    background-color: rgb(22, 43, 43);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    align-items: center;
+    box-shadow: 0 0 10px 0 black;
+    overflow: hidden;
+    float: left;
+    z-index: 3000;
+}
+
+.navbar * {
+    display: inline;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+.navbar li {
+    float: left;
+    color: white;
+    padding: 20px;
+}
+
+.navbar li:hover {
+    color: white;
+    background-color:darkslategrey;
+    transition: 0.4s;
+}
+
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 20px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+    transition: .4s;
+}
+  
+.topnav a.active {
+    background-color: #53d358;
+    color: white;
+}
+  
+.topnav-right {
+    float: right;
+}
+
+
+.img-card {
+    padding: 5px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    margin-right: 5px;
+    transition: all .2s ease-in-out;
+    position: relative;
+}
+
+.img-card img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  z-index: 100;
+   
+}
+
+
+.img-card:hover {
+    transform: scale(1.05);
+    transition: 1 ease-in;
+    box-shadow: 0px 0px 30px 10px rgba(245, 168, 26, 0.2), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.art-title {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: top;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.art-author {
+    display: 'inline';
+    text-align: center;
+    vertical-align: top;
+    margin-top: 2px;
+    margin-bottom: 8px;
+}
+
+.btn-dislike {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: darkgrey;
+    border: none;
+    padding: 5px 40px 5px 40px; 
+    text-decoration: none;
+    text-align: center;
+    transition: .5s;
+    float: inline-start;
+}
+
+
+.btn-like {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    background-color: darkgrey;
+    border: none;
+    padding: 5px 40px 5px 40px; 
+    text-decoration: none;
+    text-align: center;
+    transition: .5s;
+    float: right;
+}
+
+.btn-like:hover, .btn-dislike:hover {
+    background-color: chocolate;
+    
+}
+
+.likes-counter {
+    font-family: Arial, Helvetica, sans-serif;
+    color: dimgrey;
+    text-align: center;
+    margin-bottom: 0px;
+    padding: 5px 20px;
+}
+
+.swipe-card {
+    padding: 5px;
+    width: 35vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    margin: 25px;
+    transition: all .2s ease-in-out;
+}
+
+.swipe-card img {
+    width: 35vw;
+    height: 35vw;
+    object-fit: cover;
+}
+  
+
+.fa-search {
+    background-color: rgb(22, 43, 43);
+    border: 0;
+    color: white;
+    font-size: large;
+}
+
+
+.btn-search {
+    background-color: rgb(22, 43, 43);
+    border: 0;
+    padding: 19px;
+}
+
+.search-bar {
+    border: 0;
+    padding: 12px;
+    text-align: center;
+    width: 25vw;
+}
+
+.search-result-cards {
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.query-result {
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+}

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'khqww1%$m0n572=e^p*2d-(t$-9@puemu3gkgr5*m2ygap+5)j'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fontawesome-free',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -80,11 +83,11 @@ WSGI_APPLICATION = 'art_web_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'art_app',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
-        'HOST':'localhost',
-        'PORT':'3306',
+        'NAME': config('DB_NAME', 'art_app'),
+        'USER': config('DB_USER', 'root'),
+        'PASSWORD': config('DB_PASS'),
+        'HOST':config('DB_HOST', 'localhost'),
+        'PORT':config('DB_PORT', '3306'),
     }
 }
 
@@ -132,6 +135,7 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

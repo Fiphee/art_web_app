@@ -8,7 +8,7 @@ class Profile(CustomModel):
     user_id = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
     quote = models.CharField(max_length=100, blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', default='media/avatars/default.png')
+    avatar = models.ImageField(upload_to='users/avatars/', default='media/users/avatars/default.png')
 
     class Types(models.IntegerChoices):
         SWIPE = SWIPE_HOMEPAGE
@@ -17,6 +17,14 @@ class Profile(CustomModel):
         POPULARS = POPULARS_HOMEPAGE  
 
     homepage_type = models.SmallIntegerField(choices=Types.choices, default=SWIPE_HOMEPAGE)
+
+
+    def __str__(self):
+        return self.user_id.username
+
+
+    def __repr__(self):
+        return __str__()
 
 
 class UserFollowing(CustomModel):
