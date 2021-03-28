@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     margin-top: 60px;
     padding: 25px;
@@ -20,7 +24,7 @@ body {
 
 .navbar * {
     display: inline;
-    font-family: Arial, Helvetica, sans-serif;
+    
     
 }
 
@@ -105,7 +109,6 @@ body {
 }
 
 .btn-dislike {
-    font-family: Arial, Helvetica, sans-serif;
     color: white;
     background-color: darkgrey;
     border: none;
@@ -118,7 +121,6 @@ body {
 
 
 .btn-like {
-    font-family: Arial, Helvetica, sans-serif;
     color: white;
     background-color: darkgrey;
     border: none;
@@ -135,7 +137,6 @@ body {
 }
 
 .likes-counter {
-    font-family: Arial, Helvetica, sans-serif;
     color: dimgrey;
     text-align: center;
     margin-bottom: 0px;
@@ -185,6 +186,5 @@ body {
 }
 
 .query-result {
-    font-family: Arial, Helvetica, sans-serif;
     color: gray;
 }

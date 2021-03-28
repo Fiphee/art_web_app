@@ -28,6 +28,6 @@ class Profile(CustomModel):
 
 
 class UserFollowing(CustomModel):
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="follows")
-    user_followed_by = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
+    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
+    user_followed_by = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="follows")
 

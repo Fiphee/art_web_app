@@ -1,6 +1,48 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% block content %}
-<p>Hello {{ user }}</p>
-{{ user_artworks }}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+<div class="profile-bar">
+    <p class='white-text'>Artworks:</p>
+    <p class="total-nr">{{ visited_user.artwork_set.count }}</p>
+    <p class='white-text'>Artwork likes:</p>
+    <p class="total-nr">{{ art_likes }}</p>
+    <p class='white-text'>Galleries:</p>
+    <p class="total-nr">0</p>
+
+</div>
+
+<div class="profile-info">
+    <img class="picture" src="/{{ user.profile.avatar }}">
+    <h2 class="name">{{ visited_user.username }}</h2>
+    <p class="quote">{{ visited_user.profile.quote }}</p>
+    <div class="about">
+        
+        <p style="color:white; padding-left:25px;">Followers:</p>
+        <p class="total-nr">{{ visited_user.followers.count }}</p>
+
+        {% if user == visited_user %}
+            <p class='btn'>Profile Settings</p>
+        {% else %}
+            {% if already_following %}
+                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Unfollow</a>
+            {% else %}
+                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Follow</a>
+            {% endif %}
+        {% endif %}        
+
+        <p class='label'>About the artist</p>
+        <p class="text">{{ visited_user.profile.description }}</p>
+    </div>
+</div>
+<div class=profile-artworks>
+    {% if user_artworks %}
+        {% for art in user_artworks %}
+            {% include 'users/profile-card.html' %}
+        {% endfor %}
+    {% else %}
+        <p class='label' style='padding-left:45%'>No artworks found</p>
+    {% endif %}
+</div>
 {% endblock %}
