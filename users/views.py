@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from django.db import transaction
-from .forms import RegisterForm
+from .forms import RegisterForm, ProfileSettingsForm, UserSettingsForm
 from .models import Profile
 
 
@@ -25,3 +26,24 @@ def register_view(request):
 
     return render(request, "register.html", context)
 
+
+def profile_settings_view(request, username):
+    if username == request.user.username:
+        if request.method == "POST":
+            form = ProfileSettingsForm(request.POST, request.FILES, instance=request.user.profile)
+            user_form = UserSettingsForm(request.POST, instance=request.user)
+            with transaction.atomic():
+                if form.is_valid() and user_form.is_valid():
+                    user_form.save()
+                    form.save()
+                    return redirect('/')
+        else:
+            form = ProfileSettingsForm(instance=request.user.profile)
+            user_form = UserSettingsForm(instance=request.user)
+        
+        context = {
+            "form":form,
+            "user_form":user_form,
+        }
+        return render(request, 'users/profile_settings.html', context)
+    return redirect('/')
