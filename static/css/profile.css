@@ -82,7 +82,9 @@
 
 
 .profile-info .picture {
-    width: 10vw;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border-radius: 25%;
     text-align: center;
     border: 2px solid;
