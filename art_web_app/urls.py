@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home_view
+from .views import home_view, search_view
 
 
 urlpatterns = [
@@ -10,6 +10,7 @@ urlpatterns = [
     path('', home_view),
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')),
+    path('search/', search_view, name="search_view"),
 ]
 
 if settings.DEBUG:
