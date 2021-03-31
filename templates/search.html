@@ -3,7 +3,8 @@
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <p class="query-result">Showing results ({{ artworks|length }}) for: "{{ query }}"</p>
+    <p class="query-result">Showing results ({{ artworks|length }}) artwork(s) - ({{ users|length }}) user(s) found for: "{{ query }}"</p>
+    <h2>Artworks</h2>
     {% if artworks %}
         {% for art in artworks%}
             <div class="search-result-cards">
@@ -11,7 +12,15 @@
             </div>
         {% endfor %}
     {% else %}
-    <h2>No Artwork found</h2>
+        <h2>No Artwork found</h2>
+    {% endif %}
+    <h2>Users</h2>
+    {% if users %}
+        {% for user in users %}
+            {% include "profile-card.html" %}
+        {% endfor %}
+    {% else %}
+        <h2>No Users found</h2>
     {% endif %}
 
 {% endblock %}

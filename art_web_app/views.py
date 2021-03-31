@@ -13,8 +13,11 @@ def search_view(request):
         query = request.GET['q']
         context['query'] = str(query)
     try:
-        artworks = get_query(query)
+        artworks, users = get_query(query)
     except:
         artworks = ''
+        users = ''
+        
     context['artworks'] = artworks
+    context['users'] = users
     return render(request, 'search.html', context)
