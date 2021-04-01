@@ -8,12 +8,12 @@ def home_view(request):
     invalid_ids = set()
     
     try:
-        nr_of_artworks = Artwork.objects.latest('id').id
+        last_artwork_id = Artwork.objects.latest('id').id
     except ObjectDoesNotExist as e:
         art = None
 
     while True:
-        art_query_index = random.randint(1, nr_of_artworks)
+        art_query_index = random.randint(1, last_artwork_id)
         try:
             if art_query_index in invalid_ids:
                 continue

@@ -9,20 +9,10 @@ from django.contrib.auth import authenticate
 def upload_view(request):
     if request.method == "POST":
         form = ArtForm(request.POST, request.FILES)
+        form.set_user(request.user)
         if form.is_valid():
             with transaction.atomic():
-                form_save = form.save(commit=False)
-                tags = [tag.lower() for tag in form.cleaned_data['category'].replace(' ', '').split(',')]
-                form_save.uploader = request.user
-                form_save.save()
-                for tag in tags:
-                    category = Category.objects.filter(name=tag)
-                    if category.exists():
-                        form_save.category.add(category[0])
-                    else:
-                        category = Category.objects.create(name=tag)
-                        category.save()
-                        form_save.category.add(category)
+                form.save()
             return redirect('/')
     else:
         form = ArtForm()
@@ -33,13 +23,14 @@ def upload_view(request):
 
 
 def like_view(request, art_id):
-    if request.user.is_authenticated:
+    user = request.user
+    if user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
-        if artwork.likes.filter(id=request.user.id).exists():
-            artwork.likes.remove(request.user)
+        if artwork.likes.filter(id=user.id).exists():
+            artwork.likes.remove(user)
         else:
-            artwork.likes.add(request.user)
-        return HttpResponseRedirect(reverse('artworks:art_view', args=[art_id]))
+            artwork.likes.add(user)
+        return HttpResponseRedirect(reverse('artworks:art_view', args=(art_id)))
     return redirect('/login')
 
 

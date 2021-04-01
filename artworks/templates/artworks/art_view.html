@@ -3,7 +3,7 @@
 {% block content %}
 <div class='art-view'>
     <div class='img-box'>
-        <img class='img' src="/media/{{ artwork.image }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
+        <img class='img' src="{{ artwork.image.url }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
     </div>
     <div class='info'>
         <div class='art'>
@@ -18,10 +18,10 @@
             <p class='color-text'>{{ artist.followers.count }}</p>
         </div>
         <div class='likes'>
-            {% if not liked %}
-                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Like</a>
-            {% else %}
+            {% if liked %}
                 <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Unlike</a>
+            {% else %}
+                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Like</a>
             {% endif %}
             <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
         </div>
