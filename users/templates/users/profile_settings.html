@@ -36,9 +36,9 @@
         <p>{{ user_form.email }}</p>
         <p class='text'>Avatar</p>
         <div class='upload'>
-        <p class='avatar'>{{ form.avatar }}</p>
-        <p class='text'>Current</p>
-        <img class='current-picture' src="/media/{{ user.profile.avatar }}"/>
+            <p class='avatar'>{{ form.avatar }}</p>
+            <p class='text'>Current</p>
+            <img class='current-picture' src="{{ user.profile.avatar.url }}" alt="{{ user }}'s current avatar"/>
         </div>
         <button type='submit' class="save">Save settings</button>
         
