@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile-card.css' %}">
 
 <div class="profile-card-container">
-    <img src="/media/{{ art.thumbnail }}">
+    <img src="{{ art.thumbnail.url }}">
     <p class='art-title'>{{ art.title }}</p>
     <p class="likes-counter">{{ art.likes.count }} Likes</p>
     {% if art.uploader.username == user.username %}
