@@ -39,7 +39,7 @@
 <div class=profile-artworks>
     {% if user_artworks %}
         {% for art in user_artworks %}
-            {% include 'users/profile-card.html' %}
+            {% include 'users/profile-art-card.html' %}
         {% endfor %}
     {% else %}
         <p class='label' style='padding-left:45%'>No artworks found</p>
