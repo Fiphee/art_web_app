@@ -8,7 +8,7 @@
     {% if art.uploader.username == user.username %}
         <p class='btn-edit'>Edit</p>
     {% else %}
-        {% if art.likes.all.exists %}
+        {% if user in art.likes.all %}
             <p class='btn-edit'>Unlike</p>
         {% else %}
             <p class='btn-edit'>Like</p>
