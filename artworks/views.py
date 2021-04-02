@@ -8,8 +8,7 @@ from django.contrib.auth import authenticate
 
 def upload_view(request):
     if request.method == "POST":
-        form = ArtForm(request.POST, request.FILES)
-        form.set_user(request.user)
+        form = ArtForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             with transaction.atomic():
                 form.save()

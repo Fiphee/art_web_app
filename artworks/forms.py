@@ -10,6 +10,11 @@ class ArtForm(forms.ModelForm):
     categories = forms.CharField(label='Categories')
 
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(ArtForm,self).__init__(*args, **kwargs)
+        
+
     def save(self, commit=True):
         instance = super(ArtForm, self).save(commit=False)
         instance.uploader = self.user
@@ -26,6 +31,3 @@ class ArtForm(forms.ModelForm):
                     instance.category.add(category)
         return instance
 
-
-    def set_user(self, user):
-        self.user = user
