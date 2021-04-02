@@ -29,7 +29,7 @@ def like_view(request, art_id):
             artwork.likes.remove(user)
         else:
             artwork.likes.add(user)
-        return HttpResponseRedirect(reverse('artworks:art_view', args=(art_id)))
+        return HttpResponseRedirect(reverse('artworks:art_view', args=(art_id,)))
     return redirect('/login')
 
 
