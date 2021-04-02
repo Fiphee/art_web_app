@@ -14,7 +14,7 @@ def upload_view(request):
                 form.save()
             return redirect('/')
     else:
-        form = ArtForm()
+        form = ArtForm(user=request.user)
     context = {
         "form":form,
     }
