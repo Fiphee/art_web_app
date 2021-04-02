@@ -32,7 +32,7 @@ def profile_view(request, username):
     if username == request.user.username:
         user = request.user
     else:
-        user = get_object_or_404(AuthUserModel ,username=username)
+        user = get_object_or_404(AuthUserModel, username=username)
 
     context['visited_user'] = user
     try:
@@ -64,6 +64,6 @@ def follow_view(request, artist_id):
                 followed.delete()
             else:
                 UserFollowing(user_followed_by=request.user, user_id=artist).save()
-        return HttpResponseRedirect(reverse('users:profile_view', args=[artist.username]))
+        return HttpResponseRedirect(reverse('users:profile_view', args=(artist.username,)))
     return redirect('/login')
     

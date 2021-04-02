@@ -1,5 +1,5 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/profile-card.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile-art-card.css' %}">
 
 <div class="profile-card-container">
     <img src="{{ art.thumbnail.url }}">
@@ -8,6 +8,10 @@
     {% if art.uploader.username == user.username %}
         <p class='btn-edit'>Edit</p>
     {% else %}
-        <p class='btn-edit'>Like</p>
+        {% if art.likes.all.exists %}
+            <p class='btn-edit'>Unlike</p>
+        {% else %}
+            <p class='btn-edit'>Like</p>
+        {% endif %}
     {% endif %}
 </div>
