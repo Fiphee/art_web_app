@@ -1,5 +1,5 @@
 from django.db.models import Q
-from artworks.models import Artwork
+from artworks.models import Artwork, Category
 from users.models import AuthUserModel
 
 
@@ -26,6 +26,11 @@ def get_query(query=None):
     queries = _split_queries(query)
     if len(queries) > 0:
         for q in queries:
+            if q.startswith('#'):
+                category = Category.objects.get(name=q[1:])
+                for art in category.artworks.all():
+                    art_query_results.add(art)
+                continue
             artworks = Artwork.objects.filter(
                 Q(title__icontains=q),
             )
@@ -36,5 +41,4 @@ def get_query(query=None):
                 art_query_results.add(art)
             for user in users:
                 user_query_results.add(user)
-                
     return art_query_results, user_query_results
