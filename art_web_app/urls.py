@@ -10,6 +10,7 @@ urlpatterns = [
     path('', home_view),
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')),
+    path('artworks/', include('artworks.urls')),
 ]
 
 if settings.DEBUG:
