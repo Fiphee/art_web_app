@@ -36,7 +36,7 @@ def profile_view(request, username):
 
     context['visited_user'] = user
     try:
-        context['user_artworks'] = [art for art in user.artwork_set.all()]
+        context['user_artworks'] = [art for art in user.artworks.all()]
         likes = 0
         for art in context['user_artworks']:
             likes += art.likes.count()
