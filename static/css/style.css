@@ -8,6 +8,10 @@ body {
     padding-top: 5px;
 }
 
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .navbar {
     background-color: rgb(22, 43, 43);
     position: fixed;
@@ -24,7 +28,10 @@ body {
 
 .navbar * {
     display: inline;
+<<<<<<< HEAD
     
+=======
+>>>>>>> 522090df9669e9614d56cf332a53a9a3f72a3e96
     
 }
 
@@ -65,6 +72,13 @@ body {
     float: right;
 }
 
+.white-text {
+    color: white;
+}
+
+.color-text {
+    color:#53d358;
+}
 
 .img-card {
     padding: 5px;
@@ -144,16 +158,19 @@ body {
 }
 
 .swipe-card {
+    margin-top: 25px;
     padding: 5px;
-    width: 35vw;
+    width: 70vh;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
-    margin: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     transition: all .2s ease-in-out;
 }
 
 .swipe-card img {
-    width: 35vw;
-    height: 35vw;
+    width: 70vh;
+    height: 70vh;
     object-fit: cover;
 }
   
@@ -163,6 +180,10 @@ body {
     border: 0;
     color: white;
     font-size: large;
+}
+
+.img-link {
+    text-decoration: none;
 }
 
 
@@ -187,4 +208,102 @@ body {
 
 .query-result {
     color: gray;
+}
+
+
+
+.art-view {
+    overflow:hidden;
+}
+
+
+.art-view .img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 85vh;
+}
+
+
+.art-view .img-box {
+    width: 75vw;
+}
+
+
+.art-view .info {
+    background-color: rgb(14, 26, 26);
+    width: 25vw;
+    position: fixed;
+    height: 100%;
+    top: 60px;
+    right: 0vw;
+    border-left: 2px solid;
+    border-color: #53d358;  
+    padding-top: 25px;
+    text-align: center;
+    overflow: scroll;
+    overflow-y: auto;
+}
+
+
+.art-view .info .likes .btn-like {
+    background-color: transparent;
+    border: 1px solid #53d358;
+    margin-right: 25px;
+}
+
+.art-view .info .likes .btn-like:hover {
+    background-color: #53d358;
+}
+
+
+.art-view .info .artist {
+    margin: 15px;
+    display: flex;
+    color: #53d358;
+    border-bottom: 2px solid #53d358;
+}
+
+
+.art-view .info .artist h2 {
+    width: 25%;
+    height: 45%;
+}
+
+
+.art-view .info .artist p {
+    padding: 10px;
+    height: 45%;
+}
+
+.art-view .info .artist .small-thumbnail {
+    width: 15%;
+    height: 45%;
+    border-radius: 10px;
+}
+
+
+.art-view .info .comments .comment {
+    background-color: rgb(32, 32, 32);
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;
+}
+
+
+.art-view .info .description {
+    color:#53d358;
+    border-top: 1px solid #53d358;
+    border-bottom: 1px solid #53d358;
+    margin: 15px;
+    padding: 15px;
+}
+
+
+.art-view .info .category-list p {
+    display: inline;
+    color: #53d358;
+    background-color: rgb(32, 32, 32);
+    margin: 5px;
+    padding: 5px;
 }
