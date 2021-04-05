@@ -33,22 +33,24 @@ def profile_view(request, username):
         user = request.user
     else:
         user = get_object_or_404(AuthUserModel, username=username)
-
+    
+    artworks = []
+    total_likes = 0
     context['visited_user'] = user
     try:
-        context['user_artworks'] = [art for art in user.artworks.all()]
-        likes = 0
-        for art in context['user_artworks']:
-            likes += art.likes.count()
-        context['art_likes'] = likes       
+        for art in user.artworks.all():
+            artworks.append(art)
+            total_likes += art.likes.count()
     except AttributeError:
-        context['user_artworks'] = None
-        context['art_likes'] = None
-        
+        print("User has no artworks")
+
+    context['user_artworks'] = artworks
+    context['total_art_likes'] = total_likes
+    
     context['already_following'] = False
     if request.user.is_authenticated:
-        test = user.followers.filter(user_followed_by=request.user).first()
-        if test:
+        already_following = user.followers.filter(user_followed_by=request.user).first()
+        if already_following:
             context['already_following'] = True
     context['url_user'] = username
     
@@ -67,3 +69,6 @@ def follow_view(request, artist_id):
         return HttpResponseRedirect(reverse('users:profile_view', args=(artist.username,)))
     return redirect('/login')
     
+
+def user_galleries_view(request, username):
+    return render(request, "users/galleries.html", {})
