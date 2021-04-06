@@ -171,3 +171,78 @@
     position: fixed;
     text-align: center;
 }
+
+
+.current-tab {
+    text-decoration: none;
+    padding: 15px;
+    padding-bottom: 25px;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
+    color: white;
+    background-color: #53d358;
+}
+
+
+.btn-tab {
+    text-decoration: none;
+    padding: 15px;
+    padding-bottom: 25px;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
+    color: white;
+    transition: .2s;
+}
+
+
+.btn-tab:hover {
+    background-color: #53d358;
+}
+
+
+.breaking-line {
+    border-right: 1px solid #53d358;
+    padding-top: 10px;
+    padding-bottom: 12px;
+    width: 2px;    
+}
+
+
+.profile-bar .btn {
+    background-color: transparent;
+    border: 1px solid #53d358;
+    margin-top: 20px;
+    margin-left: 20px;
+    padding: 10px;
+    transition: .5s;
+    color: white;
+    text-decoration: none;
+}
+
+
+.profile-bar .btn:hover {
+    background-color: #53d358;
+}
+
+
+.profile-galleries {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    left: 23vw;
+    margin-left: 2px;
+    top: 60px;
+    z-index: 0;
+    width: 75vw;
+}
+
+
+.gallery-card {
+    background-color: rgb(212, 212, 212);
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10%;
+}

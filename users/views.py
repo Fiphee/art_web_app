@@ -46,8 +46,8 @@ def profile_view(request, username):
 
     context['user_artworks'] = artworks
     context['total_art_likes'] = total_likes
-    
     context['already_following'] = False
+
     if request.user.is_authenticated:
         already_following = user.followers.filter(user_followed_by=request.user).first()
         if already_following:
@@ -71,4 +71,28 @@ def follow_view(request, artist_id):
     
 
 def user_galleries_view(request, username):
-    return render(request, "users/galleries.html", {})
+    context = {}
+    if username == request.user.username:
+        user = request.user
+    else:
+        user = get_object_or_404(AuthUserModel, username=username)
+    
+    galleries = []
+    total_artworks_in_gallery = 0
+    context['visited_user'] = user
+    try:
+        for gallery in user.galleries.all():
+            galleries.append(gallery)
+            total_artworks_in_gallery += gallery.artworks.count()
+    except AttributeError:
+        print("User has no galleries")
+
+    context['user_galleries'] = galleries
+    context['url_user'] = username
+    if request.user.is_authenticated:
+        already_following = user.followers.filter(user_followed_by=request.user).first()
+        if already_following:
+            context['already_following'] = True
+
+
+    return render(request, "users/profile-galleries.html", context)
