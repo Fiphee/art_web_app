@@ -1,5 +1,5 @@
 {% extends "users/profile-base.html" %}
-
+{% load static %}
 {% block profile_bar %}
     <p class='current-tab'>Artworks</p>
     <a class='btn-tab' href="{% url 'users:user_galleries_view' visited_user.username %}">Galleries</a>
@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block profile_works %}
+    <script src="{% static 'js/profile-galleries.js' %}"></script>
     <div class=profile-artworks>
         {% if user_artworks %}
             {% for art in user_artworks %}

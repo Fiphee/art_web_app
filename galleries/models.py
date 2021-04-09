@@ -17,14 +17,22 @@ class Gallery(CustomModel):
     users = models.ManyToManyField(AuthUserModel, through='UserSavedGallery', related_name='favourite_galleries')
 
 
+    def __str__(self):
+        return self.name
+
+
+    def __repr__(self):
+        return self.__str__()
+
+
 class GalleryArtwork(CustomModel):
     art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
-    position = models.IntegerField(unique=True)
+    position = models.IntegerField()
 
 
 class UserSavedGallery(CustomModel):
     user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name='saved_galleries')
     gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name='saved_by')
-    position = models.IntegerField(unique=True)
+    position = models.IntegerField()
     

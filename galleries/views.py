@@ -1,7 +1,10 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect
 from django.db import transaction
-from .forms import GalleryForm
+from artworks.models import Artwork
+from .models import GalleryArtwork
+from .forms import GalleryForm, Gallery
+from utils.get_utils import get_next_position
 
 
 def create_gallery_view(request):
@@ -18,3 +21,19 @@ def create_gallery_view(request):
     }
 
     return render(request, 'galleries/create_gallery.html', context)
+
+
+def add_artwork(request, art_id, gallery_id):
+    if request.user.is_authenticated:
+        gallery = Gallery.objects.get(id=gallery_id)
+        if gallery.creator == request.user:
+            artwork = Artwork.objects.get(id=art_id)
+            try:
+                GalleryArtwork.objects.get(gallery_id=gallery, art_id=artwork)
+                raise Exception('Artwork in the gallery already')
+            except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
+                new_artwork_in_gallery = GalleryArtwork(gallery_id=gallery, art_id=artwork, position=get_next_position(gallery))
+                new_artwork_in_gallery.save()
+            return HttpResponseRedirect(reverse('users:profile_view', args=(artwork.uploader.username,)))
+        return redirect('/')
+    return redirect('/login')        

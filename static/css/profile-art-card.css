@@ -74,3 +74,88 @@
     background-color: #53d358;
 }
 
+
+.gallery-list {
+    position: absolute;
+    z-index: 100;
+    overflow-y: scroll;
+    padding: 5px;
+    width: 240px;
+    height: 250px;
+    background-color: white;
+    display: none;
+}
+
+
+.gallery-list .gallery, .already-saved-gallery {
+    background-color: rgb(202, 202, 202);
+    margin: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    display: block;
+    color:black;
+    text-decoration: none;
+    transition: .2s;
+}
+
+
+.already-saved-gallery {
+    background-color: rgb(150,150,150);
+    color: white;
+}
+
+.gallery-list .gallery:hover {
+    background-color: #53d358;
+    color: white;
+}
+
+
+.save-icon {
+    position: absolute;
+    margin: 5px;
+    padding: 3px;
+    transform: translateX(220px);
+    transition: .15s;
+    z-index: 100;
+    color: #53d358;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0);
+}
+
+.save-icon:hover {
+    color: black;
+    border-radius: 50%;
+    border: 1px solid;
+}
+
+
+.gallery-list .top {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.gallery-list .top .label {
+    left: 5px;
+    position: absolute;
+    font-weight: bold;
+    font-size: large;
+    color: black;
+}
+
+.gallery-list .top .fa-times {
+    position: absolute;
+    padding: 5px;
+    transition: .3s;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+
+.gallery-list .top .fa-times:hover {
+    border: 1px solid #53d358;
+    padding: 5px;
+}
