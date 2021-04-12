@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from utils.utils import get_query
+from utils import get_query
 from artworks.models import Artwork, ArtCategory, Category
 import random
 
