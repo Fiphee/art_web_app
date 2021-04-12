@@ -7,5 +7,5 @@ app_name = 'users'
 
 urlpatterns = [
     path('register/', register_view, name='register'),
-    path('users/<str:username>/settings', profile_settings_view, name="profile_settings"),
+    path('users/<int:user_id>/settings', profile_settings_view, name="profile_settings"),
 ]

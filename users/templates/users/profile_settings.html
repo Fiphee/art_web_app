@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block content %}
+
+{% block style %}
 <link rel='stylesheet' type='text/css' href="{% static 'css/profile-settings.css' %}"/>
+{% endblock %}
+
+{% block content %}
 <form method="POST" class='form-group' enctype=multipart/form-data>
     {% csrf_token %}
     <ul class='settings-form'>

@@ -9,7 +9,7 @@
           <a href="#/gallery">Gallery</a>
           <a href="{% url 'artworks:upload' %}">Upload</a>
           {% if user.is_authenticated %}
-            <a href="{% url 'users:profile_settings' user.username %}">Settings</a>
+            <a href="{% url 'users:profile_settings' user.id %}">Settings</a>
             <a href="#/users/{{ user.id }}">Profile</a>
             <a href="/logout">Logout</a>
           {% else %}

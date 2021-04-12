@@ -27,19 +27,20 @@ def register_view(request):
     return render(request, "register.html", context)
 
 
-def profile_settings_view(request, username):
-    if username == request.user.username:
+def profile_settings_view(request, user_id):
+    user = request.user
+    if user_id == request.user.id:
         if request.method == "POST":
-            form = ProfileSettingsForm(request.POST, request.FILES, instance=request.user.profile)
-            user_form = UserSettingsForm(request.POST, instance=request.user)
+            form = ProfileSettingsForm(request.POST, request.FILES, instance=user.profile)
+            user_form = UserSettingsForm(request.POST, instance=user)
             with transaction.atomic():
                 if form.is_valid() and user_form.is_valid():
                     user_form.save()
                     form.save()
                     return redirect('/')
         else:
-            form = ProfileSettingsForm(instance=request.user.profile)
-            user_form = UserSettingsForm(instance=request.user)
+            form = ProfileSettingsForm(instance=user.profile)
+            user_form = UserSettingsForm(instance=user)
         
         context = {
             "form":form,
