@@ -4,14 +4,14 @@
     <div class="topnav">
         <a class="active" href='/'>Home</a>
         <form method="GET" action="{% url 'search_view' %}">
-          <input type='search' class='search-bar' name='q' id="id_q" placeholder="Search for Artworks..." value="{{ query }}"/>
+          <input type='search' class='search-bar' name='search' id="id_search" placeholder="Search for Artworks..." value="{{ query }}"/>
           <button type='submit' class='btn-search'><i class='fas fa-search'></i></button>
         </form>
         <div class="topnav-right">
           <a href="/admin">Admin</a>
           <a href="#/swipe">Swipe</a>
           <a href="#/gallery">Gallery</a>
-          <a href="#/upload">Upload</a>
+          <a href="{% url 'artworks:upload' %}">Upload</a>
           {% if user.is_authenticated %}
             <a href="#/users/{{ user.id }}">Profile</a>
             <a href="/logout">Logout</a>

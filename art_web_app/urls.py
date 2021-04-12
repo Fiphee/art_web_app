@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')),
     path('search/', search_view, name="search_view"),
+    path('artworks/', include('artworks.urls')),
 ]
 
 if settings.DEBUG:

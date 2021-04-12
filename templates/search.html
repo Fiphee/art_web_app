@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
+{% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
     <p class="query-result">Showing results ({{ artworks|length }}) artwork(s) - ({{ users|length }}) user(s) found for: "{{ query }}"</p>
     <h2>Artworks</h2>
     {% if artworks %}
