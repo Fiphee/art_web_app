@@ -3,7 +3,7 @@ $(function() {
         $(this).find('.save-icon').css('color','black');
     }),
     $('.profile-card-container').mouseleave(function() {
-        $(this).find('.save-icon').css('color','#53d358')
+        $(this).find('.save-icon').css('color','white')
     }),
 
     $('.save-icon').on('click', function() {
@@ -12,13 +12,16 @@ $(function() {
         my_list.on('mouseleave', function() {
             my_list.css('display', 'none');
         });
-    }),
-
-    $('.fa-times').on('click', function() {
-        $(this).parent().parent().css('display', 'none');
     });
 
+    var my_settings = document.getElementById('gallery-settings-form');
+    $('.fa-edit').on('click', function(){
+        $(my_settings).css('display', 'block')
+    });
 
+    $(my_settings).mouseleave(function() {
+        $(this).css('display','none');
+    });
 });
 
 

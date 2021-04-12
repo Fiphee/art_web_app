@@ -30,6 +30,9 @@ class GalleryArtwork(CustomModel):
     gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
     position = models.IntegerField()
 
+    class Meta:
+        ordering = ['position']
+
 
 class UserSavedGallery(CustomModel):
     user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name='saved_galleries')

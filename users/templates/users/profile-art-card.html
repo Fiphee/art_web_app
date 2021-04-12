@@ -3,20 +3,34 @@
 
 <div class="profile-card-container">
     <div class='save-icon'>
-        <i class="far fa-save"></i>
+        <i class="fas fa-ellipsis-v"></i>
     </div>
     <div class='gallery-list'>
-        <div class='top'>
-            <p class='label'>Save to a gallery</p>
-            <i class="fas fa-times"></i>
-        </div>
-        {% for gallery in visited_user.galleries.all %}
-            {% if art in gallery.artworks.all %}
-                <p class='already-saved-gallery'>Saved in {{ gallery }}</p>
-            {% else %}
-                <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery.id %}">{{ gallery }}</a>
-            {% endif %}
-        {% endfor %}
+        {% block settings %}
+            
+        {% endblock %}
+        <table>
+            <thead class='top'>
+                <tr>
+                    <td class='label'>Save to a gallery</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for gallery in user.galleries.all %}
+                {% if art in gallery.artworks.all %}
+                <tr>   
+                    <td class='sub'><p class='already-saved-gallery'>Saved in {{ gallery }}</p></td>
+                </tr>
+                {% else %}
+                <tr> 
+                    <td class='sub'><a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery.id %}">{{ gallery }}</a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        
     </div>
     <a href="{% url 'artworks:art_view' art.id %}"><img src="{{ art.thumbnail.url }}"></a>
     <p class='art-title'>{{ art.title }}</p>

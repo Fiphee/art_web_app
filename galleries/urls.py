@@ -1,10 +1,15 @@
 from django.urls import path
-from .views import create_gallery_view, add_artwork
+from .views import create_gallery_view, add_artwork, gallery_view, remove_artwork, delete_gallery, save_gallery, remove_saved_gallery
+
 
 app_name = 'galleries'
 
 urlpatterns = [
     path('create/', create_gallery_view, name='create_gallery_view'),
-    path('<int:art_id>/to/<int:gallery_id>', add_artwork, name='add_artwork'),
-
-]
+    path('add/<int:art_id>/to/<int:gallery_id>', add_artwork, name='add_artwork'),
+    path('<int:gallery_id>', gallery_view, name='gallery_view'),
+    path('delete/<int:art_id>/from/<int:gallery_id>', remove_artwork, name='remove_artwork'),
+    path('<int:gallery_id>/delete', delete_gallery, name='delete_gallery'),
+    path('<int:gallery_id>/save', save_gallery, name='save_gallery'),
+    path('<int:gallery_id>/remove', remove_saved_gallery, name='remove_gallery'),
+]   

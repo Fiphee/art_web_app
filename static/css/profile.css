@@ -278,3 +278,11 @@
     display: inline-block;
     vertical-align: super;
 }   
+
+
+.gallery-link {
+    text-decoration: none;
+    color: black;
+}
+
+
