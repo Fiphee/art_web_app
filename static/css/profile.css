@@ -225,18 +225,6 @@
 }
 
 
-.profile-galleries {
-    position: relative;
-    display: inline-flex;
-    flex-wrap: wrap;
-    left: 23vw;
-    margin-left: 2px;
-    top: 60px;
-    z-index: 0;
-    width: 75vw;
-}
-
-
 .gallery-card {
     background-color: rgb(238, 238, 238);
     width: 150px;
@@ -286,3 +274,35 @@
 }
 
 
+.galleries-container {
+    display: grid;
+
+}
+
+
+.saved-galleries {
+    display: inline-flex;
+    position: relative;
+    width: 75vw;
+    text-align: center;
+    margin-top: 50px;
+    left: 23vw;
+}
+
+
+.profile-galleries {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    left: 23vw;
+    margin-left: 2px;
+    top: 60px;
+    z-index: 0;
+    width: 75vw;
+}
+
+
+.label {
+    padding-left:45%;
+    margin-top: 75px;
+}

@@ -91,8 +91,7 @@ def user_galleries_view(request, username):
     context['url_user'] = username
     if request.user.is_authenticated:
         already_following = user.followers.filter(user_followed_by=request.user).first()
-        if already_following:
-            context['already_following'] = True
+        context['already_following'] = already_following
 
 
     return render(request, "users/profile-galleries.html", context)

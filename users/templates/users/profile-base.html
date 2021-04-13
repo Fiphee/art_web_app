@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% load static %}
-{% block content %}
+{% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
 <div class="profile-bar">
     {% block profile_bar %}
     {% endblock %}
@@ -32,7 +35,12 @@
     </div>
 </div>
 
+<div class='galleries-container'>
 {% block profile_works %}
 {% endblock %}
+
+{% block saved_galleries %}
+{% endblock %}
+</div>
 
 {% endblock %}

@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block profile_works %}
-    <div class=profile-galleries>
+    <div class='profile-galleries'>
         {% if user_galleries %}
             {% for gallery in user_galleries %}
             <a class="gallery-link" href="{% url 'galleries:gallery_view' gallery.id %}">
@@ -20,7 +20,22 @@
             </a>
             {% endfor %}
         {% else %}
-            <p class='label' style='padding-left:45%'>No galleries found</p>
+            <p class='label'>No galleries found</p>
         {% endif %}
     </div>
+
+{% endblock %}
+{% block saved_galleries %}
+{% if user.username == visited_user.username %}
+<h2 class='label'>Saved Galleries</h2>
+<div class='saved-galleries'>
+    {% for gallery_relationship in user.saved_galleries.all %}
+        {% with gallery=gallery_relationship.gallery_id %}
+        <a class="gallery-link" href="{% url 'galleries:gallery_view' gallery.id %}">
+            {% include 'galleries/gallery_card.html' %}
+        </a>
+        {% endwith %}
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

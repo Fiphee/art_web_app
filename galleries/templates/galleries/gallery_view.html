@@ -38,7 +38,7 @@
         <a class='save-gallery' href="{% url 'galleries:save_gallery' gallery.id %}"><p>Save Gallery</p></a>    
     {% endif %}
 {% endif %}
-
+<p>Gallery followers: {{ gallery.saved_by.count }}</p>
 <p>Number of artworks: {{ gallery.artworks.count }}</p> 
 <div class='gallery-artworks'>
     {% for art in gallery.artworks.all|reverse %}
