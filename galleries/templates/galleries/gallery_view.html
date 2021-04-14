@@ -26,16 +26,16 @@
             <p>{{ form.name }}</p>
             <p>{{ form.status }}</p>
             <button class='small-btn' type="submit">Save</button>
-            <a class='small-delete-btn' href="{% url 'galleries:delete_gallery' gallery.id %}">Delete Gallery</a>
+            <a class='small-delete-btn' href="{% url 'galleries:delete' gallery.id %}">Delete Gallery</a>
         </form>
     </div>
 
     {% endif %}
 {% else %}
     {% if saved_by_user %}
-        <a class='remove-gallery' href="{% url 'galleries:remove_gallery' gallery.id %}"><p>Remove Gallery</p></a>    
+        <a class='remove-gallery' href="{% url 'galleries:unfollow' gallery.id %}"><p>Remove Gallery</p></a>    
     {% else %}
-        <a class='save-gallery' href="{% url 'galleries:save_gallery' gallery.id %}"><p>Save Gallery</p></a>    
+        <a class='save-gallery' href="{% url 'galleries:follow' gallery.id %}"><p>Save Gallery</p></a>    
     {% endif %}
 {% endif %}
 <p>Gallery followers: {{ gallery.saved_by.count }}</p>

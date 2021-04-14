@@ -61,11 +61,11 @@ def follow_view(request, artist_id):
     if request.user.is_authenticated:
         if artist_id != request.user.id:
             artist = AuthUserModel.objects.get(id=artist_id)
-            followed = UserFollowing.objects.filter(user_id=artist, user_followed_by=request.user).first()
+            followed = UserFollowing.objects.filter(user=artist, user_followed_by=request.user).first()
             if followed:
                 followed.delete()
             else:
-                UserFollowing(user_followed_by=request.user, user_id=artist).save()
+                UserFollowing(user_followed_by=request.user, user=artist).save()
         return HttpResponseRedirect(reverse('users:profile_view', args=(artist.username,)))
     return redirect('/login')
     

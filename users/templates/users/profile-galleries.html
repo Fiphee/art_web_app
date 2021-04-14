@@ -29,12 +29,10 @@
 {% if user.username == visited_user.username %}
 <h2 class='label'>Saved Galleries</h2>
 <div class='saved-galleries'>
-    {% for gallery_relationship in user.saved_galleries.all %}
-        {% with gallery=gallery_relationship.gallery_id %}
+    {% for gallery in user.followed_galleries.all %}
         <a class="gallery-link" href="{% url 'galleries:gallery_view' gallery.id %}">
             {% include 'galleries/gallery_card.html' %}
         </a>
-        {% endwith %}
     {% endfor %}
 </div>
 {% endif %}

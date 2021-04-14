@@ -2,7 +2,7 @@ from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.db import transaction
 from artworks.models import Artwork
-from .models import GalleryArtwork, Gallery, UserSavedGallery
+from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
 from utils.get_utils import get_next_position
 
@@ -29,12 +29,10 @@ def add_artwork(request, art_id, gallery_id):
         if gallery.creator == request.user:
             artwork = Artwork.objects.get(id=art_id)
             try:
-                GalleryArtwork.objects.get(gallery_id=gallery, art_id=artwork)
-                raise Exception('Artwork in the gallery already')
+                GalleryArtwork.objects.get(gallery=gallery, art=artwork)
             except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
-                position = get_next_position(GalleryArtwork, gallery_id=gallery.id)
-                new_artwork_in_gallery = GalleryArtwork(gallery_id=gallery, art_id=artwork, position=position)
-                new_artwork_in_gallery.save()
+                position = get_next_position(GalleryArtwork, gallery=gallery.id)
+                gallery.artworks.add(artwork, through_defaults={'position':position})
             return redirect(reverse('users:profile_view', args=(artwork.uploader.username,)))
         return redirect('/')
     return redirect('/login')
@@ -61,7 +59,7 @@ def gallery_view(request, gallery_id):
             form = GalleryForm(user=user, instance=gallery)
 
         context['form'] = form
-    context['saved_by_user'] = UserSavedGallery.objects.filter(user_id=user, gallery_id=gallery).exists()
+    context['saved_by_user'] = UserFollowedGallery.objects.filter(user=user, gallery=gallery).exists()
     
     return render(request, 'galleries/gallery_view.html', context)
 
@@ -86,23 +84,22 @@ def delete_gallery(request, gallery_id):
     return redirect('/')
 
 
-def save_gallery(request, gallery_id):
+def follow_gallery(request, gallery_id):
     user = request.user
     if user.is_authenticated:
         gallery = get_object_or_404(Gallery, id=gallery_id)
-        if not UserSavedGallery.objects.filter(gallery_id=gallery, user_id=user).exists():
-            position = get_next_position(UserSavedGallery, user_id=user.id)
-            new_saved_gallery = UserSavedGallery(user_id=user, gallery_id=gallery, position=position)
-            new_saved_gallery.save()
+        if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
+            position = get_next_position(UserFollowedGallery, user=user.id)
+            user.followed_galleries.add(gallery, through_defaults={'position':position})
         return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))
     return redirect('/login')
 
 
-def remove_saved_gallery(request, gallery_id):
+def unfollow_gallery(request, gallery_id):
     user = request.user
     if user.is_authenticated:
         gallery = get_object_or_404(Gallery, id=gallery_id)
-        gallery_relationship = UserSavedGallery.objects.filter(gallery_id=gallery, user_id=user)
+        gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
         if gallery_relationship.exists():
             gallery_relationship.first().delete()
         return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))

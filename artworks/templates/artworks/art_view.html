@@ -1,9 +1,25 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class='art-view'>
     <div class='img-box'>
         <img class='img' src="{{ artwork.image.url }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
+    </div>
+    <div class='save-to-gallery-container'>
+        <i class="fas fa-ellipsis-v"></i>
+        <div class='gallery-list'>
+            <p class='title-label'>Save to a gallery</p>
+            <ul>
+                {% for gallery in user.galleries.all %}
+                    {% if artwork in gallery.artworks.all %}
+                        <p class='saved-in-gallery'>Saved in {{ gallery }}</p>
+                    {% else %}
+                        <a class='not-in-gallery' href="{% url 'galleries:add_artwork' artwork.id gallery.id %}">{{ gallery }}</a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <div class='info'>
         <div class='art'>
@@ -12,7 +28,7 @@
 
         </div>
         <div class='artist'>
-            <img class='small-thumbnail' src="/{{ artist.profile.avatar }}" alt="{{ artist }}'s avatar"/>
+            <img class='small-thumbnail' src="{{ artist.profile.avatar.url }}" alt="{{ artist }}'s avatar"/>
             <h2>{{ artist }}</h2>
             <p class='white-text'>Followers</p>
             <p class='color-text'>{{ artist.followers.count }}</p>
@@ -50,4 +66,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/art-view.js' %}"></script>
 {% endblock %}

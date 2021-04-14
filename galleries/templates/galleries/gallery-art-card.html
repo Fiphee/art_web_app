@@ -3,17 +3,9 @@
 
 {% block settings %}
 {% if gallery.creator == user %}
-<table>
-    <thead class='top'>
-        <tr>
-            <td class='label'>Settings</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class='sub'><p class='delete-btn'><a href="{% url 'galleries:remove_artwork' art.id gallery.id %}">Remove from gallery</a></p></td>
-        </tr>
-    </tbody>
-</table>
+<ul>
+    <p class='title-label'>Settings</p>
+    <a class='delete-btn' href="{% url 'galleries:remove_artwork' art.id gallery.id %}">Remove</a>
+</ul>
 {% endif %}
 {% endblock %}

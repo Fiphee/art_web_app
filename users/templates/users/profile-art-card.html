@@ -1,36 +1,28 @@
 {% load static %}
+
+{% block style %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/profile-art-card.css' %}">
+{% endblock %}
 
 <div class="profile-card-container">
     <div class='save-icon'>
         <i class="fas fa-ellipsis-v"></i>
     </div>
     <div class='gallery-list'>
+        <ul>
         {% block settings %}
             
         {% endblock %}
-        <table>
-            <thead class='top'>
-                <tr>
-                    <td class='title-label'>Save to a gallery</td>
-                </tr>
-            </thead>
-            <tbody>
+            <p class='title-label'>Save to a gallery</p>
             {% for gallery in user.galleries.all %}
                 {% if art in gallery.artworks.all %}
-                <tr>   
-                    <td class='sub'><p class='already-saved-gallery'>Saved in {{ gallery }}</p></td>
-                </tr>
+
+                <p class='already-saved-gallery'>Saved in {{ gallery }}</p>
                 {% else %}
-                <tr> 
-                    <td class='sub'><a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery.id %}">{{ gallery }}</a>
-                    </td>
-                </tr>
+                <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery.id %}">{{ gallery }}</a>
                 {% endif %}
             {% endfor %}
-            </tbody>
-        </table>
-        
+        </ul>
     </div>
     <a href="{% url 'artworks:art_view' art.id %}"><img src="{{ art.thumbnail.url }}"></a>
     <p class='art-title'>{{ art.title }}</p>
