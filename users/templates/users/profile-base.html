@@ -24,9 +24,9 @@
             <p class='btn'>Profile Settings</p>
         {% else %}
             {% if already_following %}
-                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Unfollow</a>
+                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Unfollow</a>
             {% else %}
-                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Follow</a>
+                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Follow</a>
             {% endif %}
         {% endif %}        
 

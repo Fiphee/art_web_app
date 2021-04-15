@@ -3,7 +3,6 @@ from django.contrib.auth import authenticate, login
 from django.db import transaction
 from .forms import RegisterForm
 from .models import Profile, AuthUserModel, UserFollowing
-from django.http import HttpResponseRedirect
 
 
 def register_view(request):
@@ -66,7 +65,7 @@ def follow_view(request, artist_id):
                 followed.delete()
             else:
                 UserFollowing(user_followed_by=request.user, user=artist).save()
-        return HttpResponseRedirect(reverse('users:profile_view', args=(artist.username,)))
+        return redirect(reverse('users:profile', args=(artist.username,)))
     return redirect('/login')
     
 
@@ -94,4 +93,4 @@ def user_galleries_view(request, username):
         context['already_following'] = already_following
 
 
-    return render(request, "users/profile-galleries.html", context)
+    return render(request, "users/galleries.html", context)

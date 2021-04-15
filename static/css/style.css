@@ -360,3 +360,8 @@ body {
     font-weight: bold;
     text-align: center;
 }
+
+.profile-name {
+    text-decoration: none;
+    color:#53d358;
+}

@@ -2,7 +2,7 @@
 {% load static %}
 {% block profile_bar %}
     <p class='current-tab'>Artworks</p>
-    <a class='btn-tab' href="{% url 'users:user_galleries_view' visited_user.username %}">Galleries</a>
+    <a class='btn-tab' href="{% url 'users:galleries' visited_user.username %}">Galleries</a>
 <div class='breaking-line'></div>
     <p class='white-text'>Artworks:</p>
     <p class="total-nr">{{ visited_user.artworks.count }}</p>
@@ -15,7 +15,7 @@
     <div class=profile-artworks>
         {% if user_artworks %}
             {% for art in user_artworks %}
-                {% include 'users/profile-art-card.html' %}
+                {% include 'users/art-card.html' %}
             {% endfor %}
         {% else %}
             <p class='label' style='padding-left:45%'>No artworks found</p>

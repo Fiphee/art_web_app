@@ -29,15 +29,15 @@
         </div>
         <div class='artist'>
             <img class='small-thumbnail' src="{{ artist.profile.avatar.url }}" alt="{{ artist }}'s avatar"/>
-            <h2>{{ artist }}</h2>
+            <h2><a class='profile-name' href="{% url 'users:profile' artist %}">{{ artist }}</a></h2>
             <p class='white-text'>Followers</p>
             <p class='color-text'>{{ artist.followers.count }}</p>
         </div>
         <div class='likes'>
             {% if liked %}
-                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Unlike</a>
+                <a class='btn-like' href="{% url 'artworks:like' artwork.id %}">Unlike</a>
             {% else %}
-                <a class='btn-like' href="{% url 'artworks:like_view' artwork.id %}">Like</a>
+                <a class='btn-like' href="{% url 'artworks:like' artwork.id %}">Like</a>
             {% endif %}
             <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
         </div>

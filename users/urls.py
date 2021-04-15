@@ -7,7 +7,7 @@ app_name = 'users'
 
 urlpatterns = [
     path('register/', register_view, name='register'),
-    path('users/<str:username>', profile_view, name='profile_view'),
-    path('follow/<int:artist_id>', follow_view, name='follow_view'),
-    path('users/<str:username>/galleries', user_galleries_view, name="user_galleries_view"),
+    path('users/<str:username>', profile_view, name='profile'),
+    path('follow/<int:artist_id>', follow_view, name='follow'),
+    path('users/<str:username>/galleries', user_galleries_view, name="galleries"),
 ]

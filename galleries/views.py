@@ -12,7 +12,7 @@ def create_gallery_view(request):
         form = GalleryForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect(reverse('users:user_galleries_view', args=(request.user.username,)))
+            return redirect(reverse('users:galleries', args=(request.user.username,)))
     else:
         form = GalleryForm(user=request.user)
 
@@ -20,7 +20,7 @@ def create_gallery_view(request):
         "form":form,
     }
 
-    return render(request, 'galleries/create_gallery.html', context)
+    return render(request, 'galleries/create.html', context)
 
 
 def add_artwork(request, art_id, gallery_id):
@@ -33,7 +33,7 @@ def add_artwork(request, art_id, gallery_id):
             except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
                 position = get_next_position(GalleryArtwork, gallery=gallery.id)
                 gallery.artworks.add(artwork, through_defaults={'position':position})
-            return redirect(reverse('users:profile_view', args=(artwork.uploader.username,)))
+            return redirect(reverse('users:profile', args=(artwork.uploader.username,)))
         return redirect('/')
     return redirect('/login')
 
@@ -54,14 +54,14 @@ def gallery_view(request, gallery_id):
             form = GalleryForm(request.POST, user=user, instance=gallery)
             if form.is_valid():
                 form.save()
-                return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))
+                return redirect(reverse('galleries:view', args=(gallery_id,)))
         else:
             form = GalleryForm(user=user, instance=gallery)
 
         context['form'] = form
     context['saved_by_user'] = UserFollowedGallery.objects.filter(user=user, gallery=gallery).exists()
     
-    return render(request, 'galleries/gallery_view.html', context)
+    return render(request, 'galleries/view.html', context)
 
 
 def remove_artwork(request, art_id, gallery_id):
@@ -71,7 +71,7 @@ def remove_artwork(request, art_id, gallery_id):
             artwork = Artwork.objects.get(id=art_id)
             if artwork in gallery.artworks.all():
                 gallery.artworks.remove(artwork)
-                return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))   
+                return redirect(reverse('galleries:view', args=(gallery_id,)))   
         return redirect('/')
     return redirect('/login')
 
@@ -80,7 +80,7 @@ def delete_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
     if gallery.creator == request.user:
         gallery.delete()
-        return redirect(reverse('users:user_galleries_view', args=(request.user,)))
+        return redirect(reverse('users:galleries', args=(request.user,)))
     return redirect('/')
 
 
@@ -91,7 +91,7 @@ def follow_gallery(request, gallery_id):
         if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
             position = get_next_position(UserFollowedGallery, user=user.id)
             user.followed_galleries.add(gallery, through_defaults={'position':position})
-        return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))
+        return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')
 
 
@@ -102,5 +102,5 @@ def unfollow_gallery(request, gallery_id):
         gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
         if gallery_relationship.exists():
             gallery_relationship.first().delete()
-        return redirect(reverse('galleries:gallery_view', args=(gallery_id,)))
+        return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')

@@ -14,7 +14,7 @@
     {% endif %}
     <div class='gallery-creator-info'>    
         <img src="{{ gallery.creator.profile.avatar.url }}" alt="{{ gallery.creator}}'s avatar">
-        <p class='profile-block'><a class='profile-link' href="{% url 'users:profile_view' gallery.creator %}">{{ gallery.creator }}</a></p>
+        <p class='profile-block'><a class='profile-link' href="{% url 'users:profile' gallery.creator %}">{{ gallery.creator }}</a></p>
     </div> 
 </div>    
 {% if gallery.creator == user %}
@@ -42,7 +42,7 @@
 <p>Number of artworks: {{ gallery.artworks.count }}</p> 
 <div class='gallery-artworks'>
     {% for art in gallery.artworks.all|reverse %}
-        {% include 'galleries/gallery-art-card.html' %}
+        {% include 'galleries/art-card.html' %}
     {% endfor %}
 </div>
 
