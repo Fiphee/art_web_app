@@ -80,15 +80,15 @@ class Artwork(CustomModel):
 
 
 class ArtCategory(CustomModel):
-    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class ArtLike(CustomModel):
-    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
+    art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
 
 
 class ArtFavourite(CustomModel):
-    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
+    art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)

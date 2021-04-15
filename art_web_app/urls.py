@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')),
     path('artworks/', include('artworks.urls')),
+    path('galleries/', include('galleries.urls')),
 ]
 
 if settings.DEBUG:

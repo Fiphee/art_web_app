@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/galleries.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class='gallery-name'>
+    <h1>{{ gallery }} </h1>
+    {% if gallery.creator == user %}
+    <i id='edit-gallery' name='gallery-name-btn' class="far fa-edit"></i>
+    {% endif %}
+    <div class='gallery-creator-info'>    
+        <img src="{{ gallery.creator.profile.avatar.url }}" alt="{{ gallery.creator}}'s avatar">
+        <p class='profile-block'><a class='profile-link' href="{% url 'users:profile' gallery.creator %}">{{ gallery.creator }}</a></p>
+    </div> 
+</div>    
+{% if gallery.creator == user %}
+    <p>{{ status }}</p>  
+    {% if form %}
+    <div id='gallery-settings-form' class='gallery-settings-form'>
+        <form method='POST'>
+            {% csrf_token %}
+            <p>{{ form.name }}</p>
+            <p>{{ form.status }}</p>
+            <button class='small-btn' type="submit">Save</button>
+            <a class='small-delete-btn' href="{% url 'galleries:delete' gallery.id %}">Delete Gallery</a>
+        </form>
+    </div>
+
+    {% endif %}
+{% else %}
+    {% if saved_by_user %}
+        <a class='remove-gallery' href="{% url 'galleries:unfollow' gallery.id %}"><p>Remove Gallery</p></a>    
+    {% else %}
+        <a class='save-gallery' href="{% url 'galleries:follow' gallery.id %}"><p>Save Gallery</p></a>    
+    {% endif %}
+{% endif %}
+<p>Gallery followers: {{ gallery.saved_by.count }}</p>
+<p>Number of artworks: {{ gallery.artworks.count }}</p> 
+<div class='gallery-artworks'>
+    {% for art in gallery.artworks.all|reverse %}
+        {% include 'galleries/art-card.html' %}
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/profile-galleries.js' %}"></script>
+{% endblock %}

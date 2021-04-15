@@ -1,0 +1,180 @@
+.profile-card-container {
+    padding: 5px;
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    transition: .5s;
+    position: relative;
+    overflow-y: hidden;
+
+}
+
+
+.profile-card-container * {
+    flex: 1 5 21%;
+    
+}
+
+
+.profile-card-container img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    position: absolute;
+    transition: .15s;
+}
+
+
+.profile-card-container:hover img{
+    height: 180px;
+    padding-top: 35px;
+}
+
+
+.profile-card-container .art-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
+    margin: 2px;
+    position: absolute;
+    padding-bottom: 5px;
+    top: 5px;
+    left: 5%;
+    z-index: -1;
+
+}
+
+
+.profile-card-container .likes-counter {
+    margin: 2px;
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    z-index: -1;
+    
+}
+
+
+.btn-edit {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    position: absolute;
+    background-color: darkgrey;
+    border: none;
+    padding: 5px 15px 5px 15px; 
+    text-decoration: none;
+    text-align: center;
+    transition: .3s;
+    bottom: 0;
+    margin: 5px;
+    right: 0;
+}
+
+
+.btn-edit:hover {
+    background-color: #53d358;
+}
+
+
+.gallery-list {
+    position: absolute;
+    z-index: 100;
+    overflow-y: scroll;
+    padding: 5px;
+    width: 250px;
+    height: 250px;
+    background-color: white;
+    display: none;
+    right: 0;
+}
+
+
+.gallery-list .gallery, .already-saved-gallery, .delete-btn{
+    background-color: rgb(202, 202, 202);
+    border-radius: 5px;
+    padding: 10px;
+    display: block;
+    color:black;
+    text-decoration: none;
+    transition: .2s;
+}
+
+
+.delete-btn:hover {
+    background-color: rgb(206, 44, 44);
+    color: white;
+}
+
+.already-saved-gallery, .delete-btn {
+    background-color: rgb(150,150,150);
+    color: white;
+}
+
+.gallery-list .gallery:hover {
+    background-color: #53d358;
+    color: white;
+}
+
+
+.save-icon {
+    position: absolute;
+    margin: 5px;
+    padding: 3px;
+    transform: translateX(220px);
+    transition: .15s;
+    z-index: 100;
+    color: white;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0);
+}
+
+.save-icon:hover {
+    color: black;
+    border-radius: 50%;
+    border: 1px solid;
+}
+
+
+.gallery-list .top {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+
+.gallery-list .top .label {
+    left: 5px;
+    position: absolute;
+    font-weight: bold;
+    font-size: large;
+    color: black;
+}
+
+.gallery-list .top .fa-times {
+    position: absolute;
+    padding: 5px;
+    transition: .3s;
+    border: 1px solid white;
+    border-radius: 50%;
+}
+
+
+.gallery-list .top .fa-times:hover {
+    border: 1px solid #53d358;
+    padding: 5px;
+}
+
+
+.sub {
+    font-weight: normal;
+    padding-top: 10px;
+}
+
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.title-label {
+    font-weight: bold;
+}

@@ -1,0 +1,24 @@
+{% extends "users/profile-base.html" %}
+{% load static %}
+{% block profile_bar %}
+    <p class='current-tab'>Artworks</p>
+    <a class='btn-tab' href="{% url 'users:galleries' visited_user.username %}">Galleries</a>
+<div class='breaking-line'></div>
+    <p class='white-text'>Artworks:</p>
+    <p class="total-nr">{{ visited_user.artworks.count }}</p>
+    <p class='white-text'>Artwork likes:</p>
+    <p class="total-nr">{{ total_art_likes }}</p>
+{% endblock %}
+
+{% block profile_works %}
+    <script src="{% static 'js/profile-galleries.js' %}"></script>
+    <div class=profile-artworks>
+        {% if user_artworks %}
+            {% for art in user_artworks %}
+                {% include 'users/art-card.html' %}
+            {% endfor %}
+        {% else %}
+            <p class='label' style='padding-left:45%'>No artworks found</p>
+        {% endif %}
+    </div>
+{% endblock %}
