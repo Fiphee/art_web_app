@@ -231,14 +231,14 @@ body {
     width: 25vw;
     position: fixed;
     height: 100%;
-    top: 60px;
+    top: 0px;
+    margin-top: 60px;
     right: 0vw;
     border-left: 2px solid;
     border-color: #53d358;  
     padding-top: 25px;
     text-align: center;
     overflow: scroll;
-    overflow-y: auto;
 }
 
 
@@ -284,6 +284,8 @@ body {
     padding: 15px;
     margin: 15px;
     border-radius: 10px;
+    position: relative;
+    text-align: left;
 }
 
 
@@ -364,4 +366,74 @@ body {
 .profile-name {
     text-decoration: none;
     color:#53d358;
+}
+
+.make-comment .textarea {
+    width: 95%;
+    height: 100px;
+    margin: 5%;
+    box-sizing: border-box;
+    border: 1px solid #53d358;
+    border-radius: 4px;
+    background-color: rgb(14, 26, 26);
+    color: white;
+}
+
+.empty-space {
+    height:120px;
+}
+
+
+.comment .author {
+    position: relative;
+    text-decoration: none;
+    color: #53d358;
+    transition: 1s;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.comment .author:hover {
+    background: #53d358;
+    color: white;
+
+}
+
+.comment .body {
+    color: white;
+    padding-left: 10px;
+    border-bottom: 1px solid #53d358;
+    padding-bottom: 15px;
+    margin-bottom: 5px;
+}
+
+.comment .buttons {
+    display: inline-flex;
+}
+
+.comment .buttons * {
+    color: gray;
+    padding: 0px 5px 0px 5px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.comment .buttons a:hover {
+    color: #53d358;
+}
+
+.comment-btn {
+    background-color: rgb(14, 26, 26);
+    border: 1px solid #53d358;
+    transition: .2s;
+    color: white;
+    font-size: medium;
+    padding: 10px;
+}
+
+.comment-btn:hover {
+    background-color: #53d358;
 }

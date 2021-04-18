@@ -51,27 +51,34 @@
                 {% endfor %}
             </div>
         </div>
-        <div class='comments'>
-            {% for x in 012345|make_list %}
-            <div class='comment'>
-                <p class='white-text'>User</p>
-                <p>Comment</p>
-            </div>
-            {% endfor %}
-            <p class='white-text'>Some random info copyright maybe</p>
-            <div class='comment'>
-            </div>
-            <div class='comment'>
-            </div>
-        </div>
         <div class='make-comment'>
             <form method='POST'>
                 {% csrf_token %}
-                {{ form }}
-                <button type="submit">Comment</button>
+                {{ form.body }}
+                <button type="submit" class='comment-btn'>Comment</button>
             </form>
-
         </div>
+        <div class='comments'>
+            {% for comment in comments %}
+                {% if comment %}
+                    <div class='comment'>
+                        <a class='author' href="{% url 'users:profile' comment.author %}">{{ comment.author }}</a>
+                        <p class='body'>{{ comment.body }}</p>
+                        <div class='buttons'>
+                            <h5>{{ comment.likes.count }}</h5>
+                            <h5><a href="{% url 'comments:like' comment.id %}?next={% url 'artworks:view' artwork.id %}">Like</a></h5>
+                            <h5>Reply</h5>
+                            {% if user.is_authenticated and artwork.uploader == user %}
+                                <h5><a href="{% url 'comments:remove' comment.id %}?next={% url 'artworks:view' artwork.id %}">Remove</a></h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p class='white-text'>No comments</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+       <div class='empty-space'></div>
     </div>
 </div>
 {% endblock %}

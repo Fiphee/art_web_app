@@ -46,22 +46,27 @@ def swipe_like_view(request, art_id):
 
 
 def art_view(request, art_id):
+    artwork = Artwork.objects.get(pk=art_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            return redirect(reverse('artworks:art_view', args=(art_id,)))
+            if request.user.is_authenticated:
+                artwork.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('artworks:view', args=(art_id,)))
+            return redirect('/login')
     else: 
         form = CommentForm()
-        artwork = Artwork.objects.get(pk=art_id)
         liked = artwork.likes.filter(id=request.user.id).exists()
         categories = artwork.category.all()
-
+        comments = artwork.comments.all()
+        
         context = {
             "artwork":artwork,
             "artist": artwork.uploader,
             "liked":liked,
             "categories":categories,
+            "comments":comments,
             "form": form,
         }
-        return render(request, 'artworks/art_view.html', context)
+        return render(request, 'artworks/view.html', context)
 
