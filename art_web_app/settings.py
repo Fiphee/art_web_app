@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'artworks.apps.ArtworksConfig',
     'galleries.apps.GalleriesConfig',
+    'comments.apps.CommentsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
