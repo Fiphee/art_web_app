@@ -19,18 +19,22 @@ def upload_view(request):
     context = {
         "form":form,
     }
-    return render(request, 'artworks/upload_art.html', context)
+    return render(request, 'artworks/upload.html', context)
 
 
 def like_view(request, art_id):
     user = request.user
+    next_url = request.GET.get('next')
+
     if user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
         if artwork.likes.filter(id=user.id).exists():
             artwork.likes.remove(user)
         else:
             artwork.likes.add(user)
-        return HttpResponseRedirect(reverse('artworks:art_view', args=(art_id,)))
+        if next_url:
+            return redirect(next_url)
+        return HttpResponseRedirect(reverse('artworks:view', args=(art_id,)))
     return redirect('/login')
 
 

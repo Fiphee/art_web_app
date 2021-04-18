@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     margin-top: 60px;
     padding: 25px;
@@ -24,7 +28,7 @@ body {
 
 .navbar * {
     display: inline;
-    
+
 }
 
 .navbar li {
@@ -298,4 +302,66 @@ body {
     background-color: rgb(32, 32, 32);
     margin: 5px;
     padding: 5px;
+}
+
+.save-to-gallery-container {
+    width: max-content;
+    padding: 15px;
+    position: absolute;
+    top: 60px;
+    right: 25vw;
+    justify-content: center;
+    
+}
+
+.save-to-gallery-container a {
+    color: white;
+    text-decoration: none;
+}
+
+.save-to-gallery-container .fa-ellipsis-v {
+    font-size: xx-large;
+    position: absolute;
+    right: 15px;
+}
+
+.save-to-gallery-container .gallery-list {
+    position: relative;
+    width: 250px;
+    z-index: 2;
+    background-color: white;
+    padding: 10px 10px 40px 0px;
+    display: none;
+    border-radius: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+
+.saved-in-gallery, .not-in-gallery{
+    background-color: rgb(201, 201, 201);
+    padding: 15px;
+    transition: .2s;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+.not-in-gallery {
+    background-color: rgb(150, 150, 150);
+}
+
+.not-in-gallery:hover {
+    background-color: #53d358;
+
+}
+
+.save-to-gallery-container .gallery-list .title-label {
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-name {
+    text-decoration: none;
+    color:#53d358;
 }

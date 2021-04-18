@@ -3,17 +3,24 @@
 <html lang="en">
 
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
     <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    {% block style %}
+    {% endblock %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artapp</title>
+    
 </head>
 <body>
     {% include 'navbar.html' %}
     {% if '/profile/' in request.path and '/settings/' not in request.path %}
         {% include 'profiles/profile-bar.html' %}
     {% endif %}
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% block script %}
+    {% endblock %}
 </body>
 </html>
