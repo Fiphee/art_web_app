@@ -4,6 +4,7 @@ from django.db import transaction
 from .models import Category, Artwork, ArtLike
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
+from comments.forms import CommentForm
 
 
 def upload_view(request):
@@ -41,14 +42,22 @@ def swipe_like_view(request, art_id):
 
 
 def art_view(request, art_id):
-    artwork = Artwork.objects.get(pk=art_id)
-    liked = artwork.likes.filter(id=request.user.id).exists()
-    categories = artwork.category.all()
-    context = {
-        "artwork":artwork,
-        "artist": artwork.uploader,
-        "liked":liked,
-        "categories":categories,
-    }
-    return render(request, 'artworks/art_view.html', context)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            return redirect(reverse('artworks:art_view', args=(art_id,)))
+    else: 
+        form = CommentForm()
+        artwork = Artwork.objects.get(pk=art_id)
+        liked = artwork.likes.filter(id=request.user.id).exists()
+        categories = artwork.category.all()
+
+        context = {
+            "artwork":artwork,
+            "artist": artwork.uploader,
+            "liked":liked,
+            "categories":categories,
+            "form": form,
+        }
+        return render(request, 'artworks/art_view.html', context)
 

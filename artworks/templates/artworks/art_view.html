@@ -48,6 +48,14 @@
             <div class='comment'>
             </div>
         </div>
+        <div class='make-comment'>
+            <form method='POST'>
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Comment</button>
+            </form>
+
+        </div>
     </div>
 </div>
 {% endblock %}

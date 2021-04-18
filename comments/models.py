@@ -1,5 +1,5 @@
 from django.db import models
-from art_web_app.models import CustomModel
+from art_web_app.models import CustomModel, AuthUserModel
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
