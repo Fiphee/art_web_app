@@ -1,0 +1,13 @@
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/notification-bell.css' %}" />
+{% endblock %}
+<div class="notification-container" title="Total price of the cart: {{ cart_data.price }}">
+    {% if request.session.notification_count != 0 %}
+        <div class="number">{{ request.session.notification_count }}</div>
+    {% endif %}
+    <div class="icon-container">
+        <i class="fas fa-bell"></i>
+    </div>
+</div>

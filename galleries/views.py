@@ -5,7 +5,7 @@ from artworks.models import Artwork
 from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
 from utils.get_utils import get_next_position
-
+from utils.constants import GALLERY_FOLLOW
 
 def create_gallery_view(request):
     if request.method == 'POST':
@@ -91,6 +91,7 @@ def follow_gallery(request, gallery_id):
         if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
             position = get_next_position(UserFollowedGallery, user=user.id)
             user.followed_galleries.add(gallery, through_defaults={'position':position})
+            gallery.creator.notifications.create(user=user, content_object=gallery, activity=GALLERY_FOLLOW).save()
         return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')
 
@@ -102,5 +103,10 @@ def unfollow_gallery(request, gallery_id):
         gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
         if gallery_relationship.exists():
             gallery_relationship.first().delete()
+            try:
+                notification = gallery.creator.notifications.filter(user=user, activity=GALLERY_FOLLOW, seen=False)
+                notification.delete()
+            except:
+                print('Notification already seen by user')
         return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')

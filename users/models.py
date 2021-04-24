@@ -1,7 +1,9 @@
 from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
-from galleries.models import Gallery
 from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE
+from django.contrib.contenttypes.fields import GenericRelation
+from notifications.models import Notification
+
 
 
 class Profile(CustomModel):
@@ -17,10 +19,11 @@ class Profile(CustomModel):
         POPULARS = POPULARS_HOMEPAGE  
 
     homepage_type = models.SmallIntegerField(choices=Types.choices, default=SWIPE_HOMEPAGE)
+    notifications = GenericRelation(Notification)
 
 
     def __str__(self):
-        return self.user_id.username
+        return self.user.username
 
 
     def __repr__(self):

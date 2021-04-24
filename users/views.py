@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.db import transaction
 from .forms import RegisterForm
 from .models import Profile, AuthUserModel, UserFollowing
+from utils.notification import Notification
+from utils.constants import FOLLOW
 
 
 def register_view(request):
@@ -57,14 +59,21 @@ def profile_view(request, username):
 
 
 def follow_view(request, artist_id):
-    if request.user.is_authenticated:
+    user = request.user
+    if user.is_authenticated:
         if artist_id != request.user.id:
             artist = AuthUserModel.objects.get(id=artist_id)
-            followed = UserFollowing.objects.filter(user=artist, user_followed_by=request.user).first()
+            followed = UserFollowing.objects.filter(user=artist, user_followed_by=user).first()
             if followed:
                 followed.delete()
+                try:
+                    notification = artist.notifications.filter(user=user, activity=FOLLOW, seen=False)
+                    notification.delete()
+                except:
+                    print('Notification already seen by user')
             else:
-                UserFollowing(user_followed_by=request.user, user=artist).save()
+                UserFollowing(user_followed_by=user, user=artist).save()
+                artist.notifications.create(user=user, content_object=artist, activity=FOLLOW).save()
         return redirect(reverse('users:profile', args=(artist.username,)))
     return redirect('/login')
     

@@ -4,6 +4,8 @@ from django.db import transaction
 from .models import Category, Artwork, ArtLike
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
+from notifications.models import Notification
+from utils.constants import ART_LIKE
 
 
 def upload_view(request):
@@ -29,8 +31,14 @@ def like_view(request, art_id):
         artwork = Artwork.objects.get(pk=art_id)
         if artwork.likes.filter(id=user.id).exists():
             artwork.likes.remove(user)
+            try:
+                notification = artwork.uploader.notifications.filter(user=user, activity=ART_LIKE, seen=False)
+                notification.delete()
+            except:
+                print('Notification already seen by user')
         else:
             artwork.likes.add(user)
+            Notification(user=user, recipient=artwork.uploader, content_object=artwork, activity=ART_LIKE).save()
         if next_url:
             return redirect(next_url)
         return HttpResponseRedirect(reverse('artworks:view', args=(art_id,)))
@@ -38,9 +46,11 @@ def like_view(request, art_id):
 
 
 def swipe_like_view(request, art_id):
-    if request.user.is_authenticated:
+    user = request.user
+    if user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
-        artwork.likes.add(request.user)
+        artwork.likes.add(user)
+        artwork.uploader.notifications.create(user=user, content_object=artwork, activity=ART_LIKE).save()
     return HttpResponseRedirect('/')
 
 

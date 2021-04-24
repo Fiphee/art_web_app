@@ -1,0 +1,124 @@
+* a {
+    text-decoration: none;
+}
+body {
+    background-color: rgb(22, 43, 43);
+    overflow-x: hidden;
+}
+
+
+.notification-list {
+    background-color: rgb(22, 43, 43);
+    position: absolute;
+    top: 115px;
+    width: 75%;
+    padding-right: 15%;
+    padding-left: 15%;
+    left: 0px;
+    border-radius: 10px;
+    overflow-y: scroll;
+    height: 85vh;
+    z-index: 2;
+}
+
+.notification-card, .notification-card-multi {
+    display: block;
+    background-color: rgb(22, 43, 43);
+    padding: 20px;
+    margin-top: 45px;
+    margin-bottom: -40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #53d358;
+    transition: .4s;
+}
+
+.notification-card:hover {
+    background-color: #53d358;
+
+}
+
+.notification-list .text {
+    width: max-content;
+    color: white;
+    transition: .3s;
+}
+
+
+.notification-card-multi .user {
+    color: #53d358;
+    font-weight: bold;
+    transition: .2s;
+}
+
+.notification-card-multi .user:hover {
+    color: white;
+}
+
+.notification-card-multi .text:hover {
+    color: #53d358;
+}
+
+.notification-list .btn {
+    color: white;
+    background-color: rgb(22, 43, 43);
+    text-decoration: none;
+    padding: 5px;
+    transition: .3s;
+    border-radius: 5px;
+    position: sticky;
+    left: 80%;
+    border: 1px solid #53d358;
+    z-index: 5;
+    
+}
+
+.notification-list .btn:hover {
+    background-color: #53d358;
+}
+
+.notification-list .title-text {
+    color: white;
+    text-align: center;
+    font-size: large;
+    margin-top: 50px;
+}
+
+.notifications-top-bar {
+    padding-top: 25px;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+}
+
+.notifications-top-bar .tabs {
+    display: flex;
+    justify-content: center;
+}
+
+
+.notifications-top-bar .tabs a {
+    padding: 10px 10% 15px 10%;
+    text-decoration: none;
+    display: inline-flex;
+    color: white;
+    border-radius: 10px;
+    transition: .2s;
+    margin: 0px 5px 0px 5px
+}
+
+.notifications-top-bar .tabs .selected {
+    background-color: #53d358;
+    z-index: 4;
+}
+
+.notifications-top-bar .tabs .unselected {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    background-color: rgb(22, 43, 43);
+    z-index: 0;
+    border: 1px solid #53d358;
+}
+
+.notifications-top-bar .tabs .unselected:hover {
+    background-color: #53d358;
+}
