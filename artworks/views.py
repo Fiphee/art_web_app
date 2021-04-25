@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate
 from notifications.models import Notification
 from utils.constants import ART_LIKE
 
+from comments.forms import CommentForm
+from utils.comment import CommentUtils
 
 def upload_view(request):
     if request.method == "POST":
@@ -56,13 +58,27 @@ def swipe_like_view(request, art_id):
 
 def art_view(request, art_id):
     artwork = Artwork.objects.get(pk=art_id)
-    liked = artwork.likes.filter(id=request.user.id).exists()
-    categories = artwork.category.all()
-    context = {
-        "artwork":artwork,
-        "artist": artwork.uploader,
-        "liked":liked,
-        "categories":categories,
-    }
-    return render(request, 'artworks/view.html', context)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                artwork.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('artworks:view', args=(art_id,)))
+            return redirect('/login')
+    else: 
+        form = CommentForm()
+        liked = artwork.likes.filter(id=request.user.id).exists()
+        categories = artwork.category.all()
+        comments = artwork.comments.all()
+        
+        context = {
+            "artwork":artwork,
+            "artist": artwork.uploader,
+            "liked":liked,
+            "categories":categories,
+            "comments":comments,
+            "form": form,
+            'comment_util': CommentUtils('uploader', reverse('artworks:view', args=(art_id,)), request.user == artwork.uploader)
+        }
+        return render(request, 'artworks/view.html', context)
 

@@ -5,6 +5,8 @@ from .forms import RegisterForm
 from .models import Profile, AuthUserModel, UserFollowing
 from utils.notification import Notification
 from utils.constants import FOLLOW
+from comments.forms import CommentForm
+from utils.comment import CommentUtils
 
 
 def register_view(request):
@@ -35,26 +37,38 @@ def profile_view(request, username):
     else:
         user = get_object_or_404(AuthUserModel, username=username)
     
-    artworks = []
-    total_likes = 0
-    context['visited_user'] = user
-    try:
-        for art in user.artworks.all():
-            artworks.append(art)
-            total_likes += art.likes.count()
-    except AttributeError:
-        print("User has no artworks")
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('users:profile', args=(user,)))
+            return redirect('/login')
+    else:
+        form = CommentForm()
+        artworks = []
+        total_likes = 0
+        context['visited_user'] = user
+        try:
+            for art in user.artworks.all():
+                artworks.append(art)
+                total_likes += art.likes.count()
+        except AttributeError:
+            print("User has no artworks")
 
-    context['user_artworks'] = artworks
-    context['total_art_likes'] = total_likes
-    context['already_following'] = False
+        context['user_artworks'] = artworks
+        context['total_art_likes'] = total_likes
+        context['already_following'] = False
 
-    if request.user.is_authenticated:
-        already_following = user.followers.filter(user_followed_by=request.user).first()
-        if already_following:
-            context['already_following'] = True
-    context['url_user'] = username
-    
+        if request.user.is_authenticated:
+            already_following = user.followers.filter(user_followed_by=request.user).first()
+            if already_following:
+                context['already_following'] = True
+        context['url_user'] = username
+        
+    context['comments'] = user.profile.comments.all()
+    context['form'] = form
+    context['comment_util'] = CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
     return render(request, "users/profile.html", context)
 
 

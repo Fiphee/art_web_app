@@ -33,6 +33,20 @@
         <p class='label'>About the artist</p>
         <p class="text">{{ visited_user.profile.description }}</p>
     </div>
+    <div class='profile-comments'>
+        <div class='make-comment'>
+            <form method='POST'>
+                {% csrf_token %}
+                {{ form.body }}
+                <button type="submit" class='comment-btn'>Comment</button>
+            </form>
+        </div>
+        <div class='comments'>
+        {% for comment in comments %}
+            {% include 'comments/base.html' %}
+        {% endfor %}
+        </div>
+    </div>
 </div>
 
 <div class='galleries-container'>

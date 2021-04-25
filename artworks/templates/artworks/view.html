@@ -51,19 +51,19 @@
                 {% endfor %}
             </div>
         </div>
-        <div class='comments'>
-            {% for x in 012345|make_list %}
-            <div class='comment'>
-                <p class='white-text'>User</p>
-                <p>Comment</p>
-            </div>
-            {% endfor %}
-            <p class='white-text'>Some random info copyright maybe</p>
-            <div class='comment'>
-            </div>
-            <div class='comment'>
-            </div>
+        <div class='make-comment'>
+            <form method='POST'>
+                {% csrf_token %}
+                {{ form.body }}
+                <button type="submit" class='comment-btn'>Comment</button>
+            </form>
         </div>
+        <div class='comments'>
+            {% for comment in comments %}
+                {% include 'comments/base.html' %}
+            {% endfor %}
+        </div> 
+       <div class='empty-space'></div>
     </div>
 </div>
 {% endblock %}

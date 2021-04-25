@@ -71,13 +71,15 @@
     float: left;
     position: fixed;
     top: 60px;
+    bottom:0;
     left: 0vw;
-    height: 100vw;
     border-right: 2px solid;
     border-color: #53d358;  
     padding-top: 25px;
     text-align: center;
     z-index: 5;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 

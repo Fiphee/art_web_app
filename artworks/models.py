@@ -1,9 +1,11 @@
 from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
+from django.contrib.contenttypes.fields import GenericRelation
 from io import BytesIO
 from PIL import Image
 from django.core.files.base import ContentFile
 from utils.constants import THUMB_SIZE
+from comments.models import Comment
 import os
 
 
@@ -28,7 +30,7 @@ class Artwork(CustomModel):
     category = models.ManyToManyField(Category, through='ArtCategory', related_name="artworks", blank=False)
     likes = models.ManyToManyField(AuthUserModel, through='ArtLike', related_name='artworks_liked')
     favourites = models.ManyToManyField(AuthUserModel, through='ArtFavourite', related_name='favourite_artworks')
-
+    comments = GenericRelation(Comment)
 
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():
