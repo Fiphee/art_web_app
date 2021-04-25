@@ -19,7 +19,9 @@ def categories_view(request):
 
     context = {
         'notifications':notifications,
-        'filter':FILTER_BY_ACTIVITY
+        'filter':FILTER_BY_ACTIVITY,
+        'mark_all':'unseen',
+        'seen_argument':0,
     }
 
     return render(request, 'notifications/categories.html', context)
@@ -43,7 +45,9 @@ def activity_view(request, activity):
 
     context = {
         'notifications':contents,
-        'filter':FILTER_BY_CONTENT
+        'filter':FILTER_BY_CONTENT,
+        'mark_all':FILTER_BY_ACTIVITY,
+        'seen_argument':activity,
     }
 
     return render(request, 'notifications/activities.html', context)
@@ -55,7 +59,9 @@ def content_view(request, activity, content_id):
     notifications = user.notifications.filter(activity=activity, object_id=content_id, seen=False)
     context = {
         'notifications':notifications,
-        'filter':FILTER_BY_NOTIFICATION
+        'filter':FILTER_BY_NOTIFICATION,
+        'mark_all':FILTER_BY_CONTENT,
+        'seen_argument':content_id,
     }
     return render(request, 'notifications/content.html', context)
 
@@ -65,8 +71,11 @@ def mark_as_seen(request, id_to_filter):
     filter_by = request.GET.get('filter_by')
     next_url = request.GET.get('next')
     user = request.user
-    filter_argument = get_filter_argument(filter_by, id_to_filter)
-    notifications = user.notifications.filter(**filter_argument, seen=False)
+    if id_to_filter == 0:
+        notifications = user.notifications.filter(seen=False)
+    else:
+        filter_argument = get_filter_argument(filter_by, id_to_filter)
+        notifications = user.notifications.filter(**filter_argument, seen=False)
     notifications.update(seen=True)
 
     return redirect(next_url)
@@ -90,6 +99,8 @@ def all_unseen_view(request):
     context = {
         'notifications':notifications,
         'all_unseen':True,
-        'filter':FILTER_BY_NOTIFICATION
+        'filter':FILTER_BY_NOTIFICATION,
+        'mark_all':'unseen',
+        'seen_argument':0,
     }
     return render(request, 'notifications/all_unseen.html', context)
