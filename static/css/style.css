@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     margin-top: 60px;
     padding: 25px;
@@ -24,7 +28,7 @@ body {
 
 .navbar * {
     display: inline;
-    
+
 }
 
 .navbar li {

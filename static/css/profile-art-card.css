@@ -1,0 +1,76 @@
+.profile-card-container {
+    padding: 5px;
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    transition: .5s;
+    position: relative;
+    overflow-y: hidden;
+
+}
+
+
+.profile-card-container * {
+    flex: 1 5 21%;
+    
+}
+
+
+.profile-card-container img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    position: absolute;
+    transition: .15s;
+}
+
+
+.profile-card-container:hover img{
+    height: 180px;
+    padding-top: 35px;
+}
+
+
+.profile-card-container .art-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
+    margin: 2px;
+    position: absolute;
+    padding-bottom: 5px;
+    top: 5px;
+    left: 5%;
+    z-index: -1;
+
+}
+
+
+.profile-card-container .likes-counter {
+    margin: 2px;
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    z-index: -1;
+    
+}
+
+
+.btn-edit {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    position: absolute;
+    background-color: darkgrey;
+    border: none;
+    padding: 5px 15px 5px 15px; 
+    text-decoration: none;
+    text-align: center;
+    transition: .3s;
+    bottom: 0;
+    margin: 5px;
+    right: 0;
+}
+
+
+.btn-edit:hover {
+    background-color: #53d358;
+}
+
