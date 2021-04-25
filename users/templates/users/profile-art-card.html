@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile-art-card.css' %}">
+
+<div class="profile-card-container">
+    <a href="{% url 'artworks:art_view' art.id %}"><img src="{{ art.thumbnail.url }}"></a>
+    <p class='art-title'>{{ art.title }}</p>
+    <p class="likes-counter">{{ art.likes.count }} Likes</p>
+    {% if art.uploader.username == user.username %}
+        <p class='btn-edit'>Edit</p>
+    {% else %}
+        {% if user in art.likes.all %}
+            <p class='btn-edit'>Unlike</p>
+        {% else %}
+            <p class='btn-edit'>Like</p>
+        {% endif %}
+    {% endif %}
+</div>

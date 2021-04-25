@@ -1,0 +1,173 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.profile-bar {
+    background-color: rgb(14, 26, 26);
+    position: fixed;
+    top: 60px;
+    padding-top:20px;
+    left: 25vw;
+    right: 0;
+    height: 40px;
+    align-items: center;
+    box-shadow: 0 0 10px 0 black;
+    overflow: hidden;
+    z-index: 100;
+}
+
+
+.profile-bar * {
+    display: inline;
+
+}
+
+
+.profile-artist-name {
+    color: white;
+    align-content: center;
+    font-size: larger;
+    padding-left: 15px;
+}
+
+
+.btn-profile-artist-gallery, .btn-follow, .btn-unfollow, .btn-profile-settings{
+    margin-left: 15px;
+    margin-right: 10px;
+    padding: 5px;
+    color:#53d358;
+    text-decoration: none;
+    border: 1px solid;
+    border-color: #53d358;    
+    text-align: center;
+    transition: .2s ease-in;
+    background-color:  rgb(14, 26, 26);
+}   
+
+
+.btn-profile-artist-gallery:hover, .btn-follow:hover, .btn-unfollow:hover {
+    background-color: chocolate;
+    color: white;
+    border-color: chocolate;
+}
+
+
+.total-nr {
+    color: #53d358;
+    padding-left: 25px;
+}
+
+
+.btn-unfollow {
+    background-color: #53d358;
+    color: rgb(14, 26, 26);
+}
+
+
+.profile-info {
+    background-color: rgb(14, 26, 26);
+    width: 25vw;
+    float: left;
+    position: fixed;
+    top: 60px;
+    left: 0vw;
+    height: 100vw;
+    border-right: 2px solid;
+    border-color: #53d358;  
+    padding-top: 25px;
+    text-align: center;
+    z-index: 5;
+}
+
+
+.profile-info .picture {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 25%;
+    text-align: center;
+    border: 2px solid;
+    border-color: #53d358; 
+
+}
+
+.profile-info .name {
+    color: #53d358;
+    font-size: xx-large;
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.profile-info .quote {
+    font-size: medium;
+    color: rgb(88, 88, 88);
+    margin-top: 0;
+}
+
+.profile-info .about * {
+    display: inline;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.profile-info .btn {
+    background-color: transparent;
+    border: 1px solid #53d358;
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-top: 20px;
+    padding: 10px;
+    display: inherit;
+    transition: .5s;
+    color: white;
+    text-decoration: none;
+}
+
+
+.profile-info .btn:hover {
+    background-color: #53d358;  
+}
+
+
+.profile-info .about .label {
+    color: rgb(14, 26, 26);
+    margin-bottom: 0;
+    margin-top: 2vw;
+    padding: 15px;
+    background-color: #53d358;
+    display: block;
+
+}
+
+.profile-info .about .text {
+    color: #53d358;
+    margin-top: 15px;
+    display: block;
+
+}
+
+
+.white-text {
+    color: white;
+    padding-left: 25px;
+}
+
+
+.profile-artworks {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    left: 23vw;
+    margin-left: 2px;
+    top: 60px;
+    z-index: 0;
+    width: 75vw;
+}
+
+
+.profile-artworks .label {
+    color: rgb(88, 88, 88);
+    position: fixed;
+    text-align: center;
+}
