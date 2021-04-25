@@ -2,6 +2,8 @@ from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
 from galleries.models import Gallery
 from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE
+from django.contrib.contenttypes.fields import GenericRelation
+from comments.models import Comment
 
 
 class Profile(CustomModel):
@@ -9,6 +11,7 @@ class Profile(CustomModel):
     description = models.CharField(max_length=255, blank=True, null=True)
     quote = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to='users/avatars/', default='/users/avatars/default.png')
+    comments = GenericRelation(Comment)
 
     class Types(models.IntegerChoices):
         SWIPE = SWIPE_HOMEPAGE

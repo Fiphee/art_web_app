@@ -5,7 +5,7 @@ from .models import Category, Artwork, ArtLike
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
 from comments.forms import CommentForm
-
+from utils.comment import CommentUtils
 
 def upload_view(request):
     if request.method == "POST":
@@ -67,6 +67,7 @@ def art_view(request, art_id):
             "categories":categories,
             "comments":comments,
             "form": form,
+            'comment_util': CommentUtils('uploader', reverse('artworks:view', args=(art_id,)), request.user == artwork.uploader)
         }
         return render(request, 'artworks/view.html', context)
 

@@ -25,10 +25,15 @@ def remove_view(request, comment_id):
         next_url = request.GET.get('next')
     except KeyError:
         next_url = '/'
-    
+    try:
+        recipient = request.GET.get('recipient')
+    except KeyError:
+        recipient=None
+
     comment = Comment.objects.get(id=comment_id)
+    content_object_user = getattr(comment.content_object, recipient)
     if user.is_authenticated:
-        if user == comment.content_object.uploader or user == comment.author:
+        if user == content_object_user or user == comment.author:
             comment.delete()
         return redirect(next_url)
     return redirect('/login')
