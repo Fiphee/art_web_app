@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from utils.notification import Notification, get_filter_argument
-from utils.constants import ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_LIKE, GALLERY_FOLLOW, REPLY, FILTER_BY_NOTIFICATION, FILTER_BY_ACTIVITY, FILTER_BY_CONTENT
+from utils.constants import ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_LIKE, GALLERY_FOLLOW, REPLY, UPLOAD, FILTER_BY_NOTIFICATION, FILTER_BY_ACTIVITY, FILTER_BY_CONTENT
 
 
 @login_required
@@ -9,7 +9,7 @@ def categories_view(request):
     user = request.user
 
     Notification.clear_session(request.session)
-    activities = [ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_LIKE, GALLERY_FOLLOW, REPLY]
+    activities = [ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_LIKE, GALLERY_FOLLOW, REPLY, UPLOAD]
     notifications = {}
     for activity in activities:
         notification = user.notifications.filter(activity=activity, seen=False)
@@ -33,7 +33,7 @@ def activity_view(request, activity):
 
     if activity == FOLLOW:
         return redirect(reverse('notifications:content', args=(activity, request.user.id)))
-        
+
     notifications = user.notifications.filter(activity=activity, seen=False)
     contents = {}
     for notification in notifications:
@@ -41,7 +41,10 @@ def activity_view(request, activity):
         if content_object in contents:
             contents[content_object][0] += 1 
         else:
-            contents[content_object] = [1, notification.message, activity, content_object.id]
+            message = notification.message
+            if activity == UPLOAD:
+                message = f'new upload by {notification.user}'
+            contents[content_object] = [1, message, activity, content_object.id]
 
     context = {
         'notifications':contents,

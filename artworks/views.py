@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.decorators import login_required
 from .forms import ArtForm
 from django.db import transaction
 from .models import Category, Artwork, ArtLike
@@ -10,6 +11,7 @@ from utils.comment import CommentUtils
 from comments.models import Comment
 
 
+@login_required
 def upload_view(request):
     if request.method == "POST":
         form = ArtForm(request.POST, request.FILES, user=request.user)

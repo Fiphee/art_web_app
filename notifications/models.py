@@ -1,6 +1,6 @@
 from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
-from utils.constants import ART_LIKE, COMMENT, COMMENT_LIKE, GALLERY_FOLLOW, GALLERY_LIKE, FOLLOW, REPLY
+from utils.constants import ART_LIKE, COMMENT, COMMENT_LIKE, GALLERY_FOLLOW, GALLERY_LIKE, FOLLOW, REPLY, UPLOAD
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.shortcuts import reverse
@@ -23,6 +23,7 @@ class Notification(CustomModel):
         reply = REPLY
         comment = COMMENT
         comment_like = COMMENT_LIKE
+        upload = UPLOAD
 
     activity = models.SmallIntegerField(choices=Types.choices)
     seen = models.BooleanField(default=False)
@@ -52,6 +53,7 @@ class Notification(CustomModel):
             GALLERY_LIKE: f'{self.content_object} gallery liked by {self.user}',
             GALLERY_FOLLOW: f'{self.content_object} gallery followed by {self.user}',
             REPLY: f'{self.content_object} reply by {self.user}',
+            UPLOAD: f'{self.content_object} uploaded by {self.user}'
         }
         return texts[self.activity]
 
@@ -65,6 +67,7 @@ class Notification(CustomModel):
             GALLERY_LIKE: f'liked your gallery "{self.content_object}"!',
             GALLERY_FOLLOW: f'followed your gallery "{self.content_object}"!',
             REPLY: f'replied to your comment "{self.content_object}"',
+            UPLOAD: f'uploaded art "{self.content_object}"',
         }
         return texts[self.activity]
 
@@ -78,6 +81,7 @@ class Notification(CustomModel):
             GALLERY_LIKE: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
             GALLERY_FOLLOW: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
             REPLY: 'TBA',
+            UPLOAD: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
         }
         return texts[self.activity]
 
