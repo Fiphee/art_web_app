@@ -1,5 +1,8 @@
 from django.shortcuts import redirect, reverse
 from .models import Comment
+from utils.constants import COMMENT_LIKE
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
 
 
 def like_view(request, comment_id):
@@ -15,6 +18,7 @@ def like_view(request, comment_id):
             comment.likes.remove(user)
         else:
             comment.likes.add(user)
+            comment.author.notifications.create(user=user, content_object=comment, activity=COMMENT_LIKE).save()
         return redirect(next_url)
     return redirect('/login')
 
@@ -34,6 +38,12 @@ def remove_view(request, comment_id):
     content_object_user = getattr(comment.content_object, recipient)
     if user.is_authenticated:
         if user == content_object_user or user == comment.author:
+            try:
+                notification = Notification.objects.get(id=comment.notification, seen=False)
+                notification.delete()
+            except Notification.DoesNotExist:
+                pass
             comment.delete()
+            
         return redirect(next_url)
     return redirect('/login')

@@ -4,9 +4,11 @@ from django.db import transaction
 from .forms import RegisterForm
 from .models import Profile, AuthUserModel, UserFollowing
 from utils.notification import Notification
-from utils.constants import FOLLOW
+from utils.constants import FOLLOW, COMMENT
 from comments.forms import CommentForm
+from comments.models import Comment
 from utils.comment import CommentUtils
+from notifications.models import Notification as NotificationModel
 
 
 def register_view(request):
@@ -41,7 +43,13 @@ def profile_view(request, username):
         form = CommentForm(request.POST)
         if form.is_valid():
             if request.user.is_authenticated:
-                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                notification_args = {
+                    'user':request.user, 
+                    'recipient':user,
+                    'activity':COMMENT,
+                    'content_object':user,
+                }
+                Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile).save(notification_args=notification_args)
                 return redirect(reverse('users:profile', args=(user,)))
             return redirect('/login')
     else:

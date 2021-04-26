@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, reverse
 from .forms import ArtForm
 from django.db import transaction
 from .models import Category, Artwork, ArtLike
-from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
 from notifications.models import Notification
-from utils.constants import ART_LIKE
-
+from utils.constants import ART_LIKE, COMMENT
 from comments.forms import CommentForm
 from utils.comment import CommentUtils
+from comments.models import Comment
+
 
 def upload_view(request):
     if request.method == "POST":
@@ -43,7 +43,7 @@ def like_view(request, art_id):
             Notification(user=user, recipient=artwork.uploader, content_object=artwork, activity=ART_LIKE).save()
         if next_url:
             return redirect(next_url)
-        return HttpResponseRedirect(reverse('artworks:view', args=(art_id,)))
+        return redirect(reverse('artworks:view', args=(art_id,)))
     return redirect('/login')
 
 
@@ -53,21 +53,28 @@ def swipe_like_view(request, art_id):
         artwork = Artwork.objects.get(pk=art_id)
         artwork.likes.add(user)
         artwork.uploader.notifications.create(user=user, content_object=artwork, activity=ART_LIKE).save()
-    return HttpResponseRedirect('/')
+    return redirect('/')
 
 
 def art_view(request, art_id):
+    user = request.user
     artwork = Artwork.objects.get(pk=art_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            if request.user.is_authenticated:
-                artwork.comments.create(author=request.user, body=form.cleaned_data['body'])
+            if user.is_authenticated:
+                notification_args = {
+                    'user':user, 
+                    'recipient':artwork.uploader,
+                    'activity':COMMENT,
+                    'content_object':artwork,
+                }
+                Comment(author=user, body=form.cleaned_data['body'], content_object=artwork).save(notification_args=notification_args)
                 return redirect(reverse('artworks:view', args=(art_id,)))
             return redirect('/login')
     else: 
         form = CommentForm()
-        liked = artwork.likes.filter(id=request.user.id).exists()
+        liked = artwork.likes.filter(id=user.id).exists()
         categories = artwork.category.all()
         comments = artwork.comments.all()
         
@@ -78,7 +85,7 @@ def art_view(request, art_id):
             "categories":categories,
             "comments":comments,
             "form": form,
-            'comment_util': CommentUtils('uploader', reverse('artworks:view', args=(art_id,)), request.user == artwork.uploader)
+            'comment_util': CommentUtils('uploader', reverse('artworks:view', args=(art_id,)), user == artwork.uploader)
         }
         return render(request, 'artworks/view.html', context)
 

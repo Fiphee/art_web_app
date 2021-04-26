@@ -32,6 +32,7 @@
 <ul class='notification-list'> 
     {% if seen %}
         <p class='title-text'>Seen Notifications</p>
+        <a class='btn-all' href="{% url 'notifications:clear_seen' %}?next={% url 'notifications:categories' %}">Clear seen notifications</a>
     {% else %}
         <p class='title-text'>Unseen Notifications</p>
         <a class='btn-all' href="{% url 'notifications:mark_as_seen' seen_argument %}?filter_by={{ mark_all }}&next={% url 'notifications:categories' %}">Mark All as Seen</a>

@@ -104,3 +104,11 @@ def all_unseen_view(request):
         'seen_argument':0,
     }
     return render(request, 'notifications/all_unseen.html', context)
+
+
+@login_required
+def clear_seen_view(request):
+    next_url = request.GET.get('next')
+    user = request.user
+    notifications = user.notifications.filter(seen=True).delete()
+    return redirect(next_url)

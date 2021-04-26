@@ -4,6 +4,8 @@ from utils.constants import ART_LIKE, COMMENT, COMMENT_LIKE, GALLERY_FOLLOW, GAL
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.shortcuts import reverse
+from artworks.models import Artwork
+from utils.comment import CommentUtils
 
 
 class Notification(CustomModel):
@@ -32,8 +34,9 @@ class Notification(CustomModel):
 
     def save(self, *args, **kwargs):
         notification = Notification.objects.filter(user=self.user, object_id=self.content_object.id)
-        if self.user != self.recipient and not notification.exists():
-            super(Notification, self).save(*args, **kwargs)
+        if self.user != self.recipient:
+            if not notification.exists() or notification.exists() and self.activity == COMMENT:
+                super(Notification, self).save(*args, **kwargs)
 
 
     def __str__(self):
@@ -58,7 +61,7 @@ class Notification(CustomModel):
             ART_LIKE: f'liked your artwork "{self.content_object}"!',
             FOLLOW: f'followed you!',
             COMMENT: f'commented on "{self.content_object}"!',
-            COMMENT_LIKE: f'liked your comment "{self.content_object}"!',
+            COMMENT_LIKE: f'liked your {self.content_object}!',
             GALLERY_LIKE: f'liked your gallery "{self.content_object}"!',
             GALLERY_FOLLOW: f'followed your gallery "{self.content_object}"!',
             REPLY: f'replied to your comment "{self.content_object}"',
@@ -68,12 +71,13 @@ class Notification(CustomModel):
 
     def activity_url(self):
         texts = {
-            ART_LIKE: reverse('artworks:view', args=(self.content_object.id,)),
+            ART_LIKE: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
             FOLLOW: reverse('users:profile', args=(self.user,)),
-            COMMENT: 'TBA',
-            COMMENT_LIKE: 'TBA',
-            GALLERY_LIKE: reverse('galleries:view', args=(self.content_object.id,)),
-            GALLERY_FOLLOW: reverse('galleries:view', args=(self.content_object.id,)),
+            COMMENT: CommentUtils().get_comment_url(self.content_object),
+            COMMENT_LIKE: CommentUtils().get_comment_url(self.content_object),
+            GALLERY_LIKE: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
+            GALLERY_FOLLOW: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
             REPLY: 'TBA',
         }
         return texts[self.activity]
+
