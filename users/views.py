@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect
 from django.db import transaction
-from .forms import RegisterForm
+from .forms import RegisterForm, ProfileSettingsForm, UserSettingsForm
 from .models import Profile, AuthUserModel, UserFollowing
 from comments.forms import CommentForm
 from utils.comment import CommentUtils
@@ -26,6 +27,29 @@ def register_view(request):
     }
 
     return render(request, "register.html", context)
+
+
+def profile_settings_view(request, user_id):
+    user = request.user
+    if user_id == request.user.id:
+        if request.method == "POST":
+            form = ProfileSettingsForm(request.POST, request.FILES, instance=user.profile)
+            user_form = UserSettingsForm(request.POST, instance=user)
+            with transaction.atomic():
+                if form.is_valid() and user_form.is_valid():
+                    user_form.save()
+                    form.save()
+                    return redirect('/')
+        else:
+            form = ProfileSettingsForm(instance=user.profile)
+            user_form = UserSettingsForm(instance=user)
+        
+        context = {
+            "form":form,
+            "user_form":user_form,
+        }
+        return render(request, 'users/profile_settings.html', context)
+    return redirect('/')
 
 
 def profile_view(request, username):

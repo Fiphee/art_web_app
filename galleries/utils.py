@@ -1,5 +1,3 @@
-
-
 def get_next_position(model, **kwargs):
     try:
         next_position = model.objects.filter(**kwargs).order_by('-position').first().position + 1
@@ -7,3 +5,4 @@ def get_next_position(model, **kwargs):
         next_position = 1
     
     return next_position
+

@@ -191,6 +191,7 @@ body {
 
 .search-bar {
     border: 0;
+    margin-left: 10px;
     padding: 12px;
     text-align: center;
     width: 25vw;
@@ -206,6 +207,31 @@ body {
     color: gray;
 }
 
+.img-result {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.profile-card {
+    display: flex;
+}
+
+
+.profile-card .avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #53d358;
+    border-radius: 15px;
+}
+
+.profile-card .username {
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding: 15px;
+}
 
 
 .art-view {
