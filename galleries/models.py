@@ -14,17 +14,34 @@ class Gallery(CustomModel):
 
     status = models.SmallIntegerField(choices=Types.choices, default=PUBLIC_MODE)
     artworks = models.ManyToManyField(Artwork, through='GalleryArtwork', related_name='galleries')
-    users = models.ManyToManyField(AuthUserModel, through='UserSavedGallery', related_name='favourite_galleries')
+    followers = models.ManyToManyField(AuthUserModel, through='UserFollowedGallery', related_name='followed_galleries')
+    position = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['position']
+
+
+    def __str__(self):
+        return self.name
+
+
+    def __repr__(self):
+        return self.__str__()
 
 
 class GalleryArtwork(CustomModel):
-    art_id = models.ForeignKey(Artwork, on_delete=models.CASCADE)
-    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE)
-    position = models.IntegerField(unique=True)
+    art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    position = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['position']
 
 
-class UserSavedGallery(CustomModel):
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name='saved_galleries')
-    gallery_id = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name='saved_by')
-    position = models.IntegerField(unique=True)
+class UserFollowedGallery(CustomModel):
+    user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE)
+    position = models.IntegerField(default=0)
     
+    class Meta:
+        ordering = ['position']
