@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <p class="query-result">Showing results ({{ artworks|length }}) artwork(s) - ({{ users|length }}) user(s) found for: "{{ query }}"</p>
+    <h2>Artworks</h2>
+    {% if artworks %}
+        {% for art in artworks%}
+            <div class="search-result-cards">
+            {% include "artworks/art-card.html" %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>No Artwork found</h2>
+    {% endif %}
+    <h2>Users</h2>
+    {% if users %}
+        {% for user in users %}
+            {% include "profile-card.html" %}
+        {% endfor %}
+    {% else %}
+        <h2>No Users found</h2>
+    {% endif %}
+
+{% endblock %}

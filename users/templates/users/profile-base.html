@@ -21,7 +21,7 @@
         <p class="total-nr">{{ visited_user.followers.count }}</p>
 
         {% if user == visited_user %}
-            <p class='btn'>Profile Settings</p>
+            <a class='btn' href="{% url 'users:settings' user.id %}">Profile Settings</a>
         {% else %}
             {% if already_following %}
                 <a class='btn' href="{% url 'users:follow' visited_user.id %}">Unfollow</a>
