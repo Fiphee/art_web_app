@@ -1,4 +1,6 @@
+<a href="{% url 'users:profile' user %}">
 <div class='profile-card'>
     <img class='avatar' src='{{user.profile.avatar.url }}' alt="{{ user }}'s avatar">
     <p class='username'>{{ user }}</p>
 </div>
+</a>

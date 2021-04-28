@@ -1,0 +1,39 @@
+{% extends "users/profile-base.html" %}
+
+{% block profile_bar %}
+    <a class='btn-tab' href="{% url 'users:profile' visited_user.username %}">Artworks</a>
+    <p class='current-tab'>Galleries</p>
+<div class='breaking-line'></div>
+    <p class='white-text'>Galleries:</p>
+    <p class="total-nr">{{ visited_user.galleries.count }}</p>
+{% if user.username == visited_user.username %}
+    <a class='btn' href="{% url 'galleries:create'%}">Create gallery</a>
+{% endif %}
+{% endblock %}
+
+{% block profile_works %}
+    <div class='profile-galleries'>
+        {% if user_galleries %}
+            {% for gallery in user_galleries %}
+            <a class="gallery-link" href="{% url 'galleries:view' gallery.id %}">
+                {% include 'galleries/card.html' %}
+            </a>
+            {% endfor %}
+        {% else %}
+            <p class='label'>No galleries found</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+{% block saved_galleries %}
+{% if user.username == visited_user.username %}
+<h2 class='label'>Saved Galleries</h2>
+<div class='saved-galleries'>
+    {% for gallery in user.followed_galleries.all %}
+        <a class="gallery-link" href="{% url 'galleries:view' gallery.id %}">
+            {% include 'galleries/card.html' %}
+        </a>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'notifications/base.html' %}
+
+{% load notification_filters %}
+{% block notification-cards %}
+{% for activity, count in notifications.items %}
+    <a class='notification-card' href="{% url 'notifications:activities' activity %}">
+        <span class='text'>{{ activity|total:count }}</span>
+        <a class='btn' href="{% url 'notifications:mark_as_seen' activity %}?filter_by={{ filter }}&next={% url 'notifications:categories' %}">Mark as Seen</a>
+    </a>
+{% endfor %}
+{% endblock %}

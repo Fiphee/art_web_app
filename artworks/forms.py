@@ -1,5 +1,7 @@
 from django import forms
 from .models import Artwork, ArtCategory, Category
+from notifications.models import Notification
+from utils.constants import UPLOAD
 
 
 class ArtForm(forms.ModelForm):
@@ -29,5 +31,8 @@ class ArtForm(forms.ModelForm):
                     category = Category.objects.create(name=tag)
                     category.save()
                     instance.category.add(category)
+            # for follower in self.user.followers.all():
+            #     follower = follower.user_followed_by
+            #     Notification(user=self.user, content_object=instance, activity=UPLOAD, recipient=follower).save()
         return instance
 
