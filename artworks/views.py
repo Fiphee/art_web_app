@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, reverse
 from .forms import ArtForm
 from django.db import transaction
 from .models import Category, Artwork, ArtLike
-from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
 
 
@@ -41,7 +40,7 @@ def swipe_like_view(request, art_id):
     if request.user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
         artwork.likes.add(request.user)
-    return HttpResponseRedirect('/')
+    return redirect('/')
 
 
 def art_view(request, art_id):

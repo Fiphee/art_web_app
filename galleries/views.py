@@ -4,7 +4,7 @@ from django.db import transaction
 from artworks.models import Artwork
 from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
-from utils.get_utils import get_next_position
+from .utils import get_next_position
 
 
 def create_gallery_view(request):
