@@ -105,7 +105,7 @@ def follow_view(request, artist_id):
                 UserFollowing(user_followed_by=request.user, user=artist).save()
         return redirect(reverse('users:profile', args=(artist.username,)))
     return redirect('/login')
-    
+
 
 def user_galleries_view(request, username):
     context = {}

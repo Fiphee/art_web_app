@@ -5,4 +5,3 @@ def get_next_position(model, **kwargs):
         next_position = 1
     
     return next_position
-
