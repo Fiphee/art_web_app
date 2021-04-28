@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from artworks.models import Artwork, ArtCategory, Category
 from django.core.exceptions import ObjectDoesNotExist
+from .utils import get_query
+from artworks.models import Artwork, ArtCategory, Category
 import random
 
 
@@ -27,3 +28,27 @@ def home_view(request):
         'art':art,
     }
     return render(request, "home.html", context)
+
+
+def search_view(request):
+    context = {}
+    query = ''
+    if request.method == 'GET':
+        query = request.GET['search']
+        context['query'] = str(query)
+    try:
+        artworks, users, galleries = get_query(query)
+    except:
+        artworks = set()
+        users = set()
+        galleries = set()
+        
+    context = {
+        'artworks':artworks,
+        'users':users,
+        'galleries':galleries
+    }
+    return render(request, 'search.html', context)
+
+
+

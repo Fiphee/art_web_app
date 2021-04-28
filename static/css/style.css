@@ -1,5 +1,6 @@
 * {
     font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }
 
 body {
@@ -108,6 +109,8 @@ body {
     vertical-align: top;
     margin-top: 10px;
     margin-bottom: 8px;
+    width:70%;
+    overflow: hidden;
 }
 
 .art-author {
@@ -191,6 +194,7 @@ body {
 
 .search-bar {
     border: 0;
+    margin-left: 10px;
     padding: 12px;
     text-align: center;
     width: 25vw;
@@ -206,6 +210,42 @@ body {
     color: gray;
 }
 
+.img-result {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.profile-card {
+    display: flex;
+    padding: 5px;
+    transition: .3s;
+    border-radius: 15px;
+}
+
+
+.profile-card:hover {
+    background-color: #53d358;
+}
+
+.profile-card .avatar {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 2px solid #53d358;
+    border-radius: 15px;
+}
+
+.profile-card .username {
+    font-size: x-large;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    padding: 15px;
+    background-color: #53d358;
+    color: white;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
 
 
 .art-view {
@@ -238,7 +278,8 @@ body {
     border-color: #53d358;  
     padding-top: 25px;
     text-align: center;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
@@ -444,4 +485,85 @@ body {
 
 .comment-btn:hover {
     background-color: #53d358;
+}
+
+.search-result-cards .swipe-card {
+    width: 25vh;
+    margin-top: 25px;
+    padding: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    transition: all .2s ease-in-out;
+}
+
+
+.search-result-cards .swipe-card img {
+    width: 25vh;
+    height: 25vh;
+    object-fit: cover;
+}
+
+
+.gallery-card {
+    background-color: rgb(238, 238, 238);
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10%;
+}
+
+.gallery-card .gallery-art {
+    width: 70px;
+    height: 70px;
+    border-radius:10%;
+    object-fit: cover;
+}
+
+
+.gallery-card-container {
+    width: 150x;
+    height: 230px;
+    margin: 10px;
+    border-radius: 10%;
+    box-shadow: 0px 0px 7px rgba(15,15,15,.2);
+    transition: .2s;
+
+}
+
+.gallery-card-container p {
+    text-align: center;
+}
+
+.gallery-card-container:hover {
+    box-shadow: 0px 0px 15px #53d358;
+}
+
+
+.gallery-plus {
+    text-align: end;
+    display: inline-block;
+    vertical-align: super;
+}   
+
+
+.gallery-link {
+    text-decoration: none;
+    color: black;
+}
+
+
+.profile-galleries {
+    display: inline-flex;
+    margin-left: 2px;
+    z-index: 0;
+    width: 75vw;
+}
+
+
+.label {
+    padding-left:45%;
+    margin-top: 75px;
 }

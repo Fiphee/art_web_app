@@ -1,11 +1,12 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, Http404
+from django.http import Http404
 from django.db import transaction
 from artworks.models import Artwork
 from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
-from utils.get_utils import get_next_position
+from .utils import get_next_position
 from utils.constants import GALLERY_FOLLOW
+
 
 def create_gallery_view(request):
     if request.method == 'POST':

@@ -1,0 +1,6 @@
+<div class="swipe-card">
+    <a class='img-link' href="{% url 'artworks:view' art.id %}"><img src="{{ art.image.url }}" alt="{{ art.title }}"></a>
+    <div>
+        <p class='likes-counter'>{{ art.likes.count }} Likes</p>
+    </div>   
+</div>
