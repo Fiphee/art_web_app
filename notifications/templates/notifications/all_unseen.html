@@ -2,12 +2,13 @@
 
 
 {% block notification-cards %}
-{% for notification in notifications %}
+{% for notification in page %}
     <div class='notification-card-multi'>
         <a class='user' href="{% url 'users:profile' notification.user %}">{{ notification.user }}</a>
         <a class='text' href="{{ notification.activity_url }}">{{ notification.message }}</a>
         <a class='btn' href="{% url 'notifications:mark_as_seen' notification.id %}?filter_by={{ filter }}&next={% url 'notifications:all_unseen' %}">Mark as Seen</a>
     </div>
 {% endfor %}
+{% include 'pages.html' %}
 {% endblock %}
 

@@ -13,8 +13,8 @@
 {% block profile_works %}
     <script src="{% static 'js/profile-galleries.js' %}"></script>
     <div class=profile-artworks>
-        {% if user_artworks %}
-            {% for art in user_artworks %}
+        {% if page %}
+            {% for art in page %}
                 {% include 'users/art-card.html' %}
             {% endfor %}
         {% else %}

@@ -1,0 +1,31 @@
+{% load page_filter %}
+{% if page_obj.num_pages != 1 %}
+    <div class='pages'>
+        {% if page.number == 1 %}
+            <a class="current-page">1</a>
+        {% else %}
+            <a class='page-number' href="{{ page_url }}?page=1">1</a>
+        {% endif %}
+
+        {% if page.number|far_from_edge %}
+            <a class='dots'>...</a>
+        {% endif %}
+        {% for middle_page in page_obj|middle_pages:page %}
+            
+            {% if middle_page == page.number %}
+                <a class='current-page'>{{middle_page}}</a>
+            {% else %}
+                <a class='page-number' href="{{ page_url }}?page={{ middle_page }}">{{middle_page}}</a>
+            {% endif %}
+            
+        {% endfor %}
+        {% if page.number|far_from_edge:page_obj %}
+            <a class='dots'>...</a>
+        {% endif %}
+        {% if page.number == page_obj.num_pages %}
+            <a class="current-page">{{ page_obj.num_pages }}</a>
+        {% else %}
+            <a class='page-number' href="{{ page_url }}?page={{ page_obj.num_pages }}">{{ page_obj.num_pages }}</a>
+        {% endif %}
+    </div>
+{% endif %}
