@@ -7,15 +7,17 @@ position = {
     current_y: 0
 };
 
-function getLikeUrl() {
-    var myUrl = document.getElementById('art-view-link').href,
-    splitUrl = myUrl.split("/"),
-    lastElementIndex = splitUrl.length - 1,
-    baseUrl = splitUrl[0] + "//" + splitUrl[2] + '/artworks/swipe-like/',
-    artId = splitUrl[lastElementIndex],
-    likeUrl = baseUrl + artId;
-    return likeUrl;
-};
+var likeUrl = document.getElementById('swipe-like-btn').href
+
+// function getLikeUrl() {
+//     // var myUrl = document.getElementById('art-view-link').href,
+//     // splitUrl = myUrl.split("/"),
+//     // lastElementIndex = splitUrl.length - 1,
+//     // baseUrl = splitUrl[0] + "//" + splitUrl[2] + '/artworks/swipe-like/',
+//     // artId = splitUrl[lastElementIndex],
+//     // likeUrl = baseUrl + artId;
+//     return likeUrl;
+// };
 
 $('.swipe-card').draggable({axis:"x", revert:"invalid"});
 
@@ -36,7 +38,7 @@ artCard.addEventListener('mouseup', function(up) {
         window.location.reload(false);
     } else if (position.current_x < -200) {
         console.log("LIKE");
-        window.location.href = getLikeUrl();
+        window.location.href = likeUrl;
     } else {
         console.log("nothing happened");
     }

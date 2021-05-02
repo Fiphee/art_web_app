@@ -1,8 +1,8 @@
-<div class="swipe-card">
-    <a class='img-link' href="{% url 'artworks:view' art.id %}"><img src="{{ art.image.url }}" alt="{{ art.title }}"></a>
+<div class="swipe-card" id="swipe-card">
+    <a class='img-link' id='art-view-link' href="{% url 'artworks:view' art.id %}"><img src="{{ art.image.url }}" alt="{{ art.title }}"></a>
     <p class='art-title'>{{ art.title }}</p>
     <div>
-        <a class='btn-like' href="{% url 'artworks:swipe_like' art.id %}">Like</a>
+        <a class='btn-like' id='swipe-like-btn' href="{% url 'artworks:swipe_like' art.id %}">Like</a>
         <p class='likes-counter'>{{ art.likes.count }} Likes</p>
     </div>   
 </div>
