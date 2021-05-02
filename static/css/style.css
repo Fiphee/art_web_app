@@ -108,6 +108,7 @@ body {
     vertical-align: top;
     margin-top: 10px;
     margin-bottom: 8px;
+    overflow-x: hidden;
 }
 
 .art-author {
