@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
 {% block content %}
 {% if art %}
     {% include 'art-card.html' %}
 {% endif %}
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/swipe.js' %}"></script>
 {% endblock %}
