@@ -28,13 +28,13 @@
     <p class='art-title'>{{ art.title }}</p>
     <p class="likes-counter">{{ art.likes.count }} Likes</p>
     {% if art.uploader.username == user.username %}
-        <p class='btn-edit'>Edit</p>
+        <p class='btn-edit' id='edit-cog'><i class="fas fa-cog"></i></p>
     {% else %}
         {% block like %}
             {% if user in art.likes.all %}                         
-                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><p class='btn-edit'>Unlike</p></a>
+                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><i id='liked-heart' class="fas fa-heart btn-edit"></i></a>
             {% else %}
-                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><p class='btn-edit'>Like</p></a>
+                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><i id='non-liked-heart' class="far fa-heart btn-edit"></i></a>
             {% endif %}
         {% endblock %}
     {% endif %}

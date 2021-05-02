@@ -1,9 +1,13 @@
 $(function() {
     $('.profile-card-container').hover(function() {
         $(this).find('.save-icon').css('color','black');
+        $(this).find('#non-liked-heart').css('color','black');
+        $(this).find('#edit-cog').css('color', 'black');
     }),
     $('.profile-card-container').mouseleave(function() {
         $(this).find('.save-icon').css('color','white')
+        $(this).find('#non-liked-heart').css('color','white');
+        $(this).find('#edit-cog').css('color', 'white');
     }),
 
     $('.save-icon').on('click', function() {

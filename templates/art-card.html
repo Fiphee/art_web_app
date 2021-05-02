@@ -2,7 +2,12 @@
     <a class='img-link' id='art-view-link' href="{% url 'artworks:view' art.id %}"><img src="{{ art.image.url }}" alt="{{ art.title }}"></a>
     <p class='art-title'>{{ art.title }}</p>
     <div>
-        <a class='btn-like' id='swipe-like-btn' href="{% url 'artworks:swipe_like' art.id %}">Like</a>
+        <a class='btn-dislike' href="/"><i id='dislike-x' class="fas fa-times"></i></a>
+        {% if user in art.likes.all %}
+            <a class='btn-like' id='swipe-like-btn' href="{% url 'artworks:swipe_like' art.id %}"><i id='liked-heart' class="fas fa-heart"></i></a>
+        {% else %}
+            <a class='btn-like' id='swipe-like-btn' href="{% url 'artworks:swipe_like' art.id %}"><i id='non-liked-heart' class="far fa-heart"></i></a>
+        {% endif %}
         <p class='likes-counter'>{{ art.likes.count }} Likes</p>
     </div>   
 </div>
