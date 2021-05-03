@@ -33,7 +33,8 @@ def add_artwork(request, art_id, gallery_id):
             except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
                 position = get_next_position(GalleryArtwork, gallery=gallery.id)
                 gallery.artworks.add(artwork, through_defaults={'position':position})
-            return redirect(reverse('users:profile', args=(artwork.uploader.username,)))
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
         return redirect('/')
     return redirect('/login')
 

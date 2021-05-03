@@ -16,3 +16,7 @@
         <a href="{% url 'artworks:like' art.id %}?next={% url 'galleries:view' gallery.id %}"><p class='btn-edit'>Like</p></a>
     {% endif %}
 {% endblock %}
+
+{% block link %}
+    <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'galleries:view' gallery.id %}">{{ gallery_choice }}</a>
+{% endblock %}

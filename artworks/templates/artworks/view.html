@@ -15,7 +15,7 @@
                     {% if artwork in gallery.artworks.all %}
                         <p class='saved-in-gallery'>Saved in {{ gallery }}</p>
                     {% else %}
-                        <a class='not-in-gallery' href="{% url 'galleries:add_artwork' artwork.id gallery.id %}">{{ gallery }}</a>
+                        <a class='not-in-gallery' href="{% url 'galleries:add_artwork' artwork.id gallery.id %}?next={% url 'artworks:view' artwork.id %}">{{ gallery }}</a>
                     {% endif %}
                 {% endfor %}
             </ul>
