@@ -334,12 +334,18 @@ body {
 }
 
 
-.art-view .info .category-list p {
+.art-view .info .category-list a {
     display: inline;
     color: #53d358;
     background-color: rgb(32, 32, 32);
     margin: 5px;
     padding: 5px;
+    transition: .3s;
+}
+
+.art-view .info .category-list a:hover {
+    background-color: #53d358;
+    color: white;
 }
 
 .save-to-gallery-container {

@@ -35,7 +35,6 @@ def search_view(request):
     query = ''
     if request.method == 'GET':
         query = request.GET['search']
-        context['query'] = str(query)
     try:
         artworks, users, galleries = get_query(query)
     except:
@@ -46,7 +45,8 @@ def search_view(request):
     context = {
         'artworks':artworks,
         'users':users,
-        'galleries':galleries
+        'galleries':galleries,
+        'query': str(query)
     }
     return render(request, 'search.html', context)
 

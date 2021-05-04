@@ -47,7 +47,7 @@
             <p class='white-text'>Categories</p>
             <div class='category-list'>
                 {% for category in categories %}
-                    <p>{{ category }}</p>
+                    <a href="{% url 'search' %}?search=%23{{category}}">{{ category }}</a>
                 {% endfor %}
             </div>
         </div>
