@@ -14,12 +14,14 @@
             
         {% endblock %}
             <p class='title-label'>Save to a gallery</p>
-            {% for gallery in user.galleries.all %}
-                {% if art in gallery.artworks.all %}
+            {% for gallery_choice in user.galleries.all %}
+                    {% if art in gallery_choice.artworks.all %}
 
-                <p class='already-saved-gallery'>Saved in {{ gallery }}</p>
+                    <p class='already-saved-gallery'>Saved in {{ gallery_choice }}</p>
                 {% else %}
-                <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery.id %}">{{ gallery }}</a>
+                    {% block link %}
+                        <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'users:profile' visited_user %}">{{ gallery }}</a>
+                    {% endblock %}
                 {% endif %}
             {% endfor %}
         </ul>
