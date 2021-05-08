@@ -43,7 +43,7 @@ def profile_settings_view(request, user_id):
                 if form.is_valid() and user_form.is_valid():
                     user_form.save()
                     form.save()
-                    return redirect('/')
+                    return redirect(reverse('users:profile', args=(user.username,)))
         else:
             form = ProfileSettingsForm(instance=user.profile)
             user_form = UserSettingsForm(instance=user)
