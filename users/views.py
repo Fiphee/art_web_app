@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
 from django.db import transaction
+from django.core.paginator import Paginator
 from .forms import RegisterForm, ProfileSettingsForm, UserSettingsForm
 from .models import Profile, AuthUserModel, UserFollowing
 from utils.notification import Notification
@@ -76,7 +76,7 @@ def profile_view(request, username):
                 Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile).save(notification_args=notification_args)
                 return redirect(reverse('users:profile', args=(user,)))
             return redirect('/login')
-    else:
+    else:       
         form = CommentForm()
         artworks = []
         total_likes = 0
@@ -88,7 +88,12 @@ def profile_view(request, username):
         except AttributeError:
             print("User has no artworks")
 
-        context['user_artworks'] = artworks
+        page_obj = Paginator(artworks, 8)
+        page_number = request.GET.get('page', 1)
+        page = page_obj.get_page(page_number)
+        context['page_obj'] = page_obj
+        context['page'] = page
+        context['page_url'] = reverse('users:profile', args=(username,))
         context['total_art_likes'] = total_likes
         context['already_following'] = False
 
@@ -141,7 +146,12 @@ def user_galleries_view(request, username):
     except AttributeError:
         print("User has no galleries")
 
-    context['user_galleries'] = galleries
+    page_obj = Paginator(galleries, 8)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
+    context['page_obj'] = page_obj
+    context['page'] = page
+    context['page_url'] = reverse('users:galleries', args=(username,))
     context['url_user'] = username
     if request.user.is_authenticated:
         already_following = user.followers.filter(user_followed_by=request.user).first()
