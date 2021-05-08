@@ -20,7 +20,7 @@
                     <p class='already-saved-gallery'>Saved in {{ gallery_choice }}</p>
                 {% else %}
                     {% block link %}
-                        <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'users:profile' visited_user %}">{{ gallery }}</a>
+                        <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'users:profile' visited_user %}">{{ gallery_choice }}</a>
                     {% endblock %}
                 {% endif %}
             {% endfor %}
