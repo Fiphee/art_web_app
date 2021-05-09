@@ -78,19 +78,22 @@ def profile_view(request, username):
         except AttributeError:
             print("User has no artworks")
 
-        context['user_artworks'] = artworks
-        context['total_art_likes'] = total_likes
-        context['already_following'] = False
+        context = {
+            'visited_user':user,
+            'user_artworks':artworks,
+            'total_art_likes': total_likes,
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user),
+            'url_user':username
+        }
 
         if request.user.is_authenticated:
             already_following = user.followers.filter(user_followed_by=request.user).first()
             if already_following:
                 context['already_following'] = True
-        context['url_user'] = username
         
-    context['comments'] = user.profile.comments.all()
-    context['form'] = form
-    context['comment_util'] = CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+
     return render(request, "users/profile.html", context)
 
 
@@ -114,21 +117,37 @@ def user_galleries_view(request, username):
     else:
         user = get_object_or_404(AuthUserModel, username=username)
     
-    galleries = []
-    total_artworks_in_gallery = 0
-    context['visited_user'] = user
-    try:
-        for gallery in user.galleries.all():
-            galleries.append(gallery)
-            total_artworks_in_gallery += gallery.artworks.count()
-    except AttributeError:
-        print("User has no galleries")
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('users:galleries', args=(user,)))
+            return redirect('/login')
 
-    context['user_galleries'] = galleries
-    context['url_user'] = username
-    if request.user.is_authenticated:
-        already_following = user.followers.filter(user_followed_by=request.user).first()
-        context['already_following'] = already_following
+    else:
+        form = CommentForm()
+        galleries = []
+        total_artworks_in_gallery = 0
+        try:
+            for gallery in user.galleries.all():
+                galleries.append(gallery)
+                total_artworks_in_gallery += gallery.artworks.count()
+        except AttributeError:
+            print("User has no galleries")
+
+        context = {
+            'visited_user':user,
+            'user_galleries': galleries,
+            'url_user':username,
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+        }
+
+        if request.user.is_authenticated:
+            already_following = user.followers.filter(user_followed_by=request.user).first()
+            context['already_following'] = already_following
 
 
-    return render(request, "users/galleries.html", context)
+        return render(request, "users/galleries.html", context)
