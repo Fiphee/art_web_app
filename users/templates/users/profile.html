@@ -11,7 +11,6 @@
 {% endblock %}
 
 {% block profile_works %}
-    <script src="{% static 'js/profile-galleries.js' %}"></script>
     <div class=profile-artworks>
         {% if user_artworks %}
             {% for art in user_artworks %}
@@ -21,4 +20,8 @@
             <p class='label' style='padding-left:45%'>No artworks found</p>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/profile-galleries.js' %}"></script>
 {% endblock %}
