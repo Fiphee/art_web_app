@@ -57,7 +57,6 @@ def profile_settings_view(request, user_id):
 
 
 def profile_view(request, username):
-    context = {}
     if username == request.user.username:
         user = request.user
     else:
@@ -80,7 +79,6 @@ def profile_view(request, username):
         form = CommentForm()
         artworks = []
         total_likes = 0
-        context['visited_user'] = user
         try:
             for art in user.artworks.all():
                 artworks.append(art)
@@ -91,21 +89,24 @@ def profile_view(request, username):
         page_obj = Paginator(artworks, 8)
         page_number = request.GET.get('page', 1)
         page = page_obj.get_page(page_number)
-        context['page_obj'] = page_obj
-        context['page'] = page
-        context['page_url'] = reverse('users:profile', args=(username,))
-        context['total_art_likes'] = total_likes
-        context['already_following'] = False
+        context = {
+            'visited_user':user,
+            'page_obj':page_obj,
+            'page':page,
+            'page_url':reverse('users:profile', args=(username,)),
+            'total_art_likes':total_likes,
+            'already_following':False,
+            'url_user':username,
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util': CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+        }
 
         if request.user.is_authenticated:
             already_following = user.followers.filter(user_followed_by=request.user).first()
             if already_following:
                 context['already_following'] = True
-        context['url_user'] = username
-        
-    context['comments'] = user.profile.comments.all()
-    context['form'] = form
-    context['comment_util'] = CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+
     return render(request, "users/profile.html", context)
 
 
@@ -130,32 +131,52 @@ def follow_view(request, artist_id):
 
 
 def user_galleries_view(request, username):
-    context = {}
     if username == request.user.username:
         user = request.user
     else:
         user = get_object_or_404(AuthUserModel, username=username)
     
-    galleries = []
-    total_artworks_in_gallery = 0
-    context['visited_user'] = user
-    try:
-        for gallery in user.galleries.all():
-            galleries.append(gallery)
-            total_artworks_in_gallery += gallery.artworks.count()
-    except AttributeError:
-        print("User has no galleries")
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                notification_args = {
+                    'user':request.user, 
+                    'recipient':user,
+                    'activity':COMMENT,
+                    'content_object':user,
+                }
+                Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile).save(notification_args=notification_args)
+                return redirect(reverse('users:galleries', args=(user,)))
+            return redirect('/login')
 
-    page_obj = Paginator(galleries, 8)
-    page_number = request.GET.get('page', 1)
-    page = page_obj.get_page(page_number)
-    context['page_obj'] = page_obj
-    context['page'] = page
-    context['page_url'] = reverse('users:galleries', args=(username,))
-    context['url_user'] = username
-    if request.user.is_authenticated:
-        already_following = user.followers.filter(user_followed_by=request.user).first()
-        context['already_following'] = already_following
+    else:
+        form = CommentForm()
+        galleries = []
+        total_artworks_in_gallery = 0
+        try:
+            for gallery in user.galleries.all():
+                galleries.append(gallery)
+                total_artworks_in_gallery += gallery.artworks.count()
+        except AttributeError:
+            print("User has no galleries")
+
+        page_obj = Paginator(galleries, 8)
+        page_number = request.GET.get('page', 1)
+        page = page_obj.get_page(page_number)
+
+        context = {
+            'visited_user':user,
+            'page_obj':page_obj,
+            'page':page,
+            'page_url':reverse('users:galleries', args=(username,)),
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util': CommentUtils('user', reverse('users:galleries', args=(user,)), request.user == user)
+        }
+        if request.user.is_authenticated:
+            already_following = user.followers.filter(user_followed_by=request.user).first()
+            context['already_following'] = already_following
 
 
-    return render(request, "users/galleries.html", context)
+        return render(request, "users/galleries.html", context)
