@@ -9,7 +9,7 @@ from utils.constants import ART_LIKE, COMMENT
 from comments.forms import CommentForm
 from utils.comment import CommentUtils
 from comments.models import Comment
-
+from django.http import JsonResponse
 
 @login_required
 def upload_view(request):
@@ -29,10 +29,11 @@ def upload_view(request):
 
 def like_view(request, art_id):
     user = request.user
-    next_url = request.GET.get('next')
+    # next_url = request.GET.get('next')
 
     if user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
+        liked = False
         if artwork.likes.filter(id=user.id).exists():
             artwork.likes.remove(user)
             try:
@@ -43,9 +44,13 @@ def like_view(request, art_id):
         else:
             artwork.likes.add(user)
             Notification(user=user, recipient=artwork.uploader, content_object=artwork, activity=ART_LIKE).save()
-        if next_url:
-            return redirect(next_url)
-        return redirect(reverse('artworks:view', args=(art_id,)))
+            liked = True
+
+        return JsonResponse({"liked":liked, "art_likes":artwork.likes.count()})
+        # if next_url:
+        #     return redirect(next_url)
+        # return redirect(reverse('artworks:view', args=(art_id,)))
+
     return redirect('/login')
 
 

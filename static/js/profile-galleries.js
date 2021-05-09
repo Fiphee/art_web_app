@@ -29,3 +29,30 @@ $(function() {
 });
 
 
+const likeBtn = document.getElementsByClassName('heart-btn');
+
+
+
+$(likeBtn).on('click', function(event) {
+    event.preventDefault();
+    let heart = $(this).children()
+    let likes = $(this).siblings('.likes-counter')
+    $.ajax({
+        type: 'GET',
+        url: $(this).attr('href'),
+        success: function(response) {
+            $(likes).text(response.art_likes + ' Likes')
+
+            if (response.liked) {
+                heart.attr('id', 'liked-heart')
+                heart.addClass('fas fa-heart btn-edit')
+                $(heart).css('color','#53d358')
+            } else {
+                heart.attr('id', 'non-liked-heart')
+                heart.addClass('far fa-heart btn-edit')
+                $(heart).css('color','white')
+            }
+        }
+    });
+})
+    

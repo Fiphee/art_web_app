@@ -34,9 +34,9 @@
     {% else %}
         {% block like %}
             {% if user in art.likes.all %}                         
-                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><i id='liked-heart' class="fas fa-heart btn-edit"></i></a>
+                <a class='heart-btn' href="{% url 'artworks:like' art.id %}"><i id='liked-heart' class="fas fa-heart btn-edit"></i></a>
             {% else %}
-                <a href="{% url 'artworks:like' art.id %}?next={% url 'users:profile' visited_user %}"><i id='non-liked-heart' class="far fa-heart btn-edit"></i></a>
+                <a class='heart-btn' href="{% url 'artworks:like' art.id %}"><i id='non-liked-heart' class="far fa-heart btn-edit"></i></a>
             {% endif %}
         {% endblock %}
     {% endif %}
