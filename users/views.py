@@ -10,6 +10,7 @@ from comments.forms import CommentForm
 from comments.models import Comment
 from utils.comment import CommentUtils
 from notifications.models import Notification as NotificationModel
+from django.http import JsonResponse
 
 
 def register_view(request):
@@ -117,6 +118,7 @@ def follow_view(request, artist_id):
             followed = UserFollowing.objects.filter(user=artist, user_followed_by=user).first()
             if followed:
                 followed.delete()
+                follow = False
                 try:
                     notification = artist.notifications.filter(user=user, activity=FOLLOW, seen=False)
                     notification.delete()
@@ -125,7 +127,8 @@ def follow_view(request, artist_id):
             else:
                 UserFollowing(user_followed_by=user, user=artist).save()
                 artist.notifications.create(user=user, content_object=artist, activity=FOLLOW).save()
-        return redirect(reverse('users:profile', args=(artist.username,)))
+                follow = True
+        return JsonResponse({"followed":follow, "followers_nr":artist.followers.count()})
     return redirect('/login')
 
 

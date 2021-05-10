@@ -26,11 +26,9 @@ $(function() {
     $(my_settings).mouseleave(function() {
         $(this).css('display','none');
     });
-});
 
 
 const likeBtn = document.getElementsByClassName('heart-btn');
-
 
 
 $(likeBtn).on('click', function(event) {
@@ -54,5 +52,26 @@ $(likeBtn).on('click', function(event) {
             }
         }
     });
-})
-    
+});
+
+const followBtn = document.getElementById('follow-btn')
+
+$(followBtn).on('click', function(event) {
+    event.preventDefault();
+    $.ajax({
+        type:'GET',
+        url: $(this).attr('href'),
+        success: function(response) {
+            let follows_nr = document.getElementById('followers-nr');
+            $(follows_nr).text(response.followers_nr);
+            if (response.followed) {
+                $(followBtn).text('Unfollow');
+            } else {
+                $(followBtn).text('Follow');
+            };
+        }
+
+    });
+});
+
+});
