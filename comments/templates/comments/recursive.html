@@ -1,0 +1,4 @@
+{% for comment in comments %}
+    {% include 'comments/base.html' %}
+    {% include 'comments/recursive.html' with comments=comment.replies.all %}
+{% endfor %}

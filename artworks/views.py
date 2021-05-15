@@ -71,7 +71,8 @@ def art_view(request, art_id):
                     'activity':COMMENT,
                     'content_object':artwork,
                 }
-                Comment(author=user, body=form.cleaned_data['body'], content_object=artwork).save(notification_args=notification_args)
+                comment = Comment.objects.create(author=user, body=form.cleaned_data['body'], content_object=artwork)
+                comment.notify(notification_args)
                 return redirect(reverse('artworks:view', args=(art_id,)))
             return redirect('/login')
     else: 

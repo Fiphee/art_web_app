@@ -1,8 +1,10 @@
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect, reverse, Http404
 from .models import Comment
-from utils.constants import COMMENT_LIKE
+from utils.constants import COMMENT_LIKE, REPLY
 from notifications.models import Notification
 from django.contrib.contenttypes.models import ContentType
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 
 def like_view(request, comment_id):
@@ -35,15 +37,29 @@ def remove_view(request, comment_id):
         recipient=None
 
     comment = Comment.objects.get(id=comment_id)
-    content_object_user = getattr(comment.content_object, recipient)
+    try:
+        content_object_user = getattr(comment.content_object, recipient)
+    except AttributeError:
+        # If recipient from the url is not matching then the comment is a reply on another comment
+        content_object_user = getattr(comment.content_object, 'author')
+    
     if user.is_authenticated:
         if user == content_object_user or user == comment.author:
-            try:
-                notification = Notification.objects.get(id=comment.notification, seen=False)
-                notification.delete()
-            except Notification.DoesNotExist:
-                pass
             comment.delete()
             
         return redirect(next_url)
     return redirect('/login')
+
+
+@login_required
+def reply_view(request, comment_id):
+    if request.method == 'POST':
+        try:
+            comment = Comment.objects.get(id=comment_id)
+            user = request.user
+            body = request.POST.get('body')
+            reply = Comment.objects.create(author=user, body=body, content_object=comment)
+
+        except Comment.DoesNotExist:
+            return Http404('No comment found. Maybe it was just deleted.')
+        

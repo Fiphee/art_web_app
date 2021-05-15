@@ -11,7 +11,7 @@ class Comment(CustomModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
-    notification = models.PositiveIntegerField()
+    replies = GenericRelation('Comment')
 
     def __str__(self):
         return f'comment on "{self.content_object}"'
@@ -21,14 +21,10 @@ class Comment(CustomModel):
         return self.__str__()
 
 
-    def save(self, notification_args, *args, **kwargs):
+    def notify(self, notification_args):
         recipient = notification_args.pop('recipient')
-        if notification_args['user'] == recipient:
-            self.notification = 0
-        else:     
+        if not notification_args['user'] == recipient:
             notification = recipient.notifications.create(**notification_args)
-            self.notification = notification.id
-        super(Comment, self).save(*args, **kwargs)
 
 
 

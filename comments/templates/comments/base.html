@@ -1,11 +1,11 @@
 {% if comment %}
-    <div class='comment'>
+    <div id="{{ comment.id }}" class='comment'>
         <a class='author' href="{% url 'users:profile' comment.author %}">{{ comment.author }}</a>
         <p class='body'>{{ comment.body }}</p>
         <div class='buttons'>
             <h5>{{ comment.likes.count }}</h5>
             <h5><a href="{% url 'comments:like' comment.id %}?next={{ comment_util.next_url }}">Like</a></h5>
-            <h5>Reply</h5>
+            <h5 class='reply-btn'><a class="{% url 'comments:reply' comment.id %}">Reply</a></h5>
             {% if comment_util.content_owner or comment.author == user %}
                 <h5><a href="{% url 'comments:remove' comment.id %}?recipient={{ comment_util.recipient }}&next={{ comment_util.next_url }}">Remove</a></h5>
             {% endif %}

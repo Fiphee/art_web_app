@@ -73,7 +73,9 @@ def profile_view(request, username):
                     'activity':COMMENT,
                     'content_object':user,
                 }
-                Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile).save(notification_args=notification_args)
+                comment = Comment.objects.create(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
+                comment.notify(notification_args)
+
                 return redirect(reverse('users:profile', args=(user,)))
             return redirect('/login')
     else:
@@ -138,7 +140,14 @@ def user_galleries_view(request, username):
         form = CommentForm(request.POST)
         if form.is_valid():
             if request.user.is_authenticated:
-                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                notification_args = {
+                    'user':request.user, 
+                    'recipient':user,
+                    'activity':COMMENT,
+                    'content_object':user,
+                }
+                comment = Comment.objects.create(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
+                comment.notify(notification_args)
                 return redirect(reverse('users:galleries', args=(user,)))
             return redirect('/login')
 
@@ -159,7 +168,7 @@ def user_galleries_view(request, username):
             'url_user':username,
             'comments': user.profile.comments.all(),
             'form':form,
-            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+            'comment_util':CommentUtils('user', reverse('users:galleries', args=(user,)), request.user == user)
         }
 
         if request.user.is_authenticated:

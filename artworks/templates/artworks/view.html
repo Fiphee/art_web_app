@@ -51,7 +51,7 @@
                 {% endfor %}
             </div>
         </div>
-        <div class='make-comment'>
+        <div id='make-comment' class='make-comment'>
             <form method='POST'>
                 {% csrf_token %}
                 {{ form.body }}
@@ -59,9 +59,7 @@
             </form>
         </div>
         <div class='comments'>
-            {% for comment in comments %}
-                {% include 'comments/base.html' %}
-            {% endfor %}
+            {% include 'comments/recursive.html' %}
         </div> 
        <div class='empty-space'></div>
     </div>
