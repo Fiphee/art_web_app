@@ -34,7 +34,7 @@ class Notification(CustomModel):
 
 
     def save(self, *args, **kwargs):
-        notification = Notification.objects.filter(user=self.user, object_id=self.content_object.id)
+        notification = Notification.objects.filter(user=self.user, recipient=self.recipient, activity=self.activity, object_id=self.object_id, content_type=self.content_type)
         if self.user != self.recipient:
             if not notification.exists() or notification.exists() and self.activity == COMMENT:
                 super(Notification, self).save(*args, **kwargs)
