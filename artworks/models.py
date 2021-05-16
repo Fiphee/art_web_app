@@ -12,6 +12,8 @@ import os
 class Category(CustomModel):
     name = models.CharField(max_length=50, null=False)
 
+    class Meta:
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name

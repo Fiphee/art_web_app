@@ -19,6 +19,7 @@ class Gallery(CustomModel):
 
     class Meta:
         ordering = ['position']
+        verbose_name_plural = 'Galleries'
 
 
     def __str__(self):
