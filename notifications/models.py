@@ -34,9 +34,9 @@ class Notification(CustomModel):
 
 
     def save(self, *args, **kwargs):
-        notification = Notification.objects.filter(user=self.user, recipient=self.recipient, activity=self.activity, object_id=self.object_id, content_type=self.content_type)
         if self.user != self.recipient:
-            if not notification.exists() or notification.exists() and self.activity == COMMENT:
+            notification = Notification.objects.filter(user=self.user, recipient=self.recipient, activity=self.activity, object_id=self.object_id, content_type=self.content_type)
+            if not notification.exists() or notification.exists() and self.activity in [COMMENT, REPLY]:
                 super(Notification, self).save(*args, **kwargs)
 
 
@@ -66,7 +66,7 @@ class Notification(CustomModel):
             COMMENT_LIKE: f'liked your {self.content_object}!',
             GALLERY_LIKE: f'liked your gallery "{self.content_object}"!',
             GALLERY_FOLLOW: f'followed your gallery "{self.content_object}"!',
-            REPLY: f'replied to your comment "{self.content_object}"',
+            REPLY: f'replied to you with "{getattr(self.content_object, "body")[0:25] + "..."}"',
             UPLOAD: f'uploaded art "{self.content_object}"',
         }
         return texts[self.activity]
@@ -76,11 +76,11 @@ class Notification(CustomModel):
         texts = {
             ART_LIKE: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
             FOLLOW: reverse('users:profile', args=(self.user,)),
-            COMMENT: CommentUtils().get_comment_url(self.content_object),
-            COMMENT_LIKE: CommentUtils().get_comment_url(self.content_object),
+            COMMENT: CommentUtils.get_comment_url(self.content_object),
+            COMMENT_LIKE: CommentUtils.get_comment_url(self.content_object),
             GALLERY_LIKE: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
             GALLERY_FOLLOW: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
-            REPLY: 'TBA',
+            REPLY: CommentUtils.get_reply_url(self.content_object),
             UPLOAD: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
         }
         return texts[self.activity]

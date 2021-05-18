@@ -67,15 +67,9 @@ def profile_view(request, username):
         form = CommentForm(request.POST)
         if form.is_valid():
             if request.user.is_authenticated:
-                notification_args = {
-                    'user':request.user, 
-                    'recipient':user,
-                    'activity':COMMENT,
-                    'content_object':user,
-                }
-                comment = Comment.objects.create(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
-                comment.notify(notification_args)
-
+                comment = Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
+                comment.notify = {'user':request.user, 'recipient':user, 'activity':COMMENT}
+                comment.save()
                 return redirect(reverse('users:profile', args=(user,)))
             return redirect('/login')
     else:
@@ -140,14 +134,9 @@ def user_galleries_view(request, username):
         form = CommentForm(request.POST)
         if form.is_valid():
             if request.user.is_authenticated:
-                notification_args = {
-                    'user':request.user, 
-                    'recipient':user,
-                    'activity':COMMENT,
-                    'content_object':user,
-                }
-                comment = Comment.objects.create(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
-                comment.notify(notification_args)
+                comment = Comment(author=request.user, body=form.cleaned_data['body'], content_object=user.profile)
+                comment.notify = {'user':request.user, 'recipient':user, 'activity':COMMENT}
+                comment.save()
                 return redirect(reverse('users:galleries', args=(user,)))
             return redirect('/login')
 

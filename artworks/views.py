@@ -60,14 +60,9 @@ def art_view(request, art_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             if user.is_authenticated:
-                notification_args = {
-                    'user':user, 
-                    'recipient':artwork.uploader,
-                    'activity':COMMENT,
-                    'content_object':artwork,
-                }
-                comment = Comment.objects.create(author=user, body=form.cleaned_data['body'], content_object=artwork)
-                comment.notify(notification_args)
+                comment = Comment(author=user, body=form.cleaned_data['body'], content_object=artwork)
+                comment.notify = {'user':user, 'recipient':artwork.uploader, 'activity':COMMENT}
+                comment.save()
                 return redirect(reverse('artworks:view', args=(art_id,)))
             return redirect('/login')
     else: 

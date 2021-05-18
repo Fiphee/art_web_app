@@ -52,7 +52,6 @@ def activity_view(request, activity):
         'mark_all':FILTER_BY_ACTIVITY,
         'seen_argument':activity,
     }
-
     return render(request, 'notifications/activities.html', context)
 
 
@@ -60,6 +59,8 @@ def activity_view(request, activity):
 def content_view(request, activity, content_id):
     user = request.user
     notifications = user.notifications.filter(activity=activity, object_id=content_id, seen=False)
+    for x in notifications:
+        print('#'*300, x.user)
     context = {
         'notifications':notifications,
         'filter':FILTER_BY_NOTIFICATION,

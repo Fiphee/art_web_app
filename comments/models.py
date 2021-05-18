@@ -21,13 +21,6 @@ class Comment(CustomModel):
         return self.__str__()
 
 
-    def notify(self, notification_args):
-        recipient = notification_args.pop('recipient')
-        if not notification_args['user'] == recipient:
-            notification = recipient.notifications.create(**notification_args)
-
-
-
 class CommentLikes(CustomModel):
     user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
