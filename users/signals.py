@@ -7,4 +7,4 @@ from .models import Profile
 @receiver(post_save, sender=AuthUserModel)
 def create_profile_signal(instance, created, **kwargs):
     if created:
-        Profile(user_id=instance).save()
+        Profile(user=instance).save()

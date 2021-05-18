@@ -1,0 +1,11 @@
+{% extends 'notifications/base.html' %}
+
+
+{% block notification-cards %}
+{% for content in notifications.values %}
+        <a class='notification-card' href="{% url 'notifications:content' content.2 content.3 %}">
+            <span class='text'>{{ content.0 }} {{ content.1 }}</span>
+            <a class='btn' href="{% url 'notifications:mark_as_seen' content.3 %}?filter_by={{ filter }}&next={% url 'notifications:activities' content.2 %}">Mark as Seen</a>
+        </a>     
+{% endfor %}
+{% endblock %}

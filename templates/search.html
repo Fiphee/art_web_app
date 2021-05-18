@@ -11,11 +11,19 @@
     {% if artworks %}
         {% for art in artworks%}
             <div class="search-result-cards">
-            {% include "artworks/art-card.html" %}
+                {% include "artworks/art-card.html" %}
             </div>
         {% endfor %}
     {% else %}
         <h2>No Artwork found</h2>
+    {% endif %}
+    <h2>Galleries</h2>
+    {% if galleries %}
+        {% for gallery in galleries %}
+            {% include "gallery-card.html" %}
+        {% endfor %}
+    {% else %}
+        <h2>No Galleries found</h2>
     {% endif %}
     <h2>Users</h2>
     {% if users %}

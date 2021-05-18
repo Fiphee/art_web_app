@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class='art-view'>
+    <div class='img-box'>
+        <img class='img' src="{{ artwork.image.url }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
+    </div>
+    <div class='save-to-gallery-container'>
+        <i class="fas fa-ellipsis-v"></i>
+        <div class='gallery-list'>
+            <p class='title-label'>Save to a gallery</p>
+            <ul>
+                {% for gallery in user.galleries.all %}
+                    {% if artwork in gallery.artworks.all %}
+                        <p class='saved-in-gallery'>Saved in {{ gallery }}</p>
+                    {% else %}
+                        <a class='not-in-gallery' href="{% url 'galleries:add_artwork' artwork.id gallery.id %}">{{ gallery }}</a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class='info'>
+        <div class='art'>
+            <h1 class='color-text'>{{ artwork }}</h1>
+            <p class='white-text'>by</p>
+
+        </div>
+        <div class='artist'>
+            <img class='small-thumbnail' src="{{ artist.profile.avatar.url }}" alt="{{ artist }}'s avatar"/>
+            <h2><a class='profile-name' href="{% url 'users:profile' artist %}">{{ artist }}</a></h2>
+            <p class='white-text'>Followers</p>
+            <p class='color-text'>{{ artist.followers.count }}</p>
+        </div>
+        <div class='likes'>
+            {% if liked %}
+                <a class='btn-like' href="{% url 'artworks:like' artwork.id %}">Unlike</a>
+            {% else %}
+                <a class='btn-like' href="{% url 'artworks:like' artwork.id %}">Like</a>
+            {% endif %}
+            <p class='likes-counter'>{{ artwork.likes.count }} Likes</p>
+        </div>
+        <div class='extra'>
+            <p class='white-text'>Description</p>
+            <p class='description'>{{ artwork.description }}</p>
+            <p class='white-text'>Categories</p>
+            <div class='category-list'>
+                {% for category in categories %}
+                    <p>{{ category }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div id='make-comment' class='make-comment'>
+            <form method='POST'>
+                {% csrf_token %}
+                {{ form.body }}
+                <button type="submit" class='comment-btn'>Comment</button>
+            </form>
+        </div>
+        <div class='comments'>
+            {% include 'comments/recursive.html' %}
+        </div> 
+       <div class='empty-space'></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/art-view.js' %}"></script>
+{% endblock %}
