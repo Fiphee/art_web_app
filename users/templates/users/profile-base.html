@@ -34,7 +34,7 @@
         <p class="text">{{ visited_user.profile.description }}</p>
     </div>
     <div class='profile-comments'>
-        <div class='make-comment'>
+        <div id='make-comment' class='make-comment'>
             <form method='POST'>
                 {% csrf_token %}
                 {{ form.body }}

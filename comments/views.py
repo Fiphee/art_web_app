@@ -66,8 +66,6 @@ def reply_view(request, comment_id):
             reply = Comment(author=user, body=body, content_object=comment)
             reply.notify = {'user':user, 'recipient':comment.author, 'activity':REPLY}
             reply.save()
-            print('*'*300, 'its here')
-            print('*'*300, reply)
             return JsonResponse({})
         except Comment.DoesNotExist:
             return Http404('No comment found. Maybe it was just deleted.')

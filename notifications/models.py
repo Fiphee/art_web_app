@@ -66,7 +66,7 @@ class Notification(CustomModel):
             COMMENT_LIKE: f'liked your {self.content_object}!',
             GALLERY_LIKE: f'liked your gallery "{self.content_object}"!',
             GALLERY_FOLLOW: f'followed your gallery "{self.content_object}"!',
-            REPLY: f'replied to you with "{getattr(self.content_object, "body")[0:25] + "..."}"',
+            REPLY: f'replied to you with "{getattr(self.content_object, "body", "")[0:25] + "..."}"',
             UPLOAD: f'uploaded art "{self.content_object}"',
         }
         return texts[self.activity]
@@ -74,14 +74,14 @@ class Notification(CustomModel):
 
     def activity_url(self):
         texts = {
-            ART_LIKE: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
+            ART_LIKE: reverse('artworks:view', args=(self.content_object.id,)),
             FOLLOW: reverse('users:profile', args=(self.user,)),
-            COMMENT: CommentUtils.get_comment_url(self.content_object),
-            COMMENT_LIKE: CommentUtils.get_comment_url(self.content_object),
-            GALLERY_LIKE: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
-            GALLERY_FOLLOW: reverse('galleries:view', args=(getattr(self.content_object, 'id', 0),)),
-            REPLY: CommentUtils.get_reply_url(self.content_object),
-            UPLOAD: reverse('artworks:view', args=(getattr(self.content_object, 'id', 0),)),
+            COMMENT: CommentUtils.get_content_url(self.content_object),
+            COMMENT_LIKE: CommentUtils.get_content_url(self.content_object),
+            GALLERY_LIKE: reverse('galleries:view', args=(self.content_object.id,)),
+            GALLERY_FOLLOW: reverse('galleries:view', args=(self.content_object.id,)),
+            REPLY: CommentUtils.get_content_url(self.content_object),
+            UPLOAD: reverse('artworks:view', args=(self.content_object.id,)),
         }
         return texts[self.activity]
 

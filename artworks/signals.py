@@ -2,6 +2,7 @@ from django.dispatch import receiver
 from django.db.models.signals import m2m_changed, post_save
 from artworks.models import Artwork, ArtLike
 from notifications.models import Notification
+from utils.constants import UPLOAD
 
 
 @receiver(m2m_changed, sender=ArtLike)
@@ -19,3 +20,10 @@ def liked_signal(instance, action, *args, **kwargs):
 
         elif action == 'post_add':
             Notification(user=user, recipient=recipient, content_object=instance, activity=activity).save()
+
+
+@receiver(post_save, sender=Artwork)
+def artwork_uploaded_signal(instance, created, *args, **kwargs):
+    uploader = instance.uploader
+    for user_follow in uploader.followers.all():
+        Notification(user=uploader, recipient=user_follow.user_followed_by, content_object=instance, activity=UPLOAD).save()
