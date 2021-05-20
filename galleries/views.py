@@ -91,8 +91,8 @@ def follow_gallery(request, gallery_id):
         gallery = get_object_or_404(Gallery, id=gallery_id)
         if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
             position = get_next_position(UserFollowedGallery, user=user.id)
-            user.followed_galleries.add(gallery, through_defaults={'position':position})
-            gallery.creator.notifications.create(user=user, content_object=gallery, activity=GALLERY_FOLLOW).save()
+            gallery.notify = {'user':user, 'recipient':gallery.creator, 'activity':GALLERY_FOLLOW}
+            gallery.followers.add(user, through_defaults={'position':position})
         return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')
 
@@ -101,13 +101,9 @@ def unfollow_gallery(request, gallery_id):
     user = request.user
     if user.is_authenticated:
         gallery = get_object_or_404(Gallery, id=gallery_id)
-        gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
-        if gallery_relationship.exists():
-            gallery_relationship.first().delete()
-            try:
-                notification = gallery.creator.notifications.filter(user=user, activity=GALLERY_FOLLOW, seen=False)
-                notification.delete()
-            except:
-                print('Notification already seen by user')
+    
+        if gallery.followers.filter(id=user.id).exists():
+            gallery.notify = {'user':user, 'recipient':gallery.creator, 'activity':GALLERY_FOLLOW}
+            gallery.followers.remove(user)
         return redirect(reverse('galleries:view', args=(gallery_id,)))
     return redirect('/login')

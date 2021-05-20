@@ -52,7 +52,6 @@ def activity_view(request, activity):
         'mark_all':FILTER_BY_ACTIVITY,
         'seen_argument':activity,
     }
-
     return render(request, 'notifications/activities.html', context)
 
 

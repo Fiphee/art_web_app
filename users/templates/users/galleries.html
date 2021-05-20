@@ -1,5 +1,5 @@
 {% extends "users/profile-base.html" %}
-
+{% load static %}
 {% block profile_bar %}
     <a class='btn-tab' href="{% url 'users:profile' visited_user.username %}">Artworks</a>
     <p class='current-tab'>Galleries</p>
@@ -36,4 +36,8 @@
     {% endfor %}
 </div>
 {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/profile-galleries.js' %}"></script>
 {% endblock %}
