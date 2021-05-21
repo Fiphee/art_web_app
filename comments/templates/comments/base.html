@@ -1,6 +1,7 @@
+{% load comment_filters %}
 {% if comment %}
     <div id="{{ comment.id }}" class='comment'>
-        <a class='author' href="{% url 'users:profile' comment.author %}">{{ comment.author }}</a>
+        <a class='author' href="{% url 'users:profile' comment.author %}">{{ comment.author }} - {{ comment.created_at|how_long_ago }} ago</a>
         <p class='body'>{{ comment.body }}</p>
         <div class='buttons'>
             <h5>{{ comment.likes.count }}</h5>
