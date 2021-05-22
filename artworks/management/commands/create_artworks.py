@@ -51,7 +51,7 @@ class Command(BaseCommand):
                 current_image.save(os.path.join(artworks_path, f'{name}.{extension}'), "JPEG")               
                 current_image.close()
 
-                img['thumbnail'] = self._make_and_get_thumbnail(file_path, name, extension)
+                # img['thumbnail'] = self._make_and_get_thumbnail(file_path, name, extension)
 
             artworks.append(img)
             art_count += 1

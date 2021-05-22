@@ -20,7 +20,6 @@ class Command(BaseCommand):
                 for art in json_data:
                     user = AuthUserModel.objects.filter(username=art['uploader']).first()
                     category_choice = random.choice(categories)
-                    
                     db_category = Category.objects.filter(name=category_choice).first()
                     if not db_category:
                         db_category = Category(name=category_choice).save()
@@ -30,10 +29,8 @@ class Command(BaseCommand):
                         title=art['title'],
                         description=art['description'],
                         image=art['image'],
-                        thumbnail=art['thumbnail'],
                     )
                     artwork.category.add(db_category)
-                    artwork.save()
                     art_count += 1
                 print(f'Added {art_count} artworks!')
         except Exception as e:
