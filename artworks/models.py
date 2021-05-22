@@ -31,6 +31,7 @@ class Artwork(CustomModel):
     likes = models.ManyToManyField(AuthUserModel, through='ArtLike', related_name='artworks_liked')
     favourites = models.ManyToManyField(AuthUserModel, through='ArtFavourite', related_name='favourite_artworks')
     comments = GenericRelation(Comment)
+    colors = models.ManyToManyField('Color', blank=True, through='ArtColor', related_name='artworks')
 
     def save(self, *args, **kwargs):
         if not self.make_thumbnail():
@@ -94,3 +95,23 @@ class ArtLike(CustomModel):
 class ArtFavourite(CustomModel):
     art = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE)
+
+
+class Color(CustomModel):
+    r = models.PositiveSmallIntegerField()
+    g = models.PositiveSmallIntegerField()
+    b = models.PositiveSmallIntegerField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f'rgb({self.r}, {self.g}, {self.b})'
+
+
+    def __repr__(self):
+        return self.str()
+
+
+class ArtColor(CustomModel):
+    art = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name='art_colors')
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, related_name='color_artworks')

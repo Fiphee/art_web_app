@@ -38,7 +38,10 @@ def search_view(request):
     try:
         artworks, users, galleries = get_query(query)
     except:
-        artworks = set()
+        try:
+            artworks = get_query(query)
+        except:            
+            artworks = set()
         users = set()
         galleries = set()
         

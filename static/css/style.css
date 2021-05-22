@@ -581,3 +581,9 @@ body {
 .gallery-list .list {
     display: grid;
 }
+
+.colors {
+    position: absolute;
+    margin-top: 10px;
+    right: 45vw;
+}

@@ -1,4 +1,4 @@
-from artworks.models import Artwork, Category
+from artworks.models import Artwork, Category, Color
 from users.models import AuthUserModel
 from galleries.models import Gallery
 
@@ -21,6 +21,13 @@ def _split_queries(user_query):
 
 
 def get_query(query=None):
+    if 'rgb' in query:
+        query_results = set()
+        colors = Color.objects.filter(category__name=query)
+        for color in colors:
+            for art in color.artworks.all():
+                query_results.add(art)
+        return query_results
     art_query_results = set()
     user_query_results = set()
     gallery_query_results = set()

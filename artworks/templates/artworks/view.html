@@ -6,6 +6,11 @@
     <div class='img-box'>
         <img class='img' src="{{ artwork.image.url }}" alt="{{ artwork.title }} by {{ artwork.uploader.username }}"/>
     </div>
+    <div class='colors'>
+        {% for color in artwork.colors.all %}
+            <a href="{% url 'search' %}?search={{ color.category }}"class='color-box' style="color:{{ color }}; background-color: {{ color }};">______</a>
+        {% endfor %}
+    </div>
     <div class='save-to-gallery-container'>
         <i class="fas fa-ellipsis-v"></i>
         <div class='gallery-list'>
