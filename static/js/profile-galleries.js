@@ -93,7 +93,6 @@ $(likeBtn).on('click', function(event) {
 
 const followBtn = document.getElementById('follow-btn')
 
-<<<<<<< HEAD
 $(document).on('DOMNodeInserted', function(e) {
     if ( $(e.target).hasClass('make-reply') ) {
         let replyBox = document.getElementById('make-reply');
@@ -119,7 +118,6 @@ $(document).on('DOMNodeInserted', function(e) {
             });
         })
     }
-=======
 $(followBtn).on('click', function(event) {
     event.preventDefault();
     $.ajax({
@@ -138,5 +136,4 @@ $(followBtn).on('click', function(event) {
     });
 });
 
->>>>>>> cbc03f8e28a6cf7863fea89dfa77b0d80b7ad63c
 });
