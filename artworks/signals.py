@@ -28,10 +28,10 @@ def liked_signal(instance, action, *args, **kwargs):
 def artwork_uploaded_signal(instance, created, *args, **kwargs):
     if created:
         uploader = instance.uploader
-        # for user_follow in uploader.followers.all():
-        #     Notification(user=uploader, recipient=user_follow.user_followed_by, content_object=instance, activity=UPLOAD).save()
+        for user_follow in uploader.followers.all():
+            Notification(user=uploader, recipient=user_follow.user_followed_by, content_object=instance, activity=UPLOAD).save()
 
-        color_palette = get_colors(instance.image.path) 
+        color_palette = get_colors(instance.thumbnail.path) 
         
         create_category = lambda r,g,b: Category.objects.create(name=f'rgb({r}, {g}, {b})')
         

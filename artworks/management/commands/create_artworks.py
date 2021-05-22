@@ -33,7 +33,8 @@ class Command(BaseCommand):
         artworks_path = os.path.join(MEDIA_ROOT, 'artworks', 'original_images')
         artworks = []
         art_count = 0
-        for filename in os.listdir(directory):
+        folder_files = os.listdir(directory)
+        for filename in folder_files:
             img = {}
             title , extension = filename.rsplit('.', 1)
             name = str(uuid.uuid4())
@@ -48,13 +49,14 @@ class Command(BaseCommand):
                 img['image'] = os.path.join('artworks', 'original_images', f'{name}.{extension}')
                 
                 current_image = Image.open(file_path)
-                current_image.save(os.path.join(artworks_path, f'{name}.{extension}'), "JPEG")               
+                current_image.save(os.path.join(artworks_path, f'{name}.{extension}'), 'PNG')               
                 current_image.close()
 
                 # img['thumbnail'] = self._make_and_get_thumbnail(file_path, name, extension)
 
             artworks.append(img)
             art_count += 1
+            print(f'{art_count} of {len(folder_files)} artworks created')
             
         save_json_to = os.path.join('data', 'artworks.json')
         with open(save_json_to, 'w') as f:

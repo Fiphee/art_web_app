@@ -32,6 +32,7 @@ class Command(BaseCommand):
                     )
                     artwork.category.add(db_category)
                     art_count += 1
+                    print(f'{art_count} of {len(json_data)} artworks added')
                 print(f'Added {art_count} artworks!')
         except Exception as e:
             print(e)

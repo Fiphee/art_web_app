@@ -35,16 +35,15 @@ def search_view(request):
     query = ''
     if request.method == 'GET':
         query = request.GET['search']
+    if 'rgb(' in query:
+        artworks = get_query(query)
+        return render(request, 'search.html', {'artworks':artworks, 'query':str(query)})   
     try:
         artworks, users, galleries = get_query(query)
-    except:
-        try:
-            artworks = get_query(query)
-        except:            
-            artworks = set()
+    except:   
+        artworks = set()
         users = set()
         galleries = set()
-        
     context = {
         'artworks':artworks,
         'users':users,
