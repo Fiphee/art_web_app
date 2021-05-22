@@ -55,15 +55,14 @@ $(function() {
         cancelExists = true;
 
         $(newForm).append(cancelBtn);
-        $(comment).append(newForm)
-        
-};
+        $(comment).append(newForm)    
+    };
 
 
     $('.reply-btn').on('click', function() {
         cloneForm(this)
         });
-
+    });
 
 const likeBtn = document.getElementsByClassName('heart-btn');
 
@@ -118,6 +117,7 @@ $(document).on('DOMNodeInserted', function(e) {
             });
         })
     }
+});
 $(followBtn).on('click', function(event) {
     event.preventDefault();
     $.ajax({
@@ -134,6 +134,4 @@ $(followBtn).on('click', function(event) {
         }
 
     });
-});
-
 });
