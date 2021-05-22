@@ -64,9 +64,36 @@ $(function() {
         cloneForm(this)
         });
 
+
+const likeBtn = document.getElementsByClassName('heart-btn');
+
+
+$(likeBtn).on('click', function(event) {
+    event.preventDefault();
+    let heart = $(this).children()
+    let likes = $(this).siblings('.likes-counter')
+    $.ajax({
+        type: 'GET',
+        url: $(this).attr('href'),
+        success: function(response) {
+            $(likes).text(response.art_likes + ' Likes')
+
+            if (response.liked) {
+                heart.attr('id', 'liked-heart')
+                heart.addClass('fas fa-heart btn-edit')
+                $(heart).css('color','#53d358')
+            } else {
+                heart.attr('id', 'non-liked-heart')
+                heart.addClass('far fa-heart btn-edit')
+                $(heart).css('color','white')
+            }
+        }
+    });
 });
 
+const followBtn = document.getElementById('follow-btn')
 
+<<<<<<< HEAD
 $(document).on('DOMNodeInserted', function(e) {
     if ( $(e.target).hasClass('make-reply') ) {
         let replyBox = document.getElementById('make-reply');
@@ -92,4 +119,24 @@ $(document).on('DOMNodeInserted', function(e) {
             });
         })
     }
+=======
+$(followBtn).on('click', function(event) {
+    event.preventDefault();
+    $.ajax({
+        type:'GET',
+        url: $(this).attr('href'),
+        success: function(response) {
+            let follows_nr = document.getElementById('followers-nr');
+            $(follows_nr).text(response.followers_nr);
+            if (response.followed) {
+                $(followBtn).text('Unfollow');
+            } else {
+                $(followBtn).text('Follow');
+            };
+        }
+
+    });
+});
+
+>>>>>>> cbc03f8e28a6cf7863fea89dfa77b0d80b7ad63c
 });

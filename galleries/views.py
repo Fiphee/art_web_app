@@ -6,6 +6,7 @@ from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
 from .utils import get_next_position
 from utils.constants import GALLERY_FOLLOW
+from django.core.paginator import Paginator
 
 
 def create_gallery_view(request):
@@ -34,7 +35,8 @@ def add_artwork(request, art_id, gallery_id):
             except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
                 position = get_next_position(GalleryArtwork, gallery=gallery.id)
                 gallery.artworks.add(artwork, through_defaults={'position':position})
-            return redirect(reverse('users:profile', args=(artwork.uploader.username,)))
+            next_url = request.GET.get('next', '/')
+            return redirect(next_url)
         return redirect('/')
     return redirect('/login')
 
@@ -49,7 +51,14 @@ def gallery_view(request, gallery_id):
         status = 'Private'
 
     context['gallery'] = gallery
+    page_obj = Paginator(gallery.artworks.all(), 10)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
+    context['page_obj'] = page_obj
+    context['page'] = page
+    context['page_url'] = reverse('galleries:view', args=(gallery_id,))
     context['status'] = status
+
     if gallery.creator == user:
         if request.method == 'POST':
             form = GalleryForm(request.POST, user=user, instance=gallery)

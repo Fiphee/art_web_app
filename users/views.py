@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
 from django.db import transaction
+from django.core.paginator import Paginator
 from .forms import RegisterForm, ProfileSettingsForm, UserSettingsForm
 from .models import Profile, AuthUserModel, UserFollowing
 from utils.notification import Notification
@@ -10,6 +10,7 @@ from comments.forms import CommentForm
 from comments.models import Comment
 from utils.comment import CommentUtils
 from notifications.models import Notification as NotificationModel
+from django.http import JsonResponse
 
 
 def register_view(request):
@@ -43,7 +44,7 @@ def profile_settings_view(request, user_id):
                 if form.is_valid() and user_form.is_valid():
                     user_form.save()
                     form.save()
-                    return redirect('/')
+                    return redirect(reverse('users:profile', args=(user.username,)))
         else:
             form = ProfileSettingsForm(instance=user.profile)
             user_form = UserSettingsForm(instance=user)
@@ -72,7 +73,7 @@ def profile_view(request, username):
                 comment.save()
                 return redirect(reverse('users:profile', args=(user,)))
             return redirect('/login')
-    else:
+    else:       
         form = CommentForm()
         artworks = []
         total_likes = 0
@@ -84,15 +85,14 @@ def profile_view(request, username):
         except AttributeError:
             print("User has no artworks")
 
-        context = {
-            'visited_user':user,
-            'user_artworks':artworks,
-            'total_art_likes': total_likes,
-            'comments': user.profile.comments.all(),
-            'form':form,
-            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user),
-            'url_user':username
-        }
+        page_obj = Paginator(artworks, 8)
+        page_number = request.GET.get('page', 1)
+        page = page_obj.get_page(page_number)
+        context['page_obj'] = page_obj
+        context['page'] = page
+        context['page_url'] = reverse('users:profile', args=(username,))
+        context['total_art_likes'] = total_likes
+        context['already_following'] = False
 
         if request.user.is_authenticated:
             already_following = user.followers.filter(user_followed_by=request.user).first()
@@ -111,6 +111,7 @@ def follow_view(request, artist_id):
             followed = UserFollowing.objects.filter(user=artist, user_followed_by=user).first()
             if followed:
                 followed.delete()
+                follow = False
                 try:
                     notification = artist.notifications.filter(user=user, activity=FOLLOW, seen=False)
                     notification.delete()
@@ -119,7 +120,8 @@ def follow_view(request, artist_id):
             else:
                 UserFollowing(user_followed_by=user, user=artist).save()
                 artist.notifications.create(user=user, content_object=artist, activity=FOLLOW).save()
-        return redirect(reverse('users:profile', args=(artist.username,)))
+                follow = True
+        return JsonResponse({"followed":follow, "followers_nr":artist.followers.count()})
     return redirect('/login')
 
 
@@ -144,6 +146,7 @@ def user_galleries_view(request, username):
         form = CommentForm()
         galleries = []
         total_artworks_in_gallery = 0
+        context['visited_user'] = user
         try:
             for gallery in user.galleries.all():
                 galleries.append(gallery)
@@ -151,18 +154,17 @@ def user_galleries_view(request, username):
         except AttributeError:
             print("User has no galleries")
 
-        context = {
-            'visited_user':user,
-            'user_galleries': galleries,
-            'url_user':username,
-            'comments': user.profile.comments.all(),
-            'form':form,
-            'comment_util':CommentUtils('user', reverse('users:galleries', args=(user,)), request.user == user)
-        }
-
+        page_obj = Paginator(galleries, 8)
+        page_number = request.GET.get('page', 1)
+        page = page_obj.get_page(page_number)
+        context['page_obj'] = page_obj
+        context['page'] = page
+        context['page_url'] = reverse('users:galleries', args=(username,))
+        context['url_user'] = username
         if request.user.is_authenticated:
             already_following = user.followers.filter(user_followed_by=request.user).first()
             context['already_following'] = already_following
+    
 
 
         return render(request, "users/galleries.html", context)

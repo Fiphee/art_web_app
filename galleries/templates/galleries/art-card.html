@@ -11,8 +11,12 @@
 {% endblock %}
 {% block like %}
     {% if user in art.likes.all %}                         
-        <a href="{% url 'artworks:like' art.id %}?next={% url 'galleries:view' gallery.id %}"><i id='liked-heart' class="fas fa-heart btn-edit"></i></a>
+        <a class='heart-btn' href="{% url 'artworks:like' art.id %}"><i id='liked-heart' class="fas fa-heart btn-edit"></i></a>
     {% else %}
-        <a href="{% url 'artworks:like' art.id %}?next={% url 'galleries:view' gallery.id %}"><i id='non-liked-heart' class="far fa-heart btn-edit"></i></a>
+        <a class='heart-btn' href="{% url 'artworks:like' art.id %}"><i id='non-liked-heart' class="far fa-heart btn-edit"></i></a>
     {% endif %}
+{% endblock %}
+
+{% block link %}
+    <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'galleries:view' gallery.id %}">{{ gallery_choice }}</a>
 {% endblock %}

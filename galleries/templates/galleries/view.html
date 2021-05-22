@@ -41,9 +41,10 @@
 <p>Gallery followers: {{ gallery.saved_by.count }}</p>
 <p>Number of artworks: {{ gallery.artworks.count }}</p> 
 <div class='gallery-artworks'>
-    {% for art in gallery.artworks.all|reverse %}
+    {% for art in page|reverse %}
         {% include 'galleries/art-card.html' %}
     {% endfor %}
+    {% include 'pages.html' %}
 </div>
 
 {% endblock %}

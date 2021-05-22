@@ -587,3 +587,34 @@ body {
     margin-top: 10px;
     right: 45vw;
 }
+.pages {
+    margin-left: 23vw;
+    margin-top: 85px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.page-number {
+    display: inline;
+}
+
+.page-number, .current-page {
+    color: rgb(69, 69, 69);
+    padding: 5px;
+    border: 1px solid rgb(69, 69, 69);
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 5px;
+    transition: .3s;
+}
+
+.page-number:hover, .current-page  {
+    background-color: #53d358;
+    border: 1px solid #53d358;
+    color: white;
+}
+
+.pages .dots {
+    color: black;
+    margin-bottom: 5px;
+}

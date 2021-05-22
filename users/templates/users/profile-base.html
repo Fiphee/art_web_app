@@ -18,15 +18,15 @@
     <div class="about">
         
         <p style="color:white; padding-left:25px;">Followers:</p>
-        <p class="total-nr">{{ visited_user.followers.count }}</p>
+        <p id='followers-nr' class="total-nr">{{ visited_user.followers.count }}</p>
 
         {% if user == visited_user %}
             <a class='btn' href="{% url 'users:settings' user.id %}">Profile Settings</a>
         {% else %}
             {% if already_following %}
-                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Unfollow</a>
+                <a id='follow-btn' class='btn' href="{% url 'users:follow' visited_user.id %}">Unfollow</a>
             {% else %}
-                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Follow</a>
+                <a id='follow-btn' class='btn' href="{% url 'users:follow' visited_user.id %}">Follow</a>
             {% endif %}
         {% endif %}        
 
@@ -53,6 +53,7 @@
 
 {% block saved_galleries %}
 {% endblock %}
+{% include 'pages.html' %}
 </div>
 
 {% endblock %}

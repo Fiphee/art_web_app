@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from utils.notification import Notification, get_filter_argument
 from utils.constants import ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_LIKE, GALLERY_FOLLOW, REPLY, UPLOAD, FILTER_BY_NOTIFICATION, FILTER_BY_ACTIVITY, FILTER_BY_CONTENT
-
+from django.core.paginator import Paginator
 
 @login_required
 def categories_view(request):
@@ -46,11 +46,18 @@ def activity_view(request, activity):
                 message = f'new upload by {notification.user}'
             contents[content_object] = [1, message, activity, content_object.id]
 
+    page_obj = Paginator(list(contents.values()), 50)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
+
     context = {
         'notifications':contents,
         'filter':FILTER_BY_CONTENT,
         'mark_all':FILTER_BY_ACTIVITY,
         'seen_argument':activity,
+        'page_url':reverse('notifications:activities', args=(activity,)),
+        'page_obj':page_obj,
+        'page':page,
     }
     return render(request, 'notifications/activities.html', context)
 
@@ -59,11 +66,17 @@ def activity_view(request, activity):
 def content_view(request, activity, content_id):
     user = request.user
     notifications = user.notifications.filter(activity=activity, object_id=content_id, seen=False)
+    page_obj = Paginator(notifications, 50)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
     context = {
         'notifications':notifications,
         'filter':FILTER_BY_NOTIFICATION,
         'mark_all':FILTER_BY_CONTENT,
         'seen_argument':content_id,
+        'page_url':reverse('notifications:content', args=(activity, content_id)),
+        'page_obj':page_obj,
+        'page':page,
     }
     return render(request, 'notifications/content.html', context)
 
@@ -87,9 +100,15 @@ def mark_as_seen(request, id_to_filter):
 def seen_view(request):
     user = request.user
     notifications = user.notifications.filter(seen=True)
+    page_obj = Paginator(notifications, 50)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
     context = {
         'notifications':notifications,
-        'seen':True
+        'seen':True,
+        'page_url':reverse('notifications:seen'),
+        'page_obj':page_obj,
+        'page':page,
     }
     return render(request, 'notifications/seen.html', context)
 
@@ -98,12 +117,18 @@ def seen_view(request):
 def all_unseen_view(request):
     user = request.user
     notifications = user.notifications.filter(seen=False)
+    page_obj = Paginator(notifications, 50)
+    page_number = request.GET.get('page', 1)
+    page = page_obj.get_page(page_number)
     context = {
         'notifications':notifications,
         'all_unseen':True,
         'filter':FILTER_BY_NOTIFICATION,
         'mark_all':'unseen',
         'seen_argument':0,
+        'page_url':reverse('notifications:all_unseen'),
+        'page_obj':page_obj,
+        'page':page,
     }
     return render(request, 'notifications/all_unseen.html', context)
 
