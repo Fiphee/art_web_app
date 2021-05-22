@@ -44,7 +44,9 @@ class Artwork(CustomModel):
         img = Image.open(self.image)
         img.thumbnail(THUMB_SIZE, Image.ANTIALIAS)
 
-        thumb_name, thumb_extension = os.path.splitext(self.image.name)
+        name = os.path.split(self.image.name)
+        thumb_name, thumb_extension = os.path.splitext(name[-1])
+        
         thumb_extension = thumb_extension.lower()
 
         thumb_filename = thumb_name + '_thumb' + thumb_extension
