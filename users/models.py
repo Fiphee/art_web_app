@@ -5,7 +5,7 @@ from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, P
 
 
 class Profile(CustomModel):
-    user_id = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
+    user = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
     quote = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to='users/avatars/', default='/users/avatars/default.png')
@@ -28,6 +28,6 @@ class Profile(CustomModel):
 
 
 class UserFollowing(CustomModel):
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
+    user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
     user_followed_by = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="follows")
 

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-bar">
+    {% block profile_bar %}
+    {% endblock %}
+</div>
+
+<div class="profile-info">
+    <img class="picture" src="{{ visited_user.profile.avatar.url }}">
+    <h2 class="name">{{ visited_user.username }}</h2>
+    <p class="quote">{{ visited_user.profile.quote }}</p>
+    <div class="about">
+        
+        <p style="color:white; padding-left:25px;">Followers:</p>
+        <p class="total-nr">{{ visited_user.followers.count }}</p>
+
+        {% if user == visited_user %}
+            <a class='btn' href="{% url 'users:settings' user.id %}">Profile Settings</a>
+        {% else %}
+            {% if already_following %}
+                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Unfollow</a>
+            {% else %}
+                <a class='btn' href="{% url 'users:follow' visited_user.id %}">Follow</a>
+            {% endif %}
+        {% endif %}        
+
+        <p class='label'>About the artist</p>
+        <p class="text">{{ visited_user.profile.description }}</p>
+    </div>
+</div>
+
+<div class='galleries-container'>
+{% block profile_works %}
+{% endblock %}
+
+{% block saved_galleries %}
+{% endblock %}
+</div>
+
+{% endblock %}

@@ -1,51 +1,27 @@
-{% extends "base.html" %}
-
+{% extends "users/profile-base.html" %}
 {% load static %}
-{% block style %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="profile-bar">
+{% block profile_bar %}
+    <p class='current-tab'>Artworks</p>
+    <a class='btn-tab' href="{% url 'users:galleries' visited_user.username %}">Galleries</a>
+<div class='breaking-line'></div>
     <p class='white-text'>Artworks:</p>
     <p class="total-nr">{{ visited_user.artworks.count }}</p>
     <p class='white-text'>Artwork likes:</p>
     <p class="total-nr">{{ total_art_likes }}</p>
-    <p class='white-text'>Galleries:</p>
-    <p class="total-nr">0</p>
+{% endblock %}
 
-</div>
-
-<div class="profile-info">
-    <img class="picture" src="{{ visited_user.profile.avatar.url }}">
-    <h2 class="name">{{ visited_user.username }}</h2>
-    <p class="quote">{{ visited_user.profile.quote }}</p>
-    <div class="about">
-        
-        <p style="color:white; padding-left:25px;">Followers:</p>
-        <p class="total-nr">{{ visited_user.followers.count }}</p>
-
-        {% if user == visited_user %}
-            <p class='btn'>Profile Settings</p>
+{% block profile_works %}
+    <div class=profile-artworks>
+        {% if user_artworks %}
+            {% for art in user_artworks %}
+                {% include 'users/art-card.html' %}
+            {% endfor %}
         {% else %}
-            {% if already_following %}
-                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Unfollow</a>
-            {% else %}
-                <a class='btn' href="{% url 'users:follow_view' visited_user.id %}">Follow</a>
-            {% endif %}
-        {% endif %}        
-
-        <p class='label'>About the artist</p>
-        <p class="text">{{ visited_user.profile.description }}</p>
+            <p class='label' style='padding-left:45%'>No artworks found</p>
+        {% endif %}
     </div>
-</div>
-<div class=profile-artworks>
-    {% if user_artworks %}
-        {% for art in user_artworks %}
-            {% include 'users/profile-art-card.html' %}
-        {% endfor %}
-    {% else %}
-        <p class='label' style='padding-left:45%'>No artworks found</p>
-    {% endif %}
-</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/profile-galleries.js' %}"></script>
 {% endblock %}

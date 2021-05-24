@@ -1,0 +1,22 @@
+{% extends "users/art-card.html" %}
+
+
+{% block settings %}
+{% if gallery.creator == user %}
+<ul>
+    <p class='title-label'>Settings</p>
+    <a class='delete-btn' href="{% url 'galleries:remove_artwork' art.id gallery.id %}">Remove</a>
+</ul>
+{% endif %}
+{% endblock %}
+{% block like %}
+    {% if user in art.likes.all %}                         
+        <a href="{% url 'artworks:like' art.id %}?next={% url 'galleries:view' gallery.id %}"><p class='btn-edit'>Unlike</p></a>
+    {% else %}
+        <a href="{% url 'artworks:like' art.id %}?next={% url 'galleries:view' gallery.id %}"><p class='btn-edit'>Like</p></a>
+    {% endif %}
+{% endblock %}
+
+{% block link %}
+    <a class='gallery' href="{% url 'galleries:add_artwork' art.id gallery_choice.id %}?next={% url 'galleries:view' gallery.id %}">{{ gallery_choice }}</a>
+{% endblock %}
