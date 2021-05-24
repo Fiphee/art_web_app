@@ -5,6 +5,7 @@ from artworks.models import Artwork
 from .models import GalleryArtwork, Gallery, UserFollowedGallery
 from .forms import GalleryForm
 from .utils import get_next_position
+from django.contrib.auth.decorators import login_required
 
 
 def create_gallery_view(request):
@@ -23,20 +24,19 @@ def create_gallery_view(request):
     return render(request, 'galleries/create.html', context)
 
 
+@login_required
 def add_artwork(request, art_id, gallery_id):
-    if request.user.is_authenticated:
-        gallery = Gallery.objects.get(id=gallery_id)
-        if gallery.creator == request.user:
-            artwork = Artwork.objects.get(id=art_id)
-            try:
-                GalleryArtwork.objects.get(gallery=gallery, art=artwork)
-            except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
-                position = get_next_position(GalleryArtwork, gallery=gallery.id)
-                gallery.artworks.add(artwork, through_defaults={'position':position})
-            next_url = request.GET.get('next', '/')
-            return redirect(next_url)
-        return redirect('/')
-    return redirect('/login')
+    gallery = Gallery.objects.get(id=gallery_id)
+    if gallery.creator == request.user:
+        artwork = Artwork.objects.get(id=art_id)
+        try:
+            GalleryArtwork.objects.get(gallery=gallery, art=artwork)
+        except GalleryArtwork.DoesNotExist:  # if artwork not in the gallery then add the connection.
+            position = get_next_position(GalleryArtwork, gallery=gallery.id)
+            gallery.artworks.add(artwork, through_defaults={'position':position})
+        next_url = request.GET.get('next', '/')
+        return redirect(next_url)
+    return redirect('/')
 
 
 def gallery_view(request, gallery_id):
@@ -65,16 +65,15 @@ def gallery_view(request, gallery_id):
     return render(request, 'galleries/view.html', context)
 
 
+@login_required
 def remove_artwork(request, art_id, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
-    if request.user.is_authenticated:
-        if gallery.creator == request.user:
-            artwork = Artwork.objects.get(id=art_id)
-            if artwork in gallery.artworks.all():
-                gallery.artworks.remove(artwork)
-                return redirect(reverse('galleries:view', args=(gallery_id,)))   
-        return redirect('/')
-    return redirect('/login')
+    if gallery.creator == request.user:
+        artwork = Artwork.objects.get(id=art_id)
+        if artwork in gallery.artworks.all():
+            gallery.artworks.remove(artwork)
+            return redirect(reverse('galleries:view', args=(gallery_id,)))   
+    return redirect('/')
 
 
 def delete_gallery(request, gallery_id):
@@ -85,23 +84,21 @@ def delete_gallery(request, gallery_id):
     return redirect('/')
 
 
+@login_required
 def follow_gallery(request, gallery_id):
     user = request.user
-    if user.is_authenticated:
-        gallery = get_object_or_404(Gallery, id=gallery_id)
-        if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
-            position = get_next_position(UserFollowedGallery, user=user.id)
-            user.followed_galleries.add(gallery, through_defaults={'position':position})
-        return redirect(reverse('galleries:view', args=(gallery_id,)))
-    return redirect('/login')
+    gallery = get_object_or_404(Gallery, id=gallery_id)
+    if not UserFollowedGallery.objects.filter(gallery=gallery, user=user).exists():
+        position = get_next_position(UserFollowedGallery, user=user.id)
+        user.followed_galleries.add(gallery, through_defaults={'position':position})
+    return redirect(reverse('galleries:view', args=(gallery_id,)))
 
 
+@login_required
 def unfollow_gallery(request, gallery_id):
     user = request.user
-    if user.is_authenticated:
-        gallery = get_object_or_404(Gallery, id=gallery_id)
-        gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
-        if gallery_relationship.exists():
-            gallery_relationship.first().delete()
-        return redirect(reverse('galleries:view', args=(gallery_id,)))
-    return redirect('/login')
+    gallery = get_object_or_404(Gallery, id=gallery_id)
+    gallery_relationship = UserFollowedGallery.objects.filter(gallery=gallery, user=user)
+    if gallery_relationship.exists():
+        gallery_relationship.first().delete()
+    return redirect(reverse('galleries:view', args=(gallery_id,)))
