@@ -12,6 +12,7 @@ def home_view(request):
         last_artwork_id = Artwork.objects.latest('id').id
     except ObjectDoesNotExist as e:
         art = None
+        return render(request, "home.html", {})
 
     while True:
         art_query_index = random.randint(1, last_artwork_id)
