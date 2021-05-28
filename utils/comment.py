@@ -6,29 +6,3 @@ class CommentUtils:
         self.recipient = recipient
         self.next_url = next_url
         self.content_owner = content_owner
-
-
-    @staticmethod
-    def get_comment_url(content):
-        from users.models import Profile
-        from artworks.models import Artwork
-        from comments.models import Comment
-        urls = {
-            Artwork:reverse('artworks:view', args=(getattr(content, 'id', 0),)),
-            Profile:reverse('users:profile', args=(content,))
-        }
-        if isinstance(content, Comment):
-            return CommentUtils.get_comment_url(getattr(content.content_object, 'user', 'author'))
-
-        for class_type in [Artwork, Profile]:
-            if isinstance(content, class_type):
-                return urls[class_type]
-
-
-    @staticmethod
-    def get_content_url(content):
-        from comments.models import Comment
-        if not isinstance(content, Comment):
-            return CommentUtils.get_comment_url(content)
-            
-        return CommentUtils.get_content_url(content.content_object)
