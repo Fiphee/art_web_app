@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <p class="query-result">Showing results: ({{ users|length }}) user(s) found for: "{{ query }}"</p>
+    <div class='search-tabs'>
+        <a class='not-selected' href="{% url 'search:artworks' %}?search={{ query }}">Artworks</a>
+        <a class='selected'>Users</a>
+        <a class='not-selected' href="{% url 'search:galleries' %}?search={{ query }}">Galleries</a>
+    </div>
+    {% if page %}
+        {% for user in page %}
+            <div class="search-result-cards">
+                {% include "profile-card.html" %}
+            </div>
+        {% endfor %}
+        {% include 'pages.html' %}
+    {% else %}
+        <h2>No Users found</h2>
+    {% endif %}
+    
+{% endblock %}

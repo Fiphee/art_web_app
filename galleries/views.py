@@ -56,7 +56,7 @@ def gallery_view(request, gallery_id):
     page = page_obj.get_page(page_number)
     context['page_obj'] = page_obj
     context['page'] = page
-    context['page_url'] = reverse('galleries:view', args=(gallery_id,))
+    context['page_url'] = reverse('galleries:view', args=(gallery_id,))+'?page='
     context['status'] = status
 
     if gallery.creator == user:

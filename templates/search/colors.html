@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <p class="query-result">Showing results ({{ artworks|length }}) artwork(s) - found for: "{{ query }}"</p>
+    <h2>Artworks</h2>
+    {% if page %}
+        {% for art in page %}
+            <div class="search-result-cards">
+                {% include "artworks/art-card.html" %}
+            </div>
+        {% endfor %}
+        {% include 'pages.html' %}
+    {% else %}
+        <h2>No Artwork found</h2>
+    {% endif %}
+    
+
+{% endblock %}

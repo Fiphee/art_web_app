@@ -90,7 +90,7 @@ def profile_view(request, username):
             'visited_user':user,
             'page_obj':page_obj,
             'page':page,
-            'page_url':reverse('users:profile', args=(username,)),
+            'page_url':reverse('users:profile', args=(username,))+'?page=',
             'total_art_likes':total_likes,
             'already_following':False,
             'url_user':username,

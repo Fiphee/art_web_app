@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home_view, search_view
+from art_web_app.views import home_view
 
 
 urlpatterns = [
@@ -10,7 +10,7 @@ urlpatterns = [
     path('', home_view),
     path('', include('users.urls')),
     path('', include('django.contrib.auth.urls')),
-    path('search/', search_view, name="search"),
+    path('search/', include('art_web_app.urls.search')),
     path('artworks/', include('artworks.urls')),
     path('galleries/', include('galleries.urls')),
     path('notifications/', include('notifications.urls')),

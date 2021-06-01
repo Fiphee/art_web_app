@@ -199,6 +199,7 @@ body {
 
 .query-result {
     color: gray;
+    margin-bottom: 25px;
 }
 
 .img-result {
@@ -557,6 +558,10 @@ body {
 }
 
 
+.search-galleries .profile-galleries {
+    display: inline;
+
+}
 .label {
     padding-left:45%;
     margin-top: 75px;
@@ -617,4 +622,32 @@ body {
 .pages .dots {
     color: black;
     margin-bottom: 5px;
+}
+
+.search-tabs {
+    margin-bottom: 15px;
+}
+.search-tabs * {
+    border: 1px solid #53d358;
+    display: inline;
+    padding: 10px 15px 10px 15px;
+    margin-top: 5px;
+    border-radius: 15px;
+}
+
+.search-tabs .selected {
+    background-color: #53d358;
+    font-size: 16px;
+    color: white;
+}
+
+.search-tabs .not-selected {
+    color: rgb(32, 32, 32);
+    transition: .2s;
+}
+
+.search-tabs .not-selected:hover {
+    background-color: #53d358;
+    font-size: 16px;
+    color: white;
 }

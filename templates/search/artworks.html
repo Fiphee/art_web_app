@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <p class="query-result">Found: ({{ artworks|length }}) artwork(s) for: "{{ query }}"</p>
+    <div class='search-tabs'>
+        <a class='selected'>Artworks</a>
+        <a class='not-selected' href="{% url 'search:users' %}?search={{ query }}">Users</a>
+        <a class='not-selected' href="{% url 'search:galleries' %}?search={{ query }}">Galleries</a>
+    </div>
+    {% if page %}
+        {% for art in page %}
+            <div class="search-result-cards">
+                {% include "artworks/art-card.html" %}
+            </div>
+        {% endfor %}
+        {% include 'pages.html' %}
+    {% else %}
+        <h2>No Artwork found</h2>
+    {% endif %}
+    
+
+{% endblock %}

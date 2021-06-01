@@ -3,7 +3,7 @@
 <nav class="navbar">
     <div class="topnav">
         <a class="active" href='/'>Home</a>
-        <form method="GET" action="{% url 'search' %}">
+        <form method="GET" action="{% url 'search:artworks' %}">
           <input type='search' class='search-bar' name='search' id="id_search" placeholder="Search for Artworks..." value="{{ query }}"/>
           <button type='submit' class='btn-search'><i class='fas fa-search'></i></button>
         </form>
