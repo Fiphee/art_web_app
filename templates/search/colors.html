@@ -6,8 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <p class="query-result">Showing results ({{ artworks|length }}) artwork(s) - found for: "{{ query }}"</p>
-    <h2>Artworks</h2>
+    <p class="query-result">Found ({{ artworks|length }}) artwork(s) which contain colors similar to: <a style="color:{{ query }}; background-color: {{ query }};">___</a></p>
     {% if page %}
         {% for art in page %}
             <div class="search-result-cards">
