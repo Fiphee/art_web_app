@@ -1,17 +1,28 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% if not user.is_authenticated %}
-    <h2>Login Page</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <p>Don't have an account? Register <a href="{% url 'users:register' %}">here</a></p>
-        <button type=submit class=login-btn>Login</button>      
-    </form>
-{% else %}
-    <h2>You are already logged in as {{ user }}</h2>
-    <p>Click here to <a class="logged-in-logout-btn" href="{% url 'logout' %}">Logout</a></p>
-{% endif %}
+
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+{% endblock %}
+<div class='login-body' style="background-image: url({% static 'images/s34.jpg' %});">
+    <div class='overlay'></div>
+    {% if not user.is_authenticated %}
+    <div class='login-form'>
+        <h2>Login Page</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <p class='white-text'>Don't have an account? Register <a class='link-btn' href="{% url 'users:register' %}">here</a></p>
+            <button type=submit class=login-btn>Login</button>      
+        </form>
+    {% else %}
+        <div class='login-form'>
+            <h2 class='logout'>You are already logged in as <span class='color-text'>{{ user }}</span></h2>
+            <p class='white-text'>Click here to <a class='link-btn' href="{% url 'logout' %}">Logout</a></p>
+        </div>
+    {% endif %}
+    </div>
+</div>
 {% endblock %}

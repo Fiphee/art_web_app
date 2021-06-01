@@ -2,13 +2,21 @@
 
 {% load crispy_forms_tags %}
 {% block content %}
-<h2>Register Page</h2>
-<form method="POST" class="form-group">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
-    <button type='submit' class=btn-success>Register</button>
-    
+{% load static %}
+{% block script %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/auth.css' %}">
+{% endblock %}
+<div class='login-body' style="background-image: url({% static 'images/s34.jpg' %});">
+    <div class='overlay'></div>
+    <div class='register-form'>
+        <h2>Register Page</h2>
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <p class='white-text'>Already have an account? Login <a class='link-btn' href="{% url 'login' %}">here</a></p>
+            <button type='submit' class='btn-success'>Register</button>
+    </div>
+</div>
 </form>
 
 {% endblock %}
