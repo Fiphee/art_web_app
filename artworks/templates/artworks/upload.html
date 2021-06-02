@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
-<h2>Upload art</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-<button type="submit" class="btn btn-primary">Upload art</button>
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+<div class='upload-body' style="background-image: url({% static 'images/upload.jpg' %});">
+    <div class='overlay'></div>
+    <div class='upload-form'>
+        <h2 class='title'>Upload art</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Upload art</button>
+    </div>
+</div>
 {% endblock %}
