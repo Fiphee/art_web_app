@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.shortcuts import reverse
 from artworks.models import Artwork
-from utils.comment import CommentUtils
+from utils.notification import Notification as NotificationUtils
 
 
 class Notification(CustomModel):
@@ -58,6 +58,7 @@ class Notification(CustomModel):
         return texts[self.activity]
 
 
+    @property
     def message(self):
         texts = {
             ART_LIKE: f'liked your artwork "{self.content_object}"!',
@@ -71,17 +72,19 @@ class Notification(CustomModel):
         }
         return texts[self.activity]
 
-
+    @property
     def activity_url(self):
         texts = {
-            ART_LIKE: reverse('artworks:view', args=(self.content_object.id,)),
-            FOLLOW: reverse('users:profile', args=(self.user,)),
-            COMMENT: CommentUtils.get_content_url(self.content_object),
-            COMMENT_LIKE: CommentUtils.get_content_url(self.content_object),
-            GALLERY_LIKE: reverse('galleries:view', args=(self.content_object.id,)),
-            GALLERY_FOLLOW: reverse('galleries:view', args=(self.content_object.id,)),
-            REPLY: CommentUtils.get_content_url(self.content_object),
-            UPLOAD: reverse('artworks:view', args=(self.content_object.id,)),
+            ART_LIKE: ('artworks:view', self.content_object.id),
+            FOLLOW: ('users:profile', self.user),
+            COMMENT: (None, self.content_object),
+            COMMENT_LIKE: (None, self.content_object),
+            GALLERY_LIKE: ('galleries:view', self.content_object.id),
+            GALLERY_FOLLOW: ('galleries:view', self.content_object.id),
+            REPLY: (None, self.content_object),
+            UPLOAD: ('artworks:view', self.content_object.id),
         }
-        return texts[self.activity]
+
+        url, args = texts[self.activity]      
+        return NotificationUtils.get_content_url(url, args)
 
