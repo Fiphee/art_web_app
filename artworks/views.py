@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from comments.forms import CommentForm
 from utils.comment import CommentUtils
 
+
 def upload_view(request):
     if request.method == "POST":
         form = ArtForm(request.POST, request.FILES, user=request.user)
@@ -34,7 +35,7 @@ def like_view(request, art_id):
         if next_url:
             return redirect(next_url)
         return HttpResponseRedirect(reverse('artworks:view', args=(art_id,)))
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def swipe_like_view(request, art_id):
@@ -52,7 +53,7 @@ def art_view(request, art_id):
             if request.user.is_authenticated:
                 artwork.comments.create(author=request.user, body=form.cleaned_data['body'])
                 return redirect(reverse('artworks:view', args=(art_id,)))
-            return redirect('/login')
+            return redirect(reverse('users:login'))
     else: 
         form = CommentForm()
         liked = artwork.likes.filter(id=request.user.id).exists()

@@ -26,7 +26,7 @@ def register_view(request):
         "form":form
     }
 
-    return render(request, "register.html", context)
+    return render(request, "users/register.html", context)
 
 
 def profile_settings_view(request, user_id):
@@ -65,7 +65,7 @@ def profile_view(request, username):
             if request.user.is_authenticated:
                 user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
                 return redirect(reverse('users:profile', args=(user,)))
-            return redirect('/login')
+            return redirect(reverse('users:login'))
     else:
         form = CommentForm()
         artworks = []
@@ -107,7 +107,7 @@ def follow_view(request, artist_id):
             else:
                 UserFollowing(user_followed_by=request.user, user=artist).save()
         return redirect(reverse('users:profile', args=(artist.username,)))
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def user_galleries_view(request, username):
@@ -123,7 +123,7 @@ def user_galleries_view(request, username):
             if request.user.is_authenticated:
                 user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
                 return redirect(reverse('users:galleries', args=(user,)))
-            return redirect('/login')
+            return redirect(reverse('users:login'))
 
     else:
         form = CommentForm()

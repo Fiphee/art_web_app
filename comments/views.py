@@ -16,7 +16,7 @@ def like_view(request, comment_id):
         else:
             comment.likes.add(user)
         return redirect(next_url)
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def remove_view(request, comment_id):
@@ -36,4 +36,4 @@ def remove_view(request, comment_id):
         if user == content_object_user or user == comment.author:
             comment.delete()
         return redirect(next_url)
-    return redirect('/login')
+    return redirect(reverse('users:login'))
