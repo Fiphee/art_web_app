@@ -36,7 +36,7 @@ def add_artwork(request, art_id, gallery_id):
                 gallery.artworks.add(artwork, through_defaults={'position':position})
             return redirect(reverse('users:profile', args=(artwork.uploader.username,)))
         return redirect('/')
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def gallery_view(request, gallery_id):
@@ -74,7 +74,7 @@ def remove_artwork(request, art_id, gallery_id):
                 gallery.artworks.remove(artwork)
                 return redirect(reverse('galleries:view', args=(gallery_id,)))   
         return redirect('/')
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def delete_gallery(request, gallery_id):
@@ -94,7 +94,7 @@ def follow_gallery(request, gallery_id):
             gallery.notify = {'user':user, 'recipient':gallery.creator, 'activity':GALLERY_FOLLOW}
             gallery.followers.add(user, through_defaults={'position':position})
         return redirect(reverse('galleries:view', args=(gallery_id,)))
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def unfollow_gallery(request, gallery_id):
@@ -106,4 +106,4 @@ def unfollow_gallery(request, gallery_id):
             gallery.notify = {'user':user, 'recipient':gallery.creator, 'activity':GALLERY_FOLLOW}
             gallery.followers.remove(user)
         return redirect(reverse('galleries:view', args=(gallery_id,)))
-    return redirect('/login')
+    return redirect(reverse('users:login'))

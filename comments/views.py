@@ -22,7 +22,7 @@ def like_view(request, comment_id):
         else:
             comment.likes.add(user)
         return redirect(next_url)
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def remove_view(request, comment_id):
@@ -53,7 +53,7 @@ def remove_view(request, comment_id):
             comment.notify = {'user':user, 'recipient':content_object_user, 'activity':activity}
             comment.delete()
         return redirect(next_url)
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 @login_required

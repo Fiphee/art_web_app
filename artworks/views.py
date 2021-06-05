@@ -41,7 +41,7 @@ def like_view(request, art_id):
         if next_url:
             return redirect(next_url)
         return redirect(reverse('artworks:view', args=(art_id,)))
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def swipe_like_view(request, art_id):
@@ -64,7 +64,7 @@ def art_view(request, art_id):
                 comment.notify = {'user':user, 'recipient':artwork.uploader, 'activity':COMMENT}
                 comment.save()
                 return redirect(reverse('artworks:view', args=(art_id,)))
-            return redirect('/login')
+            return redirect(reverse('users:login'))
     else: 
         form = CommentForm()
         liked = artwork.likes.filter(id=user.id).exists()
