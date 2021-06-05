@@ -31,7 +31,7 @@ def register_view(request):
         "form":form
     }
 
-    return render(request, "register.html", context)
+    return render(request, "users/register.html", context)
 
 
 def profile_settings_view(request, user_id):
@@ -71,8 +71,8 @@ def profile_view(request, username):
                 comment.notify = {'user':request.user, 'recipient':user, 'activity':COMMENT}
                 comment.save()
                 return redirect(reverse('users:profile', args=(user,)))
-            return redirect('/login')
-    else:       
+            return redirect(reverse('users:login'))
+    else:
         form = CommentForm()
         artworks = []
         total_likes = 0
@@ -127,7 +127,7 @@ def follow_view(request, artist_id):
                 artist.notifications.create(user=user, content_object=artist, activity=FOLLOW).save()
                 follow = True
         return JsonResponse({"followed":follow, "followers_nr":artist.followers.count()})
-    return redirect('/login')
+    return redirect(reverse('users:login'))
 
 
 def user_galleries_view(request, username):
@@ -144,7 +144,7 @@ def user_galleries_view(request, username):
                 comment.notify = {'user':request.user, 'recipient':user, 'activity':COMMENT}
                 comment.save()
                 return redirect(reverse('users:galleries', args=(user,)))
-            return redirect('/login')
+            return redirect(reverse('users:login'))
 
     else:
         form = CommentForm()

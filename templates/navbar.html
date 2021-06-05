@@ -17,10 +17,10 @@
               {% include 'notification-bell.html' %}
             </a>
             <a href="{% url 'users:profile' user.username %}">Profile</a>
-            <a href="/logout">Logout</a>
+            <a href="{% url 'users:logout' %}">Logout</a>
           {% else %}
             <a href="{% url 'users:register' %}">Register</a>
-            <a href="/login">Log in</a>
+            <a href="{% url 'users:login' %}">Log in</a>
           {% endif %}
         </div>
       </div> 

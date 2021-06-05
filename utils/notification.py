@@ -1,6 +1,6 @@
 from django.shortcuts import reverse
 import json
-from .constants import FILTER_BY_NOTIFICATION, FILTER_BY_CONTENT, FILTER_BY_ACTIVITY
+from .constants import FILTER_BY_NOTIFICATION, FILTER_BY_CONTENT, FILTER_BY_ACTIVITY, UPLOAD
 
 
 class Notification:
@@ -40,14 +40,24 @@ class Notification:
         return reverse(url, args=(content,))
 
 
-def get_filter_argument(filter_key, filter_value):
+def get_filter_arguments(filter_key, filter_value, activity, content_type):
+    if activity == str(UPLOAD):
+        filter_arguments = {
+            'user_id':filter_value,
+            'content_type_id':content_type,
+            'activity':activity
+        }
+        return filter_arguments
+
     arguments = {
         FILTER_BY_NOTIFICATION:'id',
         FILTER_BY_CONTENT:'object_id',
         FILTER_BY_ACTIVITY:'activity',
     }
 
-    filter_argument = {
+    filter_arguments = {
         arguments[filter_key]:filter_value,
     }
-    return filter_argument
+    if activity:
+        filter_arguments['activity'] = activity
+    return filter_arguments
