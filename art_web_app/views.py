@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from utils import get_query
+from .utils import get_query
 from artworks.models import Artwork, ArtCategory, Category
 import random
 
@@ -37,13 +37,17 @@ def search_view(request):
         query = request.GET['search']
         context['query'] = str(query)
     try:
-        artworks, users = get_query(query)
+        artworks, users, galleries = get_query(query)
     except:
-        artworks = ''
-        users = ''
+        artworks = set()
+        users = set()
+        galleries = set()
         
-    context['artworks'] = artworks
-    context['users'] = users
+    context = {
+        'artworks':artworks,
+        'users':users,
+        'galleries':galleries
+    }
     return render(request, 'search.html', context)
 
 

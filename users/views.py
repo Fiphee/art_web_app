@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.db import transaction
 from .forms import RegisterForm, ProfileSettingsForm, UserSettingsForm
 from .models import Profile, AuthUserModel, UserFollowing
+from comments.forms import CommentForm
+from utils.comment import CommentUtils
 
 
 def register_view(request):
@@ -24,7 +26,7 @@ def register_view(request):
         "form":form
     }
 
-    return render(request, "register.html", context)
+    return render(request, "users/register.html", context)
 
 
 def profile_settings_view(request, user_id):
@@ -57,26 +59,41 @@ def profile_view(request, username):
     else:
         user = get_object_or_404(AuthUserModel, username=username)
     
-    artworks = []
-    total_likes = 0
-    context['visited_user'] = user
-    try:
-        for art in user.artworks.all():
-            artworks.append(art)
-            total_likes += art.likes.count()
-    except AttributeError:
-        print("User has no artworks")
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('users:profile', args=(user,)))
+            return redirect(reverse('users:login'))
+    else:
+        form = CommentForm()
+        artworks = []
+        total_likes = 0
+        context['visited_user'] = user
+        try:
+            for art in user.artworks.all():
+                artworks.append(art)
+                total_likes += art.likes.count()
+        except AttributeError:
+            print("User has no artworks")
 
-    context['user_artworks'] = artworks
-    context['total_art_likes'] = total_likes
-    context['already_following'] = False
+        context = {
+            'visited_user':user,
+            'user_artworks':artworks,
+            'total_art_likes': total_likes,
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user),
+            'url_user':username
+        }
 
-    if request.user.is_authenticated:
-        already_following = user.followers.filter(user_followed_by=request.user).first()
-        if already_following:
-            context['already_following'] = True
-    context['url_user'] = username
-    
+        if request.user.is_authenticated:
+            already_following = user.followers.filter(user_followed_by=request.user).first()
+            if already_following:
+                context['already_following'] = True
+        
+
     return render(request, "users/profile.html", context)
 
 
@@ -84,11 +101,53 @@ def follow_view(request, artist_id):
     if request.user.is_authenticated:
         if artist_id != request.user.id:
             artist = AuthUserModel.objects.get(id=artist_id)
-            followed = UserFollowing.objects.filter(user_id=artist, user_followed_by=request.user).first()
+            followed = UserFollowing.objects.filter(user=artist, user_followed_by=request.user).first()
             if followed:
                 followed.delete()
             else:
-                UserFollowing(user_followed_by=request.user, user_id=artist).save()
-        return redirect(reverse('users:profile_view', args=(artist.username,)))
-    return redirect('/login')
+                UserFollowing(user_followed_by=request.user, user=artist).save()
+        return redirect(reverse('users:profile', args=(artist.username,)))
+    return redirect(reverse('users:login'))
+
+
+def user_galleries_view(request, username):
+    context = {}
+    if username == request.user.username:
+        user = request.user
+    else:
+        user = get_object_or_404(AuthUserModel, username=username)
     
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                user.profile.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('users:galleries', args=(user,)))
+            return redirect(reverse('users:login'))
+
+    else:
+        form = CommentForm()
+        galleries = []
+        total_artworks_in_gallery = 0
+        try:
+            for gallery in user.galleries.all():
+                galleries.append(gallery)
+                total_artworks_in_gallery += gallery.artworks.count()
+        except AttributeError:
+            print("User has no galleries")
+
+        context = {
+            'visited_user':user,
+            'user_galleries': galleries,
+            'url_user':username,
+            'comments': user.profile.comments.all(),
+            'form':form,
+            'comment_util':CommentUtils('user', reverse('users:profile', args=(user,)), request.user == user)
+        }
+
+        if request.user.is_authenticated:
+            already_following = user.followers.filter(user_followed_by=request.user).first()
+            context['already_following'] = already_following
+
+
+        return render(request, "users/galleries.html", context)

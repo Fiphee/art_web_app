@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, reverse
 from .forms import ArtForm
 from django.db import transaction
 from .models import Category, Artwork, ArtLike
-from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate
+from comments.forms import CommentForm
+from utils.comment import CommentUtils
 
 
 def upload_view(request):
@@ -18,37 +19,55 @@ def upload_view(request):
     context = {
         "form":form,
     }
-    return render(request, 'artworks/upload_art.html', context)
+    return render(request, 'artworks/upload.html', context)
 
 
 def like_view(request, art_id):
     user = request.user
+    next_url = request.GET.get('next')
+
     if user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
         if artwork.likes.filter(id=user.id).exists():
             artwork.likes.remove(user)
         else:
             artwork.likes.add(user)
-        return HttpResponseRedirect(reverse('artworks:art_view', args=(art_id,)))
-    return redirect('/login')
+        if next_url:
+            return redirect(next_url)
+        return HttpResponseRedirect(reverse('artworks:view', args=(art_id,)))
+    return redirect(reverse('users:login'))
 
 
 def swipe_like_view(request, art_id):
     if request.user.is_authenticated:
         artwork = Artwork.objects.get(pk=art_id)
         artwork.likes.add(request.user)
-    return HttpResponseRedirect('/')
+    return redirect('/')
 
 
 def art_view(request, art_id):
     artwork = Artwork.objects.get(pk=art_id)
-    liked = artwork.likes.filter(id=request.user.id).exists()
-    categories = artwork.category.all()
-    context = {
-        "artwork":artwork,
-        "artist": artwork.uploader,
-        "liked":liked,
-        "categories":categories,
-    }
-    return render(request, 'artworks/art_view.html', context)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            if request.user.is_authenticated:
+                artwork.comments.create(author=request.user, body=form.cleaned_data['body'])
+                return redirect(reverse('artworks:view', args=(art_id,)))
+            return redirect(reverse('users:login'))
+    else: 
+        form = CommentForm()
+        liked = artwork.likes.filter(id=request.user.id).exists()
+        categories = artwork.category.all()
+        comments = artwork.comments.all()
+        
+        context = {
+            "artwork":artwork,
+            "artist": artwork.uploader,
+            "liked":liked,
+            "categories":categories,
+            "comments":comments,
+            "form": form,
+            'comment_util': CommentUtils('uploader', reverse('artworks:view', args=(art_id,)), request.user == artwork.uploader)
+        }
+        return render(request, 'artworks/view.html', context)
 

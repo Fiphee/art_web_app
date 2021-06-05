@@ -2,13 +2,16 @@ from django.db import models
 from art_web_app.models import CustomModel, AuthUserModel
 from galleries.models import Gallery
 from utils.constants import SWIPE_HOMEPAGE, GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE
+from django.contrib.contenttypes.fields import GenericRelation
+from comments.models import Comment
 
 
 class Profile(CustomModel):
-    user_id = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
+    user = models.OneToOneField(AuthUserModel, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
     quote = models.CharField(max_length=100, blank=True, null=True)
     avatar = models.ImageField(upload_to='users/avatars/', default='/users/avatars/default.png')
+    comments = GenericRelation(Comment)
 
     class Types(models.IntegerChoices):
         SWIPE = SWIPE_HOMEPAGE
@@ -28,6 +31,6 @@ class Profile(CustomModel):
 
 
 class UserFollowing(CustomModel):
-    user_id = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
+    user = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="followers")
     user_followed_by = models.ForeignKey(AuthUserModel, on_delete=models.CASCADE, related_name="follows")
 
