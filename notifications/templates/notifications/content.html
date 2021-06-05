@@ -5,7 +5,7 @@
     <div class='notification-card-multi'>
         <a class='user' href="{% url 'users:profile' notification.user %}">{{ notification.user }}</a>
         <a class='text' href="{{ notification.activity_url }}">{{ notification.message }}</a>
-        <a class='btn' href="{% url 'notifications:mark_as_seen' notification.id %}?filter_by={{ filter }}&next={% url 'notifications:content' notification.activity notification.object_id %}">Mark as Seen<a>
+        <a class='btn' href="{% url 'notifications:mark_as_seen' notification.id %}?filter_by={{ filter }}&next={% url 'notifications:content' notification.activity seen_argument %}">Mark as Seen<a>
     </div>
 {% endfor %}
 {% endblock %}
