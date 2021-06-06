@@ -1,9 +1,35 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load url_filters %}
 {% block content %}
-{% if art %}
-    {% include 'art-card.html' %}
+<div class='homepage-options'>
+    <a href="{% url 'home' %}">swipe</a>
+    <a href="{% url 'list' %}?artworks=followed&filter=thismonth">followed</a>
+    <a href="{% url 'list' %}?artworks=newest">newest</a>
+    <a href="{% url 'list' %}?artworks=oldest&filter=thismonth">oldest</a>
+    <a href="{% url 'list' %}?artworks=popular&filter=thismonth">popular</a>
+</div>
+{% if extra_options %}
+<div class='extra-homepage-options'>
+    <a href="{{ request.get_full_path|remove_last_parameters }}&filter=alltime">All time</a>
+    <a href="{{ request.get_full_path|remove_last_parameters }}&filter=thismonth">This month</a>
+    <a href="{{ request.get_full_path|remove_last_parameters }}&filter=today">Today</a>
+</div>
+{% endif %}
+{% if page %}
+    <div class='artwork-list'>
+    {% for art in page %}
+        <div class="search-result-cards">
+            {% include "artworks/art-card.html" %}
+        </div>
+    {% endfor %}
+    </div>
+{% include 'pages.html' %}
+{% else %}
+    {% if art %}
+        {% include 'art-card.html' %}
+    {% endif %}
 {% endif %}
 {% endblock %}
 {% block script %}

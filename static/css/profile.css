@@ -161,7 +161,6 @@
     display: inline-flex;
     flex-wrap: wrap;
     left: 23vw;
-    margin-left: 2px;
     top: 60px;
     z-index: 0;
     width: 75vw;
@@ -278,6 +277,8 @@
 
 .galleries-container {
     display: grid;
+    position: absolute;
+    margin-top: 650px;
 
 }
 

@@ -8,11 +8,13 @@
 {% block content %}
     <p class="query-result">Found ({{ artworks|length }}) artwork(s) which contain colors similar to: <a style="color:{{ query }}; background-color: {{ query }};">___</a></p>
     {% if page %}
+        <div class='artwork-list'>
         {% for art in page %}
             <div class="search-result-cards">
                 {% include "artworks/art-card.html" %}
             </div>
         {% endfor %}
+        </div>
         {% include 'pages.html' %}
     {% else %}
         <h2>No Artwork found</h2>

@@ -13,11 +13,13 @@
         <a class='not-selected' href="{% url 'search:galleries' %}?search={{ query }}">Galleries</a>
     </div>
     {% if page %}
+        <div class='artwork-list'>
         {% for art in page %}
             <div class="search-result-cards">
                 {% include "artworks/art-card.html" %}
             </div>
         {% endfor %}
+        </div>
         {% include 'pages.html' %}
     {% else %}
         <h2>No Artwork found</h2>

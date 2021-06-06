@@ -13,13 +13,15 @@
         <a class='selected'>Galleries</a>
     </div>
     {% if page %}
-        {% for gallery in page %}
-            <div class="search-result-cards">
-                <div class='search-galleries'>
-                {% include "gallery-card.html" %}
+        <div class='gallery-list'>
+            {% for gallery in page %}
+                <div class="search-result-cards">
+                    <div class='search-galleries'>
+                    {% include "gallery-card.html" %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
         {% include 'pages.html' %}
     {% else %}
         <h2>No Galleries found</h2>

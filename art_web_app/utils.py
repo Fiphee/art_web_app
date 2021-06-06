@@ -1,7 +1,8 @@
 from artworks.models import Artwork, Category, Color
 from users.models import AuthUserModel
 from galleries.models import Gallery
-
+from utils.constants import GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE, FOLLOWED_HOMEPAGE, OLDEST_HOMEPAGE, THIS_MONTH, TODAY, ALL_TIME
+from datetime import datetime, timedelta, date
 
 class Search:
     @staticmethod
@@ -68,34 +69,18 @@ class Search:
                 query_results.add(art)
         return query_results
         
+
+def get_homepage_date_filters(max_time_ago):
+    if max_time_ago == TODAY:
+        now = datetime.now()
+        day_start = now.replace(hour=0)
+        return {'created_at__gte':day_start}
     
-    # def get_query(query=None):
-    #     queries = Query._split_queries(query)
-    #     if 'rgb' in query:
-    #         query_results = set()
-    #         colors = Color.objects.filter(category__name=query)
-    #         for color in colors:
-    #             for art in color.artworks.all():
-    #                 query_results.add(art)
-    #         return query_results
-    #     art_query_results = set()
-    #     user_query_results = set()
-    #     gallery_query_results = set()
-    #     queries = _split_queries(query)
-    #     if len(queries) > 0:
-    #         for q in queries:
-    #             if q.startswith('#'):
-    #                 category = Category.objects.get(name=q[1:])
-    #                 for art in category.artworks.all():
-    #                     art_query_results.add(art)
-    #                 continue
-    #             artworks = Artwork.objects.filter(title__icontains=q)
-    #             users = AuthUserModel.objects.filter(username__icontains=q)
-    #             galleries = Gallery.objects.filter(name__icontains=q)
-    #             for art in artworks:
-    #                 art_query_results.add(art)
-    #             for user in users:
-    #                 user_query_results.add(user)
-    #             for gallery in galleries:
-    #                 gallery_query_results.add(gallery)
-    #     return art_query_results, user_query_results, gallery_query_results
+    elif max_time_ago == THIS_MONTH:
+        now = datetime.now()
+        month_start = now.replace(day=1)
+        return {'created_at__gte':month_start}
+
+    elif max_time_ago == ALL_TIME:
+        return {}
+
