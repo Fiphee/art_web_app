@@ -68,7 +68,34 @@ class Search:
             for art in color.artworks.all():
                 query_results.add(art)
         return query_results
-        
+
+    @staticmethod
+    def followers(logged_user):
+        follower_objects = logged_user.followers.all().order_by('-created_at')
+        followers = []
+        for follower in follower_objects:
+            user = AuthUserModel.objects.get(id=follower.user_followed_by.id)
+            followers.append(user)
+        return followers
+
+
+    @staticmethod
+    def followed_by(logged_user):
+        follower_objects = logged_user.follows.all().order_by('-created_at')
+        followers = []
+        for follower in follower_objects:
+            user = AuthUserModel.objects.get(id=follower.user.id)
+            followers.append(user)
+        return followers
+
+
+    @staticmethod
+    def following(logged_user, following):
+        if following == 'followers':
+            return Search.followers(logged_user)
+        return Search.followed_by(logged_user)
+            
+
 
 def get_homepage_date_filters(max_time_ago):
     if max_time_ago == TODAY:

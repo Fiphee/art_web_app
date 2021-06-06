@@ -4,7 +4,6 @@
 }
 
 body {
-    display: grid;
     margin-top: 60px;
     padding: 25px;
     padding-top: 5px;
@@ -567,7 +566,7 @@ body {
 }
 .label {
     padding-left:45%;
-    margin-top: 75px;
+    margin-top: 25px;
 }
 
 
@@ -596,8 +595,7 @@ body {
     right: 45vw;
 }
 .pages {
-    margin-left: 23vw;
-    margin-top: 85px;
+    margin-top: 35px;
     text-align: center;
     margin-bottom: 50px;
 }
@@ -693,4 +691,12 @@ body {
 
 .extra-homepage-options a:hover {
     color: #53d358;
+}
+
+.subtle-info {
+    color: gray;
+}
+
+.home-content {
+    display: grid;
 }

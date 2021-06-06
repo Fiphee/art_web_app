@@ -6,12 +6,16 @@
 {% endblock %}
 
 {% block content %}
-    <p class="query-result">Showing results: ({{ users|length }}) user(s) found for: "{{ query }}"</p>
-    <div class='search-tabs'>
-        <a class='not-selected' href="{% url 'search:artworks' %}?search={{ query }}">Artworks</a>
-        <a class='selected'>Users</a>
-        <a class='not-selected' href="{% url 'search:galleries' %}?search={{ query }}">Galleries</a>
-    </div>
+    {% if following %}
+        <p class='query-result'>{{ following|capfirst }}</p>
+    {% else %}
+        <p class="query-result">Showing results: ({{ users|length }}) user(s) found for: "{{ query }}"</p>
+        <div class='search-tabs'>
+            <a class='not-selected' href="{% url 'search:artworks' %}?search={{ query }}">Artworks</a>
+            <a class='selected'>Users</a>
+            <a class='not-selected' href="{% url 'search:galleries' %}?search={{ query }}">Galleries</a>
+        </div>
+    {% endif %}
     {% if page %}
         <div class='users-list'>
             {% for user in page %}

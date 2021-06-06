@@ -16,11 +16,15 @@
     <h2 class="name">{{ visited_user.username }}</h2>
     <p class="quote">{{ visited_user.profile.quote }}</p>
     <div class="about">
-        
-        <p style="color:white; padding-left:25px;">Followers:</p>
-        <p id='followers-nr' class="total-nr">{{ visited_user.followers.count }}</p>
-
+        <a {% if visited_user == user %}href="{% url "search:users" %}?following=followers"{% endif %}>
+            <p style="color:white; padding-left:25px;">Followers:</p>
+            <p id='followers-nr' class="total-nr">{{ visited_user.followers.count }}</p>
+        </a>
         {% if user == visited_user %}
+            <a href="{% url 'search:users' %}?following=followed by you">
+                <p class='white-text'>Followed by you</p>
+                <p class='total-nr'>{{ user.follows.count }}</p>
+            </a>
             <a class='btn' href="{% url 'users:settings' user.id %}">Profile Settings</a>
         {% else %}
             {% if already_following %}
@@ -28,7 +32,8 @@
             {% else %}
                 <a id='follow-btn' class='btn' href="{% url 'users:follow' visited_user.id %}">Follow</a>
             {% endif %}
-        {% endif %}        
+        {% endif %}      
+          
 
         <p class='label'>About the artist</p>
         <p class="text">{{ visited_user.profile.description }}</p>
@@ -47,7 +52,7 @@
     </div>
 </div>
 
-<div class='galleries-container'>
+<div class='profile-content-container'>
 {% block profile_works %}
 {% endblock %}
 

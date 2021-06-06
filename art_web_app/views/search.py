@@ -49,18 +49,26 @@ def search_users_view(request):
     context = {}
     query = ''
     if request.method == 'GET':
-        query = request.GET['search']
-
-    users = list(Search.users(query))
+        query = request.GET.get('search')
+    
+    following = request.GET.get('following', None) 
+    if following:
+        users = list(Search.following(request.user, following))
+        page_url = reverse('search:users')+f'?following={following}&page=' 
+    else:
+        users = list(Search.users(query))
+        page_url = reverse('search:users')+f'?search={query}&page='
+    
     page_obj = Paginator(users, 40)
     page_number = request.GET.get('page', 1)
     page = page_obj.get_page(page_number)
     context = {
         'users':users,
-        'query': str(query),
+        'query': query,
         'page_obj':page_obj,
         'page':page,
-        'page_url':reverse('search:users')+f'?search={query}&page=',
+        'page_url':page_url,
+        'following':following,
     }
     return render(request, 'search/users.html', context)
 
