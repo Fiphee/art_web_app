@@ -127,7 +127,7 @@ def follow_view(request, artist_id):
                 artist.notifications.create(user=user, content_object=artist, activity=FOLLOW).save()
                 follow = True
         return JsonResponse({"followed":follow, "followers_nr":artist.followers.count()})
-    return redirect(reverse('users:login'))
+    return JsonResponse({"redirect_url": reverse('users:login')})
 
 
 def user_galleries_view(request, username):

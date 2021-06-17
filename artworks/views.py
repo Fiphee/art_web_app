@@ -42,7 +42,7 @@ def like_view(request, art_id):
             liked = True
 
         return JsonResponse({"liked":liked, "art_likes":artwork.likes.count()})
-    return redirect(reverse('users:login'))
+    return JsonResponse({"redirect_url": reverse('users:login')})
 
 
 def swipe_like_view(request, art_id):

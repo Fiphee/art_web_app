@@ -86,7 +86,9 @@ $(likeBtn).on('click', function(event) {
         url: $(this).attr('href'),
         success: function(response) {
             $(likes).text(response.art_likes + ' Likes')
-
+            if (response.redirect_url) {
+                location.href = response.redirect_url
+            }
             if (response.liked) {
                 heart.attr('id', 'liked-heart')
                 heart.addClass('fas fa-heart btn-edit')

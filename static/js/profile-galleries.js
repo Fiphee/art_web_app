@@ -20,7 +20,8 @@ $(function() {
 
     var mySettings = document.getElementById('gallery-settings-form');
     $('.fa-edit').on('click', function(){
-        $(my_settings).css('display', 'block')
+        console.log('ey')
+        $(mySettings).css('display', 'block')
     });
 
     $(mySettings).mouseleave(function() {
@@ -76,7 +77,9 @@ $(likeBtn).on('click', function(event) {
         url: $(this).attr('href'),
         success: function(response) {
             $(likes).text(response.art_likes + ' Likes')
-
+            if (response.redirect_url) {
+                location.href = response.redirect_url
+            }
             if (response.liked) {
                 heart.attr('id', 'liked-heart')
                 heart.addClass('fas fa-heart btn-edit')
@@ -124,6 +127,9 @@ $(followBtn).on('click', function(event) {
         type:'GET',
         url: $(this).attr('href'),
         success: function(response) {
+            if (response.redirect_url) {
+                location.href = response.redirect_url
+            }
             let follows_nr = document.getElementById('followers-nr');
             $(follows_nr).text(response.followers_nr);
             if (response.followed) {
