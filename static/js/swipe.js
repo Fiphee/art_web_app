@@ -8,8 +8,11 @@ position = {
     deg: 0,
     previous_x: 0,
 };
+
 var pullDeltaX = 0;
-var likeUrl = document.getElementById('swipe-like-btn').href
+var likeUrl = document.getElementById('swipe-like-btn').href;
+var dislikeUrl = document.getElementById('swipe-dislike-btn').href;
+
 
 $('.swipe-card').draggable({axis:"x", revert:"invalid"});
 
@@ -29,7 +32,7 @@ artCard.addEventListener('mouseup', function(up) {
     position.current_x = position.original_x - up.clientX;
     if (position.current_x > 200) {
         console.log("DISLIKE");
-        window.location.reload(false);
+        window.location.href = dislikeUrl;
     } else if (position.current_x < -200) {
         console.log("LIKE");
         window.location.href = likeUrl;

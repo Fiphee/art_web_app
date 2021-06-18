@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import ArtForm
 from django.db import transaction
-from .models import Category, Artwork, ArtLike
+from .models import Category, Artwork, ArtLike, ArtDislike
 from django.contrib.auth import authenticate
 from notifications.models import Notification
 from utils.constants import ART_LIKE, COMMENT
@@ -10,6 +10,8 @@ from comments.forms import CommentForm
 from utils.comment import CommentUtils
 from comments.models import Comment
 from django.http import JsonResponse
+from datetime import datetime
+
 
 @login_required
 def upload_view(request):
@@ -40,6 +42,8 @@ def like_view(request, art_id):
         else:
             artwork.likes.add(user)
             liked = True
+            if artwork.dislikes.filter(id=user.id).exists():
+                artwork.dislikes.remove(user)
 
         return JsonResponse({"liked":liked, "art_likes":artwork.likes.count()})
     return JsonResponse({"redirect_url": reverse('users:login')})
@@ -51,6 +55,20 @@ def swipe_like_view(request, art_id):
         artwork = Artwork.objects.get(pk=art_id)
         artwork.notify = {'activity':ART_LIKE, 'user':user, 'recipient':artwork.uploader}
         artwork.likes.add(user)
+        like = ArtLike.objects.filter(art=artwork.id, user=user.id).update(created_at=datetime.now())
+        if artwork.dislikes.filter(id=user.id).exists():
+            artwork.dislikes.remove(user)
+    return redirect('/')
+
+
+def swipe_left_view(request, art_id):
+    user = request.user
+    if user.is_authenticated:
+        artwork = Artwork.objects.get(pk=art_id)
+        artwork.dislikes.add(user)
+        dislike = ArtDislike.objects.filter(art=artwork.id, user=user.id).update(created_at=datetime.now())
+        if artwork.likes.filter(id=user.id).exists():
+            artwork.likes.remove(user)
     return redirect('/')
 
 

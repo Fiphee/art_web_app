@@ -1,8 +1,12 @@
-from artworks.models import Artwork, Category, Color
+from artworks.models import Artwork, Category, Color, ArtLike, ArtDislike
 from users.models import AuthUserModel
 from galleries.models import Gallery
 from utils.constants import GALLERY_HOMEPAGE, NEWEST_HOMEPAGE, POPULARS_HOMEPAGE, FOLLOWED_HOMEPAGE, OLDEST_HOMEPAGE, THIS_MONTH, TODAY, ALL_TIME
 from datetime import datetime, timedelta, date
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+import random
+
 
 class Search:
     @staticmethod
@@ -111,3 +115,32 @@ def get_homepage_date_filters(max_time_ago):
     elif max_time_ago == ALL_TIME:
         return {}
 
+
+def get_non_swiped_artworks(user):
+    non_swiped_artworks = Artwork.objects.filter(
+        ~Q(id__in=ArtLike.objects.filter(user_id=user.id).values_list('art_id', flat=True))
+        &
+        ~Q(id__in=ArtDislike.objects.filter(user_id=user.id).values_list('art_id', flat=True))
+        &
+        ~Q(uploader=user.id))
+    return non_swiped_artworks
+
+
+def get_random_artwork():
+    try:
+        last_artwork_id = Artwork.objects.latest('id').id
+    except ObjectDoesNotExist as e:
+        return None
+    
+    invalid_ids = set()
+    while True:
+        art_query_index = random.randint(1, last_artwork_id)
+        try:
+            if art_query_index in invalid_ids:
+                continue
+            art = Artwork.objects.get(id=art_query_index)
+            break
+        except ObjectDoesNotExist as e:
+            invalid_ids.add(art_query_index) 
+            continue
+    return art

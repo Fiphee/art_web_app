@@ -2,33 +2,32 @@ from django.shortcuts import render, reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Count
-from artworks.models import Artwork
+from artworks.models import Artwork, ArtLike, ArtDislike
 import random
 from .search import search_artworks_view, search_colors_view, search_galleries_view, search_users_view
-from ..utils import get_homepage_date_filters
+from ..utils import get_homepage_date_filters, get_non_swiped_artworks, get_random_artwork
 from utils.constants import THIS_MONTH, TODAY, ALL_TIME
 from datetime import datetime, timedelta
+import time
 
 
 def home_view(request):
-    invalid_ids = set()
-
+    user = request.user
+    art = None
     try:
         last_artwork_id = Artwork.objects.latest('id').id
     except ObjectDoesNotExist as e:
-        art = None
         return render(request, "home.html", {})
+    
+    if request.user.is_authenticated:
+        non_swiped_artworks = get_non_swiped_artworks(request.user)
+        if non_swiped_artworks:
+            random_index = random.randint(0, len(non_swiped_artworks)-1)
+            art = non_swiped_artworks[random_index]
 
-    while True:
-        art_query_index = random.randint(1, last_artwork_id)
-        try:
-            if art_query_index in invalid_ids:
-                continue
-            art = Artwork.objects.get(id=art_query_index)
-            break
-        except ObjectDoesNotExist as e:
-            invalid_ids.add(art_query_index) 
-            continue
+    if not art:
+        art = get_random_artwork()
+
 
     context = {
         'art':art,
