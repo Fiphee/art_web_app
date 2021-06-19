@@ -9,6 +9,12 @@ from artworks.forms import ArtForm
 from .forms import GalleryForm
 from utils.constants import PUBLIC_MODE
 import os
+from django.test import override_settings
+import shutil
+
+
+ORIGINAL_ROOT = settings.MEDIA_ROOT
+TEST_DIR = 'test_images'
 
 class GelleryTestCase(TestCase):
     
@@ -54,9 +60,10 @@ class GelleryTestCase(TestCase):
         self.assertEqual(gallery_follower_count, 0)
         
 
+    @override_settings(MEDIA_ROOT=(os.path.join(TEST_DIR, 'media')))
     def test_gallery_add_and_remove_artwork(self):
         self.client.login(username=self.username, password=self.pw)
-        default_avatar_path = os.path.join(settings.MEDIA_ROOT, 'users', 'avatars', 'default.png')
+        default_avatar_path = os.path.join(ORIGINAL_ROOT, 'users', 'avatars', 'default.png')
         data = {
             'title':'test_gallery_work',
             'description':'empty',
@@ -98,3 +105,9 @@ class GelleryTestCase(TestCase):
         galleries_count = self.user.galleries.count()
         self.assertEqual(galleries_count, 1)
 
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(TEST_DIR)
+        except OSError:
+            pass

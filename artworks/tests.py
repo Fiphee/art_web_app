@@ -9,7 +9,6 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from art_web_app.utils import get_non_swiped_artworks
 from django.test import override_settings
 import shutil
-import time
 
 
 ORIGINAL_ROOT = settings.MEDIA_ROOT
@@ -100,8 +99,6 @@ class SwipeTestCase(TestCase):
 
 
     def test_likes_not_returned_on_swipe_page(self):
-        
-
         # get_non_swiped_artworks function returns artworks which are:
         # - Not LIKED by the user given
         # - Not DISLIKED by the user given

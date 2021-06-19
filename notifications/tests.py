@@ -10,11 +10,17 @@ from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from utils.constants import ART_LIKE, FOLLOW, COMMENT, COMMENT_LIKE, GALLERY_FOLLOW, REPLY, UPLOAD
 import os
+from django.test import override_settings
+import shutil
 
+
+ORIGINAL_ROOT = settings.MEDIA_ROOT
+TEST_DIR = 'test_images'
 
 class FollowAndArtworkNotificationTestCase(TestCase):
 
     @classmethod
+    @override_settings(MEDIA_ROOT=(os.path.join(TEST_DIR, 'media')))
     def setUpTestData(self):
         self.UserModel = get_user_model()
         self.pw = 'python123'
@@ -30,7 +36,7 @@ class FollowAndArtworkNotificationTestCase(TestCase):
         self.client.login(username=self.follower.username, password=self.pw)
         self.client.get(reverse('users:follow', args=(self.uploader.id,)))
 
-        default_avatar_path = os.path.join(settings.MEDIA_ROOT, 'users', 'avatars', 'default.png')
+        default_avatar_path = os.path.join(ORIGINAL_ROOT, 'users', 'avatars', 'default.png')
         data = {
             'title':'test_work',
             'description':'empty',
@@ -113,3 +119,9 @@ class FollowAndArtworkNotificationTestCase(TestCase):
         notification_exists = self.uploader.notifications.filter(user=self.follower, activity=COMMENT).exists()
         self.assertFalse(notification_exists)
 
+
+    def tearDown(self):
+        try:
+            shutil.rmtree(TEST_DIR)
+        except OSError:
+            pass

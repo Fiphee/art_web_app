@@ -8,7 +8,7 @@ def search_artworks_view(request):
     context = {}
     query = ''
     if request.method == 'GET':
-        query = request.GET['search']
+        query = request.GET['search'].replace('#', '%23')
 
     artworks = list(Search.artworks(query))
     page_obj = Paginator(artworks, 12)
@@ -16,7 +16,7 @@ def search_artworks_view(request):
     page = page_obj.get_page(page_number)
     context = {
         'artworks':artworks,
-        'query': str(query),
+        'query': str(query).replace('%23', '#'),
         'page_obj':page_obj,
         'page':page,
         'page_url':reverse('search:artworks')+f'?search={query}&page=',

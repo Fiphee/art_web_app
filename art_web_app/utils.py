@@ -32,10 +32,12 @@ class Search:
         art_query_results = set()
         if len(queries) > 0:
             for q in queries:
-                if q.startswith('#'):
-                    category = Category.objects.get(name=q[1:])
-                    for art in category.artworks.all():
-                        art_query_results.add(art)
+                if q.startswith('#') or q.startswith('%23'):
+                    q = q.replace('#', '').replace('%23', '')
+                    category = Category.objects.filter(name=q).first()
+                    if category:
+                        for art in category.artworks.all():
+                            art_query_results.add(art)
                     continue
                 artworks = Artwork.objects.filter(title__icontains=q)
                 for art in artworks:

@@ -6,11 +6,17 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.shortcuts import reverse
 import os
 from artworks.forms import ArtForm
+from django.test import override_settings
+import shutil
 
+
+ORIGINAL_ROOT = settings.MEDIA_ROOT
+TEST_DIR = 'test_images'
 
 class CommentTestCase(TestCase):
 
     @classmethod
+    @override_settings(MEDIA_ROOT=(os.path.join(TEST_DIR, 'media')))
     def setUpTestData(self):
         self.UserModel = get_user_model()
         self.client = Client()
@@ -21,7 +27,7 @@ class CommentTestCase(TestCase):
         self.commenter.set_password(self.pw)
         self.commenter.save()
         
-        default_avatar_path = os.path.join(settings.MEDIA_ROOT, 'users', 'avatars', 'default.png')
+        default_avatar_path = os.path.join(ORIGINAL_ROOT, 'users', 'avatars', 'default.png')
         data = {
             'title':'test_comments',
             'description':'empty',
@@ -61,4 +67,10 @@ class CommentTestCase(TestCase):
 
         self.comment.delete()
         self.assertEqual(len(self.artwork.comments.all()), 0)
+
   
+    def tearDown(self):
+        try:
+            shutil.rmtree(TEST_DIR)
+        except OSError:
+            pass
