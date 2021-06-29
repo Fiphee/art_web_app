@@ -33,7 +33,7 @@ def get_title(obj):
     return format_html(f'<a href={url}>{obj.title}</a>')
 
 get_title.short_description = 'Title'
-
+get_title.admin_order_field = 'title'
 
 @admin.register(Artwork)
 class ArtworkAdmin(admin.ModelAdmin):

@@ -102,7 +102,6 @@ class Search:
         return Search.followed_by(logged_user)
             
 
-
 def get_homepage_date_filters(max_time_ago):
     if max_time_ago == TODAY:
         now = datetime.now()

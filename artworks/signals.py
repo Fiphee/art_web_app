@@ -47,7 +47,7 @@ def artwork_uploaded_signal(instance, created, *args, **kwargs):
                 'b__gte':b-threshold,
             }
             
-            try:  # if color exists then get its category
+            try:  
                 color_obj = Color.objects.get(r=r,g=g,b=b)
                 instance.colors.add(color_obj)
             except Color.DoesNotExist:

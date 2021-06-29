@@ -1,149 +1,38 @@
 [
     {
-        "uploader": "one",
-        "title": "192aa91a480153ee5b7d200acb0be684",
-        "description": "No description",
-        "image": "artworks\\original_images\\1b3a6a62-d512-4740-8a41-bbb7d80d6839.jpg",
-        "thumbnail": "artworks\\thumbnails\\1b3a6a62-d512-4740-8a41-bbb7d80d6839_thumb.jpg"
-    },
-    {
-        "uploader": "one",
-        "title": "5125a24ced52ab080caad13ad0a128d7",
-        "description": "No description",
-        "image": "artworks\\original_images\\0320ae7a-4267-4200-abb3-f62f0e5189ba.jpg",
-        "thumbnail": "artworks\\thumbnails\\0320ae7a-4267-4200-abb3-f62f0e5189ba_thumb.jpg"
-    },
-    {
         "uploader": "test",
-        "title": "6a7942c38246a55814feb2cce485cc76",
+        "title": "Alphonse Mucha - The Hussite King Jir\u030ci\u0301 z Pode\u0306brad - 1923",
         "description": "No description",
-        "image": "artworks\\original_images\\064c562a-a8e8-4624-a224-69c23d14b2c6.jpg",
-        "thumbnail": "artworks\\thumbnails\\064c562a-a8e8-4624-a224-69c23d14b2c6_thumb.jpg"
+        "image": "artworks\\original_images\\b2314deb-7506-48a9-b16c-535b08d9f6b5.jpg"
     },
     {
-        "uploader": "test2",
-        "title": "7be9c3d1680d6888228b62d2bb85d277--richard-schmid-barn-paintings",
+        "uploader": "one",
+        "title": "Alphonse Mucha - The Meeting at Kr\u030ci\u0301z\u030cky - 1916",
         "description": "No description",
-        "image": "artworks\\original_images\\fd717e7d-1523-4f99-9cc3-69e00019c643.jpg",
-        "thumbnail": "artworks\\thumbnails\\fd717e7d-1523-4f99-9cc3-69e00019c643_thumb.jpg"
+        "image": "artworks\\original_images\\8e9f8cc8-aebe-4f00-851d-4a69db5441a3.jpg"
     },
     {
-        "uploader": "test",
-        "title": "90326e264ba460183604c00020a7789e",
+        "uploader": "one",
+        "title": "Alphonse Mucha - The Oath of Omladina under the Slavic Linden Tree - 1926",
         "description": "No description",
-        "image": "artworks\\original_images\\6c4bcdee-1f61-4eab-ba9c-8a226a054a65.jpg",
-        "thumbnail": "artworks\\thumbnails\\6c4bcdee-1f61-4eab-ba9c-8a226a054a65_thumb.jpg"
+        "image": "artworks\\original_images\\b5807067-0317-4fdb-816c-a1ebb838262e.jpg"
+    },
+    {
+        "uploader": "admin",
+        "title": "Alphonse Mucha - The Printing of the Bible of Kralice in Ivanc\u030cice - 1914",
+        "description": "No description",
+        "image": "artworks\\original_images\\3f629b6a-6257-412a-9e62-5a0c807f0521.jpg"
     },
     {
         "uploader": "newaccount",
-        "title": "ace330a13fa76b17dfc09ddfec21c8a7",
+        "title": "Alphonse Mucha - The slavs in their homeland - 1912",
         "description": "No description",
-        "image": "artworks\\original_images\\20746b55-31a1-46b2-979a-2e478c4393ab.jpg",
-        "thumbnail": "artworks\\thumbnails\\20746b55-31a1-46b2-979a-2e478c4393ab_thumb.jpg"
+        "image": "artworks\\original_images\\359a0073-c432-4d94-a4b4-19aa751b993e.jpg"
     },
     {
         "uploader": "two",
-        "title": "baf9bd5b596fe400ed19036634ac7340",
+        "title": "Alphonse Mucha - Tsar Simeon I of Bulgaria - 1923",
         "description": "No description",
-        "image": "artworks\\original_images\\b41d95c2-304e-4628-b63c-0a21fafe2618.jpg",
-        "thumbnail": "artworks\\thumbnails\\b41d95c2-304e-4628-b63c-0a21fafe2618_thumb.jpg"
-    },
-    {
-        "uploader": "admin",
-        "title": "c41fae7ec96ceb6c9fd6b8e87840734e",
-        "description": "No description",
-        "image": "artworks\\original_images\\0b9b2ecf-be9f-446c-8333-8328ab4cd5aa.jpg",
-        "thumbnail": "artworks\\thumbnails\\0b9b2ecf-be9f-446c-8333-8328ab4cd5aa_thumb.jpg"
-    },
-    {
-        "uploader": "test2",
-        "title": "c5ef27015f36afa5c5d8c898c1fe436f",
-        "description": "No description",
-        "image": "artworks\\original_images\\46bf2d10-1e4b-4fe3-906a-92818d6bd8e6.jpg",
-        "thumbnail": "artworks\\thumbnails\\46bf2d10-1e4b-4fe3-906a-92818d6bd8e6_thumb.jpg"
-    },
-    {
-        "uploader": "three",
-        "title": "e737e3a10d22d3dab15b75897e619b20",
-        "description": "No description",
-        "image": "artworks\\original_images\\7461b5ad-f74d-4e5f-86bd-74bf212843e3.jpg",
-        "thumbnail": "artworks\\thumbnails\\7461b5ad-f74d-4e5f-86bd-74bf212843e3_thumb.jpg"
-    },
-    {
-        "uploader": "newaccount",
-        "title": "lg_12365_Richard_Schmid_s_Vermont_Studio",
-        "description": "No description",
-        "image": "artworks\\original_images\\ce382342-9df8-4f6b-bd79-a2c5200c0b8e.jpg",
-        "thumbnail": "artworks\\thumbnails\\ce382342-9df8-4f6b-bd79-a2c5200c0b8e_thumb.jpg"
-    },
-    {
-        "uploader": "admin",
-        "title": "Richard+Schmid+%289%29",
-        "description": "No description",
-        "image": "artworks\\original_images\\23e8f3ec-c1f3-4951-bb18-35e9f4c5bbcb.jpg",
-        "thumbnail": "artworks\\thumbnails\\23e8f3ec-c1f3-4951-bb18-35e9f4c5bbcb_thumb.jpg"
-    },
-    {
-        "uploader": "admin",
-        "title": "Richard+Schmid+-+Tutt'Art@+(4)",
-        "description": "No description",
-        "image": "artworks\\original_images\\911dc4d0-979d-4f34-903b-f54e482d1a94.jpg",
-        "thumbnail": "artworks\\thumbnails\\911dc4d0-979d-4f34-903b-f54e482d1a94_thumb.jpg"
-    },
-    {
-        "uploader": "admin",
-        "title": "Richard+Schmid+-+Tutt'Art@+(8)",
-        "description": "No description",
-        "image": "artworks\\original_images\\c8abda49-9a25-44dd-80b0-02ca8c4f5f13.jpg",
-        "thumbnail": "artworks\\thumbnails\\c8abda49-9a25-44dd-80b0-02ca8c4f5f13_thumb.jpg"
-    },
-    {
-        "uploader": "admin",
-        "title": "Richard+Schmid+Self-portrait",
-        "description": "No description",
-        "image": "artworks\\original_images\\271f3b25-f4ce-4321-b452-ba6ab15b0b9d.jpg",
-        "thumbnail": "artworks\\thumbnails\\271f3b25-f4ce-4321-b452-ba6ab15b0b9d_thumb.jpg"
-    },
-    {
-        "uploader": "newaccount",
-        "title": "Richard_Schmid-Jacques_Roses-SAA-4337-2017",
-        "description": "No description",
-        "image": "artworks\\original_images\\d81fb1cf-bfee-431d-bd8d-e45e26908a56.jpg",
-        "thumbnail": "artworks\\thumbnails\\d81fb1cf-bfee-431d-bd8d-e45e26908a56_thumb.jpg"
-    },
-    {
-        "uploader": "three",
-        "title": "richard_schmid_study_1_by_parkurtommo-darpljp",
-        "description": "No description",
-        "image": "artworks\\original_images\\6b98b85d-2e17-46ef-ae36-b23efa60f5cd.png",
-        "thumbnail": "artworks\\thumbnails\\6b98b85d-2e17-46ef-ae36-b23efa60f5cd_thumb.png"
-    },
-    {
-        "uploader": "test",
-        "title": "schmid,_richard,_(1934-_),_olympic_house,_oil_on_canvas,_20_x_30",
-        "description": "No description",
-        "image": "artworks\\original_images\\4dcef77a-9b11-4209-8260-dec0957654d8.jpg",
-        "thumbnail": "artworks\\thumbnails\\4dcef77a-9b11-4209-8260-dec0957654d8_thumb.jpg"
-    },
-    {
-        "uploader": "newaccount",
-        "title": "schmid",
-        "description": "No description",
-        "image": "artworks\\original_images\\a519eea2-2fc0-40de-b5de-fefedce3f331.jpg",
-        "thumbnail": "artworks\\thumbnails\\a519eea2-2fc0-40de-b5de-fefedce3f331_thumb.jpg"
-    },
-    {
-        "uploader": "test2",
-        "title": "schmid_easel02",
-        "description": "No description",
-        "image": "artworks\\original_images\\e6acdf80-8eea-494f-ab6d-aca92bd19b7d.jpg",
-        "thumbnail": "artworks\\thumbnails\\e6acdf80-8eea-494f-ab6d-aca92bd19b7d_thumb.jpg"
-    },
-    {
-        "uploader": "Nav",
-        "title": "th",
-        "description": "No description",
-        "image": "artworks\\original_images\\503d3c44-3d42-4f47-8f0c-615a22d07e6e.jpg",
-        "thumbnail": "artworks\\thumbnails\\503d3c44-3d42-4f47-8f0c-615a22d07e6e_thumb.jpg"
+        "image": "artworks\\original_images\\6638a4f5-17fb-437b-b64a-907e96c47b7e.jpg"
     }
 ]

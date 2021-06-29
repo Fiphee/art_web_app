@@ -114,7 +114,7 @@ class Color(CustomModel):
 
 
     def __repr__(self):
-        return self.str()
+        return self.__str__()
 
 
 class ArtColor(CustomModel):

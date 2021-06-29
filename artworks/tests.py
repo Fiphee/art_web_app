@@ -55,7 +55,6 @@ class ArtworkTestCase(TestCase):
             self.assertEqual(art_colors_count, 6)            
 
 
-
 class SwipeTestCase(TestCase):
   
     @classmethod
