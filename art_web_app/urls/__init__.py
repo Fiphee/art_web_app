@@ -16,6 +16,7 @@ urlpatterns = [
     path('notifications/', include('notifications.urls')),
     path('comments/', include('comments.urls')),
     path('list/', list_view, name='list'),
+    path('api/', include('api.urls'), name='api')
 ]
 
 if settings.DEBUG:

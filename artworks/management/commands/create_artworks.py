@@ -18,7 +18,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--folder', '-f', type=str)
 
-    
 
     def _make_and_get_thumbnail(self, image, name, extension):
         img = Image.open(image)
